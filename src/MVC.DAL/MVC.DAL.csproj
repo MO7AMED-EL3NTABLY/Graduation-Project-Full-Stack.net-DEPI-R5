@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.34" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.34" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Entities\Chat\" />
+    <Folder Include="Entities\Booking\" />
+    <Folder Include="Entities\Locations\" />
+    <Folder Include="Entities\Accounts\" />
+    <Folder Include="Entities\Prescriptions\" />
+    <Folder Include="Entities\Notifications\" />
+    <Folder Include="Entities\Support\" />
+    <Folder Include="Enums\" />
+    <Folder Include="Configurations\" />
+    <Folder Include="Dbcontexts\" />
+  </ItemGroup>
+
+</Project>
