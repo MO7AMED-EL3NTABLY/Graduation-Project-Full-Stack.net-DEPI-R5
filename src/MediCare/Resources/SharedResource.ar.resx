@@ -1,0 +1,461 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ترجمة الواجهة للعربي. المفتاح (name) هو النص الإنجليزي نفسه، فالإنجليزي مش محتاج ملف.
+  لإضافة نص جديد: ضيف <data> بالمفتاح الإنجليزي والقيمة العربية، واستخدمه في الـ View: @L["English text"]
+-->
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MediCare" xml:space="preserve">
+    <value>ميدي كير</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>الرئيسية</value>
+  </data>
+  <data name="How it works" xml:space="preserve">
+    <value>كيف نعمل</value>
+  </data>
+  <data name="Specialties" xml:space="preserve">
+    <value>التخصصات</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>من نحن</value>
+  </data>
+  <data name="FAQ" xml:space="preserve">
+    <value>الأسئلة الشائعة</value>
+  </data>
+  <data name="Contact" xml:space="preserve">
+    <value>تواصل معنا</value>
+  </data>
+  <data name="Log in" xml:space="preserve">
+    <value>تسجيل الدخول</value>
+  </data>
+  <data name="Create account" xml:space="preserve">
+    <value>إنشاء حساب</value>
+  </data>
+  <data name="Go to dashboard" xml:space="preserve">
+    <value>لوحة التحكم</value>
+  </data>
+  <data name="Book trusted doctors, follow your turn and manage your treatment in one place." xml:space="preserve">
+    <value>احجز أطباء موثوقين، وتابع دورك، وأدر علاجك في مكان واحد.</value>
+  </data>
+  <data name="Platform" xml:space="preserve">
+    <value>المنصة</value>
+  </data>
+  <data name="Find a doctor" xml:space="preserve">
+    <value>ابحث عن طبيب</value>
+  </data>
+  <data name="AI assistant" xml:space="preserve">
+    <value>المساعد الذكي</value>
+  </data>
+  <data name="For doctors" xml:space="preserve">
+    <value>للأطباء</value>
+  </data>
+  <data name="Join as a doctor" xml:space="preserve">
+    <value>انضم كطبيب</value>
+  </data>
+  <data name="Doctor login" xml:space="preserve">
+    <value>دخول الأطباء</value>
+  </data>
+  <data name="Approval process" xml:space="preserve">
+    <value>خطوات الاعتماد</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>الشركة</value>
+  </data>
+  <data name="About us" xml:space="preserve">
+    <value>من نحن</value>
+  </data>
+  <data name="Privacy policy" xml:space="preserve">
+    <value>سياسة الخصوصية</value>
+  </data>
+  <data name="© 2026 MediCare. All rights reserved." xml:space="preserve">
+    <value>© 2026 ميدي كير. جميع الحقوق محفوظة.</value>
+  </data>
+  <data name="My appointments" xml:space="preserve">
+    <value>مواعيدي</value>
+  </data>
+  <data name="Prescriptions" xml:space="preserve">
+    <value>الروشتات</value>
+  </data>
+  <data name="Medications" xml:space="preserve">
+    <value>الأدوية</value>
+  </data>
+  <data name="Medical profile" xml:space="preserve">
+    <value>الملف الطبي</value>
+  </data>
+  <data name="Chats" xml:space="preserve">
+    <value>المحادثات</value>
+  </data>
+  <data name="Emergency" xml:space="preserve">
+    <value>الطوارئ</value>
+  </data>
+  <data name="Support" xml:space="preserve">
+    <value>الدعم</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>الإعدادات</value>
+  </data>
+  <data name="Log out" xml:space="preserve">
+    <value>تسجيل الخروج</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>لوحة التحكم</value>
+  </data>
+  <data name="Shift queue" xml:space="preserve">
+    <value>طابور الشيفت</value>
+  </data>
+  <data name="Schedule" xml:space="preserve">
+    <value>الجدول</value>
+  </data>
+  <data name="Clinics" xml:space="preserve">
+    <value>العيادات</value>
+  </data>
+  <data name="Professional profile" xml:space="preserve">
+    <value>الملف المهني</value>
+  </data>
+  <data name="Doctor approvals" xml:space="preserve">
+    <value>اعتماد الأطباء</value>
+  </data>
+  <data name="Change requests" xml:space="preserve">
+    <value>طلبات التعديل</value>
+  </data>
+  <data name="Accounts" xml:space="preserve">
+    <value>الحسابات</value>
+  </data>
+  <data name="Appointments" xml:space="preserve">
+    <value>المواعيد</value>
+  </data>
+  <data name="Support inbox" xml:space="preserve">
+    <value>رسائل الدعم</value>
+  </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>الإشعارات</value>
+  </data>
+  <data name="Patient" xml:space="preserve">
+    <value>مريض</value>
+  </data>
+  <data name="Doctor" xml:space="preserve">
+    <value>طبيب</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>أدمن</value>
+  </data>
+  <!-- Landing page -->
+  <data name="Clinic booking, made simple" xml:space="preserve">
+    <value>حجز العيادات بسهولة</value>
+  </data>
+  <data name="Book the right doctor. Know your turn before you arrive." xml:space="preserve">
+    <value>احجز الطبيب المناسب واعرف دورك قبل وصولك</value>
+  </data>
+  <data name="MediCare connects you with admin-verified doctors. Book within the next 7 days, follow your queue number, and keep prescriptions and medication reminders in one place." xml:space="preserve">
+    <value>ميدي كير يربطك بأطباء معتمدين من الإدارة. احجز موعدك خلال الأيام السبعة القادمة، وتابع رقم دورك، واحتفظ بروشتاتك وتذكيرات أدويتك في مكان واحد.</value>
+  </data>
+  <data name="Admin-verified doctors" xml:space="preserve">
+    <value>أطباء معتمدون من الإدارة</value>
+  </data>
+  <data name="Live queue number" xml:space="preserve">
+    <value>رقم دور مباشر</value>
+  </data>
+  <data name="Email, SMS &amp; in-app reminders" xml:space="preserve">
+    <value>تذكيرات بالبريد والرسائل والتطبيق</value>
+  </data>
+  <data name="Your turn" xml:space="preserve">
+    <value>دورك</value>
+  </data>
+  <data name="Dr. Sara Adel · Cardiology" xml:space="preserve">
+    <value>د. سارة عادل · أمراض القلب</value>
+  </data>
+  <data name="Today · 6:00 PM" xml:space="preserve">
+    <value>اليوم · 6:00 م</value>
+  </data>
+  <data name="Medication reminder" xml:space="preserve">
+    <value>تذكير بالدواء</value>
+  </data>
+  <data name="Bisoprolol 5 mg · 8:00 AM" xml:space="preserve">
+    <value>بيسوبرولول 5 مجم · 8:00 ص</value>
+  </data>
+  <data name="Taken" xml:space="preserve">
+    <value>تم</value>
+  </data>
+  <data name="Verified by MediCare" xml:space="preserve">
+    <value>معتمد من ميدي كير</value>
+  </data>
+  <data name="Specialty" xml:space="preserve">
+    <value>التخصص</value>
+  </data>
+  <data name="Cardiology" xml:space="preserve">
+    <value>أمراض القلب</value>
+  </data>
+  <data name="Governorate" xml:space="preserve">
+    <value>المحافظة</value>
+  </data>
+  <data name="Cairo" xml:space="preserve">
+    <value>القاهرة</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>اليوم</value>
+  </data>
+  <data name="Any day this week" xml:space="preserve">
+    <value>أي يوم هذا الأسبوع</value>
+  </data>
+  <data name="Search doctors" xml:space="preserve">
+    <value>ابحث عن الأطباء</value>
+  </data>
+  <data name="HOW IT WORKS" xml:space="preserve">
+    <value>كيف نعمل</value>
+  </data>
+  <data name="Four steps from search to follow-up" xml:space="preserve">
+    <value>أربع خطوات من البحث حتى المتابعة</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>ابحث</value>
+  </data>
+  <data name="Find a doctor by specialty, area and available days." xml:space="preserve">
+    <value>اعثر على طبيب حسب التخصص والمنطقة والأيام المتاحة.</value>
+  </data>
+  <data name="Book" xml:space="preserve">
+    <value>احجز</value>
+  </data>
+  <data name="Pick a shift within the next 7 days and confirm your seat instantly." xml:space="preserve">
+    <value>اختر شيفت خلال 7 أيام وأكّد حجزك فورًا.</value>
+  </data>
+  <data name="Track your turn" xml:space="preserve">
+    <value>تابع دورك</value>
+  </data>
+  <data name="Get your queue number and a reminder 24 hours before your visit." xml:space="preserve">
+    <value>احصل على رقم دورك وتذكير قبل موعدك بـ 24 ساعة.</value>
+  </data>
+  <data name="Follow up" xml:space="preserve">
+    <value>تابع علاجك</value>
+  </data>
+  <data name="Receive prescriptions, medication reminders and chat with your doctor." xml:space="preserve">
+    <value>استلم روشتتك وتذكيرات الأدوية وتواصل مع طبيبك بعد الزيارة.</value>
+  </data>
+  <data name="WHAT WE TREAT" xml:space="preserve">
+    <value>ماذا نعالج</value>
+  </data>
+  <data name="Our specialties" xml:space="preserve">
+    <value>تخصصاتنا</value>
+  </data>
+  <data name="New specialties are added by our admin team as MediCare grows." xml:space="preserve">
+    <value>يضيف فريق الإدارة تخصصات جديدة باستمرار مع نمو ميدي كير.</value>
+  </data>
+  <data name="Heart checkups, blood-pressure follow-up and long-term heart conditions." xml:space="preserve">
+    <value>فحوصات القلب ومتابعة ضغط الدم والحالات المزمنة طويلة المدى.</value>
+  </data>
+  <data name="Pediatrics" xml:space="preserve">
+    <value>طب الأطفال</value>
+  </data>
+  <data name="Care for newborns, children and teens — from routine checkups to treatment." xml:space="preserve">
+    <value>رعاية حديثي الولادة والأطفال والمراهقين، من الكشف الدوري حتى العلاج.</value>
+  </data>
+  <data name="View doctors" xml:space="preserve">
+    <value>عرض الأطباء</value>
+  </data>
+  <data name="WHY MEDICARE" xml:space="preserve">
+    <value>لماذا ميدي كير</value>
+  </data>
+  <data name="Built for patients and doctors" xml:space="preserve">
+    <value>مصمم للمرضى والأطباء</value>
+  </data>
+  <data name="For patients" xml:space="preserve">
+    <value>للمرضى</value>
+  </data>
+  <data name="Smart doctor search" xml:space="preserve">
+    <value>بحث ذكي عن الأطباء</value>
+  </data>
+  <data name="Filter by specialty, governorate, city and available days." xml:space="preserve">
+    <value>فلتر حسب التخصص والمحافظة والمدينة والأيام المتاحة.</value>
+  </data>
+  <data name="See your turn number update in real time." xml:space="preserve">
+    <value>تابع تحديث رقم دورك لحظة بلحظة.</value>
+  </data>
+  <data name="Medication reminders" xml:space="preserve">
+    <value>تذكيرات الأدوية</value>
+  </data>
+  <data name="Doses and reminders follow your doctor’s schedule." xml:space="preserve">
+    <value>الجرعات والتذكيرات حسب جدول طبيبك.</value>
+  </data>
+  <data name="You control your record" xml:space="preserve">
+    <value>ملفك تحت تحكمك</value>
+  </data>
+  <data name="Share your medical profile only when you choose." xml:space="preserve">
+    <value>شارك ملفك الطبي فقط عندما تختار ذلك.</value>
+  </data>
+  <data name="Chat after your visit" xml:space="preserve">
+    <value>محادثة بعد الزيارة</value>
+  </data>
+  <data name="One ongoing conversation with each of your doctors." xml:space="preserve">
+    <value>محادثة مستمرة مع كل طبيب زرته.</value>
+  </data>
+  <data name="Rate your doctor" xml:space="preserve">
+    <value>قيّم طبيبك</value>
+  </data>
+  <data name="Give 1–5 stars after a completed visit." xml:space="preserve">
+    <value>من 1 إلى 5 نجوم بعد إتمام الزيارة.</value>
+  </data>
+  <data name="Clinics and visit fees" xml:space="preserve">
+    <value>العيادات وأسعار الكشف</value>
+  </data>
+  <data name="Add your clinics and set the visit fee for each one." xml:space="preserve">
+    <value>أضف عياداتك وحدد سعر الكشف لكل عيادة.</value>
+  </data>
+  <data name="Weekly shifts" xml:space="preserve">
+    <value>الشيفتات الأسبوعية</value>
+  </data>
+  <data name="Set your weekly shifts, exceptions and vacations." xml:space="preserve">
+    <value>حدد شيفتاتك الأسبوعية والاستثناءات والإجازات.</value>
+  </data>
+  <data name="See today’s patients in booking order." xml:space="preserve">
+    <value>شوف مرضى اليوم بترتيب الحجز.</value>
+  </data>
+  <data name="Digital prescriptions" xml:space="preserve">
+    <value>روشتات إلكترونية</value>
+  </data>
+  <data name="Write prescriptions, medicines and scan orders in one place." xml:space="preserve">
+    <value>اكتب الروشتة والأدوية وطلبات التحاليل والأشعة في مكان واحد.</value>
+  </data>
+  <data name="Shared medical records" xml:space="preserve">
+    <value>ملفات طبية مشتركة</value>
+  </data>
+  <data name="View a patient’s record when they choose to share it." xml:space="preserve">
+    <value>اطلع على ملف المريض لما يختار يشاركه.</value>
+  </data>
+  <data name="Chat with your patients" xml:space="preserve">
+    <value>تواصل مع مرضاك</value>
+  </data>
+  <data name="Follow up with patients after their visit." xml:space="preserve">
+    <value>تابع مع مرضاك بعد الزيارة.</value>
+  </data>
+  <data name="Helpful answers — never a diagnosis" xml:space="preserve">
+    <value>إجابات مفيدة، وليست تشخيصًا</value>
+  </data>
+  <data name="Our AI tools give general guidance only. Always follow your doctor’s advice." xml:space="preserve">
+    <value>أدوات الذكاء الاصطناعي تقدم إرشادات عامة فقط. التزم دائمًا بتعليمات طبيبك.</value>
+  </data>
+  <data name="Ask about a medicine" xml:space="preserve">
+    <value>اسأل عن دواء</value>
+  </data>
+  <data name="What it is for, what it treats and known side effects." xml:space="preserve">
+    <value>استخدامه وما يعالجه وآثاره الجانبية المعروفة.</value>
+  </data>
+  <data name="Explain my report" xml:space="preserve">
+    <value>اشرح تقريري</value>
+  </data>
+  <data name="A simple, preliminary explanation of an uploaded report." xml:space="preserve">
+    <value>شرح مبدئي مبسط لتقرير قمت برفعه.</value>
+  </data>
+  <data name="Emergency assistant" xml:space="preserve">
+    <value>مساعد الطوارئ</value>
+  </data>
+  <data name="Immediate first-aid steps. Always starts with: Call ambulance 123." xml:space="preserve">
+    <value>خطوات إسعافات أولية فورية، ويبدأ دائمًا بـ: اتصل بالإسعاف 123.</value>
+  </data>
+  <data name="AI chats are not saved. Closing the page ends the conversation." xml:space="preserve">
+    <value>محادثات الذكاء الاصطناعي لا تُحفظ، وإغلاق الصفحة ينهي المحادثة.</value>
+  </data>
+  <data name="ABOUT US" xml:space="preserve">
+    <value>من نحن</value>
+  </data>
+  <data name="Healthcare that respects your time" xml:space="preserve">
+    <value>رعاية صحية تحترم وقتك</value>
+  </data>
+  <data name="MediCare is a clinic management and booking platform that connects patients, doctors and administrators. We make finding a trusted doctor simple, keep visits organized, and help patients stay on track with their treatment — in Arabic and English." xml:space="preserve">
+    <value>ميدي كير منصة لإدارة العيادات وحجز المواعيد تربط المرضى والأطباء والإدارة. نجعل الوصول إلى طبيب موثوق أمرًا سهلًا، وننظم الزيارات، ونساعد المرضى على الالتزام بعلاجهم، باللغتين العربية والإنجليزية.</value>
+  </data>
+  <data name="Verified doctors" xml:space="preserve">
+    <value>أطباء معتمدون</value>
+  </data>
+  <data name="Every doctor is approved after reviewing license and graduation certificate." xml:space="preserve">
+    <value>كل طبيب يُعتمد بعد مراجعة الترخيص وشهادة التخرج.</value>
+  </data>
+  <data name="Privacy first" xml:space="preserve">
+    <value>الخصوصية أولًا</value>
+  </data>
+  <data name="Protected files and sharing that stays under your control." xml:space="preserve">
+    <value>ملفات محمية ومشاركة تبقى تحت تحكمك.</value>
+  </data>
+  <data name="Arabic &amp; English" xml:space="preserve">
+    <value>عربي وإنجليزي</value>
+  </data>
+  <data name="A fully bilingual experience for every user." xml:space="preserve">
+    <value>تجربة كاملة باللغتين لكل مستخدم.</value>
+  </data>
+  <data name="Grow your practice with MediCare" xml:space="preserve">
+    <value>طوّر عيادتك مع ميدي كير</value>
+  </data>
+  <data name="Create your account" xml:space="preserve">
+    <value>أنشئ حسابك</value>
+  </data>
+  <data name="Upload license &amp; graduation certificate" xml:space="preserve">
+    <value>ارفع الترخيص وشهادة التخرج</value>
+  </data>
+  <data name="Get approved by our admin team" xml:space="preserve">
+    <value>احصل على اعتماد فريق الإدارة</value>
+  </data>
+  <data name="Add clinics, shifts and start receiving bookings" xml:space="preserve">
+    <value>أضف عياداتك وشيفتاتك وابدأ استقبال الحجوزات</value>
+  </data>
+  <data name="Frequently asked questions" xml:space="preserve">
+    <value>أسئلة يتكرر طرحها</value>
+  </data>
+  <data name="Do I pay online?" xml:space="preserve">
+    <value>هل أدفع أونلاين؟</value>
+  </data>
+  <data name="No. The visit fee is shown when you book and you pay at the clinic." xml:space="preserve">
+    <value>لا. يظهر سعر الكشف عند الحجز والدفع يكون في العيادة.</value>
+  </data>
+  <data name="How far ahead can I book?" xml:space="preserve">
+    <value>إلى متى يمكنني الحجز مسبقًا؟</value>
+  </data>
+  <data name="You can book within the next 7 days: today and the following six days." xml:space="preserve">
+    <value>يمكنك الحجز خلال 7 أيام: اليوم والأيام الستة التالية.</value>
+  </data>
+  <data name="Can I cancel or reschedule?" xml:space="preserve">
+    <value>هل يمكنني الإلغاء أو تغيير الموعد؟</value>
+  </data>
+  <data name="Yes, before your shift starts. You can also move a confirmed appointment to another time with the same doctor within the 7-day window." xml:space="preserve">
+    <value>نعم، قبل بداية الشيفت. ويمكنك أيضًا نقل موعد مؤكد لوقت آخر مع نفس الطبيب خلال الأيام السبعة.</value>
+  </data>
+  <data name="Who can see my medical records?" xml:space="preserve">
+    <value>من يمكنه رؤية ملفي الطبي؟</value>
+  </data>
+  <data name="Only you, unless you turn on sharing. Then only doctors you have a confirmed or completed appointment with can view it, and you can turn it off at any time." xml:space="preserve">
+    <value>أنت فقط، إلا لو فعّلت المشاركة. وقتها يقدر يشوفه بس الأطباء اللي عندك معاهم موعد مؤكد أو مكتمل، وتقدر توقف المشاركة في أي وقت.</value>
+  </data>
+  <data name="How are doctors verified?" xml:space="preserve">
+    <value>كيف يتم اعتماد الأطباء؟</value>
+  </data>
+  <data name="Our admin team reviews each doctor’s license and graduation certificate before the doctor can receive bookings." xml:space="preserve">
+    <value>فريق الإدارة يراجع ترخيص كل طبيب وشهادة تخرجه قبل ما يقدر يستقبل حجوزات.</value>
+  </data>
+  <data name="CONTACT" xml:space="preserve">
+    <value>تواصل معنا</value>
+  </data>
+  <data name="We’re here to help" xml:space="preserve">
+    <value>نحن هنا لمساعدتك</value>
+  </data>
+  <data name="Contact us via app" xml:space="preserve">
+    <value>تواصل عبر التطبيق</value>
+  </data>
+  <data name="Chat with our support team" xml:space="preserve">
+    <value>تحدث مع فريق الدعم</value>
+  </data>
+  <data name="Call us" xml:space="preserve">
+    <value>اتصل بنا</value>
+  </data>
+  <data name="Email us" xml:space="preserve">
+    <value>راسلنا</value>
+  </data>
+</root>

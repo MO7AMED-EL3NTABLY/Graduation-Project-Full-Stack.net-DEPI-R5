@@ -1,0 +1,8 @@
+﻿@* اللوجو - الـ slot المتقطع placeholder لحد ما اللوجو النهائي يجهز *@
+@{
+    var light = ViewData["LogoLight"] as bool? == true;
+}
+<span class="mc-logo @(light ? "mc-logo--light" : "")">
+    <span class="mc-logo-slot">LOGO</span>
+    <span class="mc-logo-text">@L["MediCare"]</span>
+</span>

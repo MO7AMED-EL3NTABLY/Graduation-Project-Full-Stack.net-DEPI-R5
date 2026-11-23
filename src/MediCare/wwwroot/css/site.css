@@ -1,22 +1,319 @@
-html {
-  font-size: 14px;
+/* =========================================================
+   MediCare — Design tokens & layout (from Figma "01 Design System")
+   الألوان والخطوط من الـ Design System في Figma
+   بنستخدم CSS logical properties (inline-start/end) عشان RTL و LTR يشتغلوا لوحدهم
+   ========================================================= */
+
+:root {
+    /* Primary (teal) */
+    --primary-50: #eefbf9;
+    --primary-100: #d3f5ef;
+    --primary-200: #a8eadf;
+    --primary-400: #3cc4b5;
+    --primary-500: #13a89e;
+    --primary-600: #0b8a82;
+    --primary-700: #0a6e69;
+    --primary-900: #073f3c;
+    /* Secondary (blue) */
+    --secondary-50: #eef3ff;
+    --secondary-100: #dce6ff;
+    --secondary-500: #2f6bff;
+    --secondary-700: #1e47b8;
+    /* Neutral */
+    --neutral-0: #ffffff;
+    --neutral-25: #f8fafb;
+    --neutral-50: #f2f5f7;
+    --neutral-100: #e6ebef;
+    --neutral-200: #d5dde3;
+    --neutral-400: #94a3b0;
+    --neutral-600: #5b6b79;
+    --neutral-800: #1f2d3a;
+    --neutral-900: #0f1b26;
+    /* Semantic */
+    --success-50: #ecfdf3;
+    --success-500: #16a34a;
+    --warning-50: #fff8eb;
+    --warning-500: #f59e0b;
+    --danger-50: #fef0f0;
+    --danger-500: #e5484d;
+    --info-50: #eef3ff;
+    --info-500: #2f6bff;
+
+    --font-en: "Plus Jakarta Sans", system-ui, sans-serif;
+    --font-ar: "Cairo", system-ui, sans-serif;
+    --line-en: 1.55;
+    --line-ar: 1.6;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
+/* ---------- Base ---------- */
+html, body { height: 100%; }
 
 body {
-  margin-bottom: 60px;
+    margin: 0;
+    font-family: var(--font-en);
+    line-height: var(--line-en);
+    font-size: 16px;
+    color: var(--neutral-900);
+    background: var(--neutral-25);
 }
+
+html[lang="ar"] body {
+    font-family: var(--font-ar);
+    line-height: var(--line-ar);
+}
+
+a { text-decoration: none; }
+
+.mc-container {
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 24px;
+}
+
+.mc-icon { width: 20px; height: 20px; flex-shrink: 0; }
+.mc-icon-sm { width: 16px; height: 16px; flex-shrink: 0; }
+.mc-icon-md { width: 18px; height: 18px; flex-shrink: 0; }
+
+/* ---------- Logo (placeholder slot — بدّلوه باللوجو النهائي) ---------- */
+.mc-logo { display: inline-flex; align-items: center; gap: 10px; }
+
+.mc-logo-slot {
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-50);
+    border: 1.5px dashed var(--primary-500);
+    border-radius: 12px;
+    font-size: 9px;
+    font-weight: 500;
+    color: var(--primary-600);
+    line-height: var(--line-en);
+}
+
+.mc-logo-text {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.3px;
+    color: var(--neutral-900);
+    white-space: nowrap;
+}
+
+.mc-logo--light .mc-logo-text { color: var(--neutral-0); }
+
+/* ---------- Buttons ---------- */
+.mc-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: var(--line-en);
+    border: 1px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color .15s, border-color .15s;
+}
+
+.mc-btn--primary { background: var(--primary-600); color: var(--neutral-0); }
+.mc-btn--primary:hover { background: var(--primary-700); color: var(--neutral-0); }
+
+.mc-btn--outline { background: var(--neutral-0); border-color: var(--neutral-200); color: var(--neutral-800); }
+.mc-btn--outline:hover { background: var(--neutral-50); color: var(--neutral-800); }
+
+/* ---------- Language switch ---------- */
+.mc-lang-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border: 1px solid var(--neutral-200);
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--neutral-800);
+    background: var(--neutral-0);
+}
+
+.mc-lang-switch:hover { background: var(--neutral-50); color: var(--neutral-800); }
+
+/* =========================================================
+   Public layout — Navbar
+   ========================================================= */
+.mc-navbar {
+    background: var(--neutral-0);
+    border-bottom: 1px solid var(--neutral-100);
+}
+
+.mc-navbar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-block: 18px;
+}
+
+.mc-navbar__links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.mc-navbar__links a { color: var(--neutral-600); white-space: nowrap; }
+.mc-navbar__links a:hover,
+.mc-navbar__links a.is-active { color: var(--primary-700); }
+
+.mc-navbar__actions { display: flex; align-items: center; gap: 12px; }
+
+/* =========================================================
+   Public layout — Footer
+   ========================================================= */
+.mc-footer {
+    background: var(--neutral-900);
+    padding-block: 72px 32px;
+    font-size: 14px;
+}
+
+.mc-footer__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 48px;
+    flex-wrap: wrap;
+}
+
+.mc-footer__brand { display: flex; flex-direction: column; gap: 16px; }
+.mc-footer__brand p { margin: 0; max-width: 320px; color: var(--neutral-400); }
+
+.mc-footer__cols { display: flex; gap: 72px; flex-wrap: wrap; }
+.mc-footer__col { display: flex; flex-direction: column; gap: 12px; white-space: nowrap; }
+.mc-footer__col h6 { margin: 0; font-size: 14px; font-weight: 500; color: var(--neutral-0); line-height: inherit; }
+.mc-footer__col a { color: var(--neutral-400); }
+.mc-footer__col a:hover { color: var(--neutral-0); }
+
+.mc-footer__divider { height: 1px; background: var(--neutral-800); margin-block: 48px; }
+
+.mc-footer__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--neutral-400);
+}
+
+.mc-footer__bottom p { margin: 0; }
+.mc-footer__lang { display: inline-flex; align-items: center; gap: 6px; color: var(--neutral-400); }
+.mc-footer__lang:hover { color: var(--neutral-0); }
+
+/* =========================================================
+   Dashboard layout — Sidebar + Topbar (Patient / Doctor / Admin)
+   ========================================================= */
+.mc-app {
+    display: flex;
+    min-height: 100vh;
+}
+
+.mc-sidebar {
+    width: 264px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 24px 16px;
+    background: var(--neutral-0);
+    border-inline-end: 1px solid var(--neutral-100);
+    overflow-y: auto;
+}
+
+.mc-sidebar__logo { padding: 0 8px 20px; }
+
+.mc-sidebar__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 12px;
+    background: transparent;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: inherit;
+    color: var(--neutral-600);
+    text-align: start;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.mc-sidebar__item:hover { background: var(--neutral-50); color: var(--neutral-800); }
+.mc-sidebar__item.is-active { background: var(--primary-50); color: var(--primary-700); }
+.mc-sidebar__item--danger,
+.mc-sidebar__item--danger:hover { color: var(--danger-500); }
+
+.mc-sidebar__spacer { flex: 1 0 0; }
+.mc-sidebar form { margin: 0; }
+
+.mc-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.mc-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 20px 32px;
+    background: var(--neutral-0);
+    border-bottom: 1px solid var(--neutral-100);
+}
+
+.mc-topbar__title { margin: 0; font-size: 24px; font-weight: 600; line-height: 1.2; letter-spacing: -0.36px; color: var(--neutral-900); }
+.mc-topbar__subtitle { margin: 2px 0 0; font-size: 14px; color: var(--neutral-600); }
+html[lang="ar"] .mc-topbar__title { line-height: 1.4; letter-spacing: 0; }
+
+.mc-topbar__actions { display: flex; align-items: center; gap: 12px; }
+
+.mc-icon-btn {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--neutral-200);
+    border-radius: 12px;
+    color: var(--neutral-800);
+    background: var(--neutral-0);
+}
+
+.mc-icon-btn:hover { background: var(--neutral-50); color: var(--neutral-800); }
+
+.mc-user { display: flex; align-items: center; gap: 10px; }
+
+.mc-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--secondary-100);
+    color: var(--secondary-700);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.mc-user__name { font-size: 14px; font-weight: 500; color: var(--neutral-900); white-space: nowrap; }
+.mc-user__role { font-size: 12px; font-weight: 500; color: var(--neutral-600); }
+
+.mc-content { flex: 1; padding: 32px; }

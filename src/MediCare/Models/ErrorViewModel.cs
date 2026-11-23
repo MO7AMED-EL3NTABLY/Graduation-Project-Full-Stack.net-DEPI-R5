@@ -1,4 +1,4 @@
-namespace MediCare.Models
+namespace MVC.PL.Models
 {
     public class ErrorViewModel
     {

@@ -1,49 +1,101 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@* Layout الصفحات العامة (Landing وصفحات الدخول) - Navbar + Footer من Figma *@
+@{
+    var culture = CultureInfo.CurrentUICulture;
+    var lang = culture.TwoLetterISOLanguageName;
+    var dir = culture.TextInfo.IsRightToLeft ? "rtl" : "ltr";
+    var isHome = string.Equals(ViewContext.RouteData.Values["controller"]?.ToString(), "Home", StringComparison.OrdinalIgnoreCase)
+                 && string.IsNullOrEmpty(ViewContext.RouteData.Values["area"]?.ToString());
+
+    // لو المستخدم داخل، زرار "لوحة التحكم" يوديه للـ Area بتاعته
+    string? dashboardUrl = null;
+    if (User.IsInRole(AppRoles.Patient)) { dashboardUrl = "/Patient"; }
+    else if (User.IsInRole(AppRoles.Doctor)) { dashboardUrl = "/Doctor"; }
+    else if (User.IsInRole(AppRoles.Admin)) { dashboardUrl = "/Admin"; }
+}
+<!DOCTYPE html>
+<html lang="@lang" dir="@dir">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MediCare</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/MediCare.styles.css" asp-append-version="true" />
+    <partial name="_Head" />
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MediCare</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+    <header class="mc-navbar">
+        <div class="mc-container mc-navbar__inner">
+            <a href="/"><partial name="_Logo" /></a>
+
+            <nav class="mc-navbar__links">
+                <a href="/" class="@(isHome ? "is-active" : "")">@L["Home"]</a>
+                <a href="/#how-it-works">@L["How it works"]</a>
+                <a href="/#specialties">@L["Specialties"]</a>
+                <a href="/#about">@L["About"]</a>
+                <a href="/#faq">@L["FAQ"]</a>
+                <a href="/#contact">@L["Contact"]</a>
+            </nav>
+
+            <div class="mc-navbar__actions">
+                <partial name="_LanguageSwitch" />
+                @if (dashboardUrl is not null)
+                {
+                    <a class="mc-btn mc-btn--primary" href="@dashboardUrl">@L["Go to dashboard"]</a>
+                }
+                else
+                {
+                    <a class="mc-btn mc-btn--outline" href="/Account/Login">@L["Log in"]</a>
+                    <a class="mc-btn mc-btn--primary" href="/Account/Register">@L["Create account"]</a>
+                }
+            </div>
+        </div>
+    </header>
+
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <footer class="mc-footer">
+        <div class="mc-container">
+            <div class="mc-footer__top">
+                <div class="mc-footer__brand">
+                    <partial name="_Logo" view-data='new ViewDataDictionary(ViewData) { ["LogoLight"] = true }' />
+                    <p>@L["Book trusted doctors, follow your turn and manage your treatment in one place."]</p>
+                </div>
+
+                <div class="mc-footer__cols">
+                    <div class="mc-footer__col">
+                        <h6>@L["Platform"]</h6>
+                        <a href="/Patient/Doctors">@L["Find a doctor"]</a>
+                        <a href="/#specialties">@L["Specialties"]</a>
+                        <a href="/#how-it-works">@L["How it works"]</a>
+                        <a href="/Patient/AiAssistant">@L["AI assistant"]</a>
+                    </div>
+                    <div class="mc-footer__col">
+                        <h6>@L["For doctors"]</h6>
+                        <a href="/Account/Register">@L["Join as a doctor"]</a>
+                        <a href="/Account/Login">@L["Doctor login"]</a>
+                        <a href="/#for-doctors">@L["Approval process"]</a>
+                    </div>
+                    <div class="mc-footer__col">
+                        <h6>@L["Company"]</h6>
+                        <a href="/#about">@L["About us"]</a>
+                        <a href="/#faq">@L["FAQ"]</a>
+                        <a href="/#contact">@L["Contact"]</a>
+                        <a href="/Home/Privacy">@L["Privacy policy"]</a>
+                    </div>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - MediCare - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="mc-footer__divider"></div>
+
+            <div class="mc-footer__bottom">
+                <p>@L["© 2026 MediCare. All rights reserved."]</p>
+                <span class="mc-footer__lang">
+                    <i data-lucide="globe" class="mc-icon-sm"></i>
+                    <span dir="auto">@(lang == "ar" ? "العربية · English" : "English · العربية")</span>
+                </span>
+            </div>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <partial name="_Scripts" />
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

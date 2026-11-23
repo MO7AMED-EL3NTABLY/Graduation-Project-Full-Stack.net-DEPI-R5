@@ -1,0 +1,71 @@
+﻿@* الـ Sidebar بيتغير حسب الـ Area (Patient / Doctor / Admin)
+   العنصر النشط بيتحدد من اسم الـ Controller الحالي
+   ملحوظة: الصفحات دي لسه هتتعمل - كل واحد في التيم يعمل الـ Controller بنفس الاسم اللي هنا *@
+@{
+    var area = ViewContext.RouteData.Values["area"]?.ToString() ?? AppRoles.Patient;
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString() ?? "Home";
+
+    // (Controller, Icon, Text, Danger)
+    var items = area switch
+    {
+        AppRoles.Doctor => new (string Controller, string Icon, string Text, bool Danger)[]
+        {
+            ("Home", "layout-grid", "Dashboard", false),
+            ("ShiftQueue", "list", "Shift queue", false),
+            ("Schedule", "calendar", "Schedule", false),
+            ("Clinics", "map-pin", "Clinics", false),
+            ("Chats", "message-circle", "Chats", false),
+            ("Profile", "user", "Professional profile", false),
+            ("Support", "headphones", "Support", false),
+            ("Settings", "settings", "Settings", false),
+        },
+        AppRoles.Admin => new (string Controller, string Icon, string Text, bool Danger)[]
+        {
+            ("Home", "layout-grid", "Dashboard", false),
+            ("DoctorApprovals", "shield", "Doctor approvals", false),
+            ("ChangeRequests", "pencil", "Change requests", false),
+            ("Specialties", "heart", "Specialties", false),
+            ("Accounts", "users", "Accounts", false),
+            ("Appointments", "calendar", "Appointments", false),
+            ("SupportInbox", "headphones", "Support inbox", false),
+            ("Settings", "settings", "Settings", false),
+        },
+        _ => new (string Controller, string Icon, string Text, bool Danger)[]
+        {
+            ("Home", "house", "Home", false),
+            ("Doctors", "search", "Find a doctor", false),
+            ("Appointments", "calendar", "My appointments", false),
+            ("Prescriptions", "file-text", "Prescriptions", false),
+            ("Medications", "pill", "Medications", false),
+            ("MedicalProfile", "heart-pulse", "Medical profile", false),
+            ("Chats", "message-circle", "Chats", false),
+            ("AiAssistant", "sparkles", "AI assistant", false),
+            ("Emergency", "siren", "Emergency", true),
+            ("Support", "headphones", "Support", false),
+            ("Settings", "settings", "Settings", false),
+        }
+    };
+}
+<aside class="mc-sidebar">
+    <a href="/@area" class="mc-sidebar__logo"><partial name="_Logo" /></a>
+
+    @foreach (var item in items)
+    {
+        var href = item.Controller == "Home" ? $"/{area}" : $"/{area}/{item.Controller}";
+        var isActive = string.Equals(controller, item.Controller, StringComparison.OrdinalIgnoreCase);
+        <a href="@href" class="mc-sidebar__item @(isActive ? "is-active" : "") @(item.Danger ? "mc-sidebar__item--danger" : "")">
+            <i data-lucide="@item.Icon" class="mc-icon"></i>
+            <span>@L[item.Text]</span>
+        </a>
+    }
+
+    <div class="mc-sidebar__spacer"></div>
+
+    <form method="post" action="/Account/Logout">
+        @Html.AntiForgeryToken()
+        <button type="submit" class="mc-sidebar__item">
+            <i data-lucide="log-out" class="mc-icon"></i>
+            <span>@L["Log out"]</span>
+        </button>
+    </form>
+</aside>

@@ -1,8 +1,292 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@* الصفحة الرئيسية (Landing) - من Figma "Landing — EN / AR"
+   الصور في wwwroot/images/landing - اعملها Export من Figma (01 Design System > Image assets)
+   التخصصات والقوائم هنا ثابتة زي التصميم، وهتتربط بالداتابيز في module الـ Find a doctor *@
+@{
+    ViewData["Title"] = L["Home"];
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@section Styles {
+    <link rel="stylesheet" href="~/css/landing.css" asp-append-version="true" />
+}
+
+<!-- ===== Hero ===== -->
+<section class="lp-hero">
+    <div class="mc-container lp-hero__inner">
+        <div class="lp-hero__text">
+            <span class="lp-badge">@L["Clinic booking, made simple"]</span>
+            <h1 class="lp-hero__title">@L["Book the right doctor. Know your turn before you arrive."]</h1>
+            <p class="lp-hero__lead">@L["MediCare connects you with admin-verified doctors. Book within the next 7 days, follow your queue number, and keep prescriptions and medication reminders in one place."]</p>
+            <div class="lp-hero__actions">
+                <a class="mc-btn mc-btn--primary mc-btn--lg" href="/Patient/Doctors">@L["Find a doctor"]</a>
+                <a class="mc-btn mc-btn--outline mc-btn--lg" href="/Account/Register">@L["Join as a doctor"]</a>
+            </div>
+            <ul class="lp-checks">
+                <li><span class="lp-chip"><i data-lucide="check"></i></span>@L["Admin-verified doctors"]</li>
+                <li><span class="lp-chip"><i data-lucide="check"></i></span>@L["Live queue number"]</li>
+                <li><span class="lp-chip"><i data-lucide="check"></i></span>@L["Email, SMS & in-app reminders"]</li>
+            </ul>
+        </div>
+
+        <div class="lp-hero__visual">
+            <div class="lp-hero__blob"></div>
+            <img class="lp-hero__img" src="~/images/landing/hero-doctor.png" alt="" />
+
+            <div class="lp-float lp-float--turn">
+                <div class="lp-row">
+                    <span class="lp-chip"><i data-lucide="clock"></i></span>
+                    <span class="lp-t14" style="color: var(--neutral-600)">@L["Your turn"]</span>
+                    <span class="lp-turn-no">#4</span>
+                </div>
+                <span class="lp-t14">@L["Dr. Sara Adel · Cardiology"]</span>
+                <span class="lp-t12">@L["Today · 6:00 PM"]</span>
+            </div>
+
+            <div class="lp-float lp-float--med">
+                <span class="lp-chip"><i data-lucide="pill"></i></span>
+                <div>
+                    <div class="lp-t14">@L["Medication reminder"]</div>
+                    <div class="lp-t12">@L["Bisoprolol 5 mg · 8:00 AM"]</div>
+                </div>
+                <span class="lp-badge lp-badge--success">@L["Taken"]</span>
+            </div>
+
+            <div class="lp-verified"><i data-lucide="shield-check"></i>@L["Verified by MediCare"]</div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Quick search ===== -->
+<section class="mc-container lp-search">
+    <form class="lp-search__box" method="get" action="/Patient/Doctors">
+        <div class="lp-search__field">
+            <span class="lp-chip lp-chip--44"><i data-lucide="stethoscope"></i></span>
+            <div>
+                <label for="qs-specialty">@L["Specialty"]</label>
+                <select id="qs-specialty" name="specialty"><option>@L["Cardiology"]</option></select>
+            </div>
+        </div>
+        <div class="lp-search__field">
+            <span class="lp-chip lp-chip--44"><i data-lucide="map-pin"></i></span>
+            <div>
+                <label for="qs-governorate">@L["Governorate"]</label>
+                <select id="qs-governorate" name="governorate"><option>@L["Cairo"]</option></select>
+            </div>
+        </div>
+        <div class="lp-search__field">
+            <span class="lp-chip lp-chip--44"><i data-lucide="calendar"></i></span>
+            <div>
+                <label for="qs-day">@L["Day"]</label>
+                <select id="qs-day" name="day"><option value="">@L["Any day this week"]</option></select>
+            </div>
+        </div>
+        <button type="submit" class="mc-btn mc-btn--primary mc-btn--lg">@L["Search doctors"]</button>
+    </form>
+</section>
+
+<!-- ===== How it works ===== -->
+<section id="how-it-works" class="lp-section" style="padding-top: 112px">
+    <div class="mc-container">
+        <div class="lp-head">
+            <p class="lp-eyebrow">@L["HOW IT WORKS"]</p>
+            <h2 class="lp-h2">@L["Four steps from search to follow-up"]</h2>
+        </div>
+        <div class="lp-grid-4">
+            <div class="lp-step">
+                <div class="lp-step__top"><span class="lp-chip lp-chip--52"><i data-lucide="search"></i></span><span class="lp-step__no">01</span></div>
+                <h3 class="lp-h4">@L["Search"]</h3>
+                <p class="lp-muted lp-small">@L["Find a doctor by specialty, area and available days."]</p>
+            </div>
+            <div class="lp-step">
+                <div class="lp-step__top"><span class="lp-chip lp-chip--52"><i data-lucide="calendar"></i></span><span class="lp-step__no">02</span></div>
+                <h3 class="lp-h4">@L["Book"]</h3>
+                <p class="lp-muted lp-small">@L["Pick a shift within the next 7 days and confirm your seat instantly."]</p>
+            </div>
+            <div class="lp-step lp-step--active">
+                <div class="lp-step__top"><span class="lp-chip lp-chip--52"><i data-lucide="clock"></i></span><span class="lp-step__no">03</span></div>
+                <h3 class="lp-h4">@L["Track your turn"]</h3>
+                <p class="lp-muted lp-small">@L["Get your queue number and a reminder 24 hours before your visit."]</p>
+            </div>
+            <div class="lp-step">
+                <div class="lp-step__top"><span class="lp-chip lp-chip--52"><i data-lucide="pill"></i></span><span class="lp-step__no">04</span></div>
+                <h3 class="lp-h4">@L["Follow up"]</h3>
+                <p class="lp-muted lp-small">@L["Receive prescriptions, medication reminders and chat with your doctor."]</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Specialties ===== -->
+<section id="specialties" class="lp-section lp-section--alt">
+    <div class="mc-container">
+        <div class="lp-head lp-head--split">
+            <div>
+                <p class="lp-eyebrow">@L["WHAT WE TREAT"]</p>
+                <h2 class="lp-h2">@L["Our specialties"]</h2>
+            </div>
+            <p class="lp-muted">@L["New specialties are added by our admin team as MediCare grows."]</p>
+        </div>
+        <div class="lp-grid-2">
+            <div class="lp-spec">
+                <img src="~/images/landing/specialty-cardiology.png" alt="" />
+                <div class="lp-spec__body">
+                    <h3 class="lp-h4">@L["Cardiology"]</h3>
+                    <p class="lp-muted">@L["Heart checkups, blood-pressure follow-up and long-term heart conditions."]</p>
+                    <a class="lp-link" href="/Patient/Doctors">@L["View doctors"] <i data-lucide="arrow-right" class="lp-flip"></i></a>
+                </div>
+            </div>
+            <div class="lp-spec">
+                <img src="~/images/landing/specialty-pediatrics.png" alt="" />
+                <div class="lp-spec__body">
+                    <h3 class="lp-h4">@L["Pediatrics"]</h3>
+                    <p class="lp-muted">@L["Care for newborns, children and teens — from routine checkups to treatment."]</p>
+                    <a class="lp-link" href="/Patient/Doctors">@L["View doctors"] <i data-lucide="arrow-right" class="lp-flip"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Why MediCare ===== -->
+<section class="lp-section">
+    <div class="mc-container">
+        <div class="lp-head">
+            <p class="lp-eyebrow">@L["WHY MEDICARE"]</p>
+            <h2 class="lp-h2">@L["Built for patients and doctors"]</h2>
+            <div class="lp-tabs" role="tablist">
+                <button type="button" class="lp-tab is-active" data-tab="patients">@L["For patients"]</button>
+                <button type="button" class="lp-tab" data-tab="doctors">@L["For doctors"]</button>
+            </div>
+        </div>
+
+        <div class="lp-panel lp-grid-3" data-panel="patients">
+            <div class="lp-feature"><span class="lp-chip lp-chip--48"><i data-lucide="search"></i></span><h3 class="lp-h4">@L["Smart doctor search"]</h3><p class="lp-muted lp-small">@L["Filter by specialty, governorate, city and available days."]</p></div>
+            <div class="lp-feature"><span class="lp-chip lp-chip--48"><i data-lucide="clock"></i></span><h3 class="lp-h4">@L["Live queue number"]</h3><p class="lp-muted lp-small">@L["See your turn number update in real time."]</p></div>
+            <div class="lp-feature"><span class="lp-chip lp-chip--48"><i data-lucide="pill"></i></span><h3 class="lp-h4">@L["Medication reminders"]</h3><p class="lp-muted lp-small">@L["Doses and reminders follow your doctor’s schedule."]</p></div>
+            <div class="lp-feature"><span class="lp-chip lp-chip--48"><i data-lucide="shield-check"></i></span><h3 class="lp-h4">@L["You control your record"]</h3><p class="lp-muted lp-small">@L["Share your medical profile only when you choose."]</p></div>
+            <div class="lp-feature"><span class="lp-chip lp-chip--48"><i data-lucide="message-circle"></i></span><h3 class="lp-h4">@L["Chat after your visit"]</h3><p class="lp-muted lp-small">@L["One ongoing conversation with each of your doctors."]</p></div>
+            <div class="lp-feature"><span class="lp-chip lp-chip--48"><i data-lucide="star"></i></span><h3 class="lp-h4">@L["Rate your doctor"]</h3><p class="lp-muted lp-small">@L["Give 1–5 stars after a completed visit."]</p></div>
+        </div>
+
+        @* محتوى "للأطباء" مش موجود في الـ Figma - مكتوب من الـ Project Document *@
+        <div class="lp-panel lp-grid-3" data-panel="doctors" hidden>
+            <div class="lp-feature"><span class="lp-chip lp-chip--48"><i data-lucide="map-pin"></i></span><h3 class="lp-h4">@L["Clinics and visit fees"]</h3><p class="lp-muted lp-small">@L["Add your clinics and set the visit fee for each one."]</p></div>
+            <div class="lp-feature"><span class="lp-chip lp-chip--48"><i data-lucide="calendar"></i></span><h3 class="lp-h4">@L["Weekly shifts"]</h3><p class="lp-muted lp-small">@L["Set your weekly shifts, exceptions and vacations."]</p></div>
+            <div class="lp-feature"><span class="lp-chip lp-chip--48"><i data-lucide="list"></i></span><h3 class="lp-h4">@L["Shift queue"]</h3><p class="lp-muted lp-small">@L["See today’s patients in booking order."]</p></div>
+            <div class="lp-feature"><span class="lp-chip lp-chip--48"><i data-lucide="file-text"></i></span><h3 class="lp-h4">@L["Digital prescriptions"]</h3><p class="lp-muted lp-small">@L["Write prescriptions, medicines and scan orders in one place."]</p></div>
+            <div class="lp-feature"><span class="lp-chip lp-chip--48"><i data-lucide="heart-pulse"></i></span><h3 class="lp-h4">@L["Shared medical records"]</h3><p class="lp-muted lp-small">@L["View a patient’s record when they choose to share it."]</p></div>
+            <div class="lp-feature"><span class="lp-chip lp-chip--48"><i data-lucide="message-circle"></i></span><h3 class="lp-h4">@L["Chat with your patients"]</h3><p class="lp-muted lp-small">@L["Follow up with patients after their visit."]</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== AI features ===== -->
+<section class="lp-ai">
+    <div class="mc-container">
+        <div class="lp-head lp-head--split" style="margin-bottom: 40px">
+            <div>
+                <span class="lp-ai__pill"><i data-lucide="sparkles"></i>@L["AI assistant"]</span>
+                <h2 class="lp-h2">@L["Helpful answers — never a diagnosis"]</h2>
+            </div>
+            <p class="lp-muted">@L["Our AI tools give general guidance only. Always follow your doctor’s advice."]</p>
+        </div>
+        <div class="lp-grid-3">
+            <div class="lp-ai-card"><span class="lp-chip lp-chip--48"><i data-lucide="pill"></i></span><h3 class="lp-h4">@L["Ask about a medicine"]</h3><p class="lp-muted lp-small">@L["What it is for, what it treats and known side effects."]</p></div>
+            <div class="lp-ai-card"><span class="lp-chip lp-chip--48"><i data-lucide="file-text"></i></span><h3 class="lp-h4">@L["Explain my report"]</h3><p class="lp-muted lp-small">@L["A simple, preliminary explanation of an uploaded report."]</p></div>
+            <div class="lp-ai-card"><span class="lp-chip lp-chip--48 lp-chip--danger"><i data-lucide="siren"></i></span><h3 class="lp-h4">@L["Emergency assistant"]</h3><p class="lp-muted lp-small">@L["Immediate first-aid steps. Always starts with: Call ambulance 123."]</p></div>
+        </div>
+        <p class="lp-ai__note"><i data-lucide="lock"></i>@L["AI chats are not saved. Closing the page ends the conversation."]</p>
+    </div>
+</section>
+
+<!-- ===== About us ===== -->
+<section id="about" class="mc-container lp-about">
+    <div class="lp-about__visual">
+        <div class="lp-about__bg"></div>
+        <img class="lp-about__img" src="~/images/landing/about-clinic.png" alt="" />
+    </div>
+    <div class="lp-about__text">
+        <p class="lp-eyebrow">@L["ABOUT US"]</p>
+        <h2 class="lp-h2">@L["Healthcare that respects your time"]</h2>
+        <p class="lp-muted">@L["MediCare is a clinic management and booking platform that connects patients, doctors and administrators. We make finding a trusted doctor simple, keep visits organized, and help patients stay on track with their treatment — in Arabic and English."]</p>
+        <div class="lp-points">
+            <div class="lp-point"><span class="lp-chip lp-chip--44"><i data-lucide="shield-check"></i></span><div><strong>@L["Verified doctors"]</strong><span class="lp-muted lp-small">@L["Every doctor is approved after reviewing license and graduation certificate."]</span></div></div>
+            <div class="lp-point"><span class="lp-chip lp-chip--44"><i data-lucide="lock"></i></span><div><strong>@L["Privacy first"]</strong><span class="lp-muted lp-small">@L["Protected files and sharing that stays under your control."]</span></div></div>
+            <div class="lp-point"><span class="lp-chip lp-chip--44"><i data-lucide="globe"></i></span><div><strong>@L["Arabic & English"]</strong><span class="lp-muted lp-small">@L["A fully bilingual experience for every user."]</span></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== For doctors CTA ===== -->
+<section id="for-doctors" class="mc-container lp-cta-wrap">
+    <div class="lp-cta">
+        <div class="lp-cta__text">
+            <span class="lp-badge">@L["For doctors"]</span>
+            <h2 class="lp-h2">@L["Grow your practice with MediCare"]</h2>
+            <ol class="lp-steps">
+                <li><span>1</span>@L["Create your account"]</li>
+                <li><span>2</span>@L["Upload license & graduation certificate"]</li>
+                <li><span>3</span>@L["Get approved by our admin team"]</li>
+                <li><span>4</span>@L["Add clinics, shifts and start receiving bookings"]</li>
+            </ol>
+            <a class="mc-btn mc-btn--primary mc-btn--lg" href="/Account/Register">@L["Join as a doctor"]</a>
+        </div>
+        <img class="lp-cta__img" src="~/images/landing/cta-doctor.png" alt="" />
+    </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section id="faq" class="lp-section lp-section--alt">
+    <div class="mc-container">
+        <div class="lp-head">
+            <p class="lp-eyebrow">@L["FAQ"]</p>
+            <h2 class="lp-h2">@L["Frequently asked questions"]</h2>
+        </div>
+        @* إجابات الأسئلة من 2 لـ 5 مش في الـ Figma - مكتوبة من قواعد الـ Project Document *@
+        <div class="lp-faq">
+            @foreach (var (q, a, open) in new[]
+            {
+                ("Do I pay online?", "No. The visit fee is shown when you book and you pay at the clinic.", true),
+                ("How far ahead can I book?", "You can book within the next 7 days: today and the following six days.", false),
+                ("Can I cancel or reschedule?", "Yes, before your shift starts. You can also move a confirmed appointment to another time with the same doctor within the 7-day window.", false),
+                ("Who can see my medical records?", "Only you, unless you turn on sharing. Then only doctors you have a confirmed or completed appointment with can view it, and you can turn it off at any time.", false),
+                ("How are doctors verified?", "Our admin team reviews each doctor’s license and graduation certificate before the doctor can receive bookings.", false),
+            })
+            {
+                <details open="@open">
+                    <summary>
+                        @L[q]
+                        <span class="lp-faq__icon"><i data-lucide="plus" class="lp-plus"></i><i data-lucide="minus" class="lp-minus"></i></span>
+                    </summary>
+                    <p>@L[a]</p>
+                </details>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- ===== Contact ===== -->
+<section id="contact" class="lp-section">
+    <div class="mc-container">
+        <div class="lp-head">
+            <p class="lp-eyebrow">@L["CONTACT"]</p>
+            <h2 class="lp-h2">@L["We’re here to help"]</h2>
+        </div>
+        <div class="lp-grid-3">
+            <a class="lp-contact" href="/Patient/Support"><span class="lp-chip lp-chip--52 lp-chip--solid"><i data-lucide="message-circle"></i></span><div><strong>@L["Contact us via app"]</strong><span class="lp-muted lp-small">@L["Chat with our support team"]</span></div></a>
+            <a class="lp-contact" href="tel:+201000000000"><span class="lp-chip lp-chip--52 lp-chip--solid"><i data-lucide="phone"></i></span><div><strong>@L["Call us"]</strong><span class="lp-muted lp-small" dir="ltr">+20 100 000 0000</span></div></a>
+            <a class="lp-contact" href="mailto:support@@medicare.app"><span class="lp-chip lp-chip--52 lp-chip--solid"><i data-lucide="mail"></i></span><div><strong>@L["Email us"]</strong><span class="lp-muted lp-small">support@@medicare.app</span></div></a>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        // تبديل تبويب "للمرضى / للأطباء"
+        document.querySelectorAll('.lp-tab').forEach(function (tab) {
+            tab.addEventListener('click', function () {
+                document.querySelectorAll('.lp-tab').forEach(function (t) { t.classList.toggle('is-active', t === tab); });
+                document.querySelectorAll('.lp-panel').forEach(function (p) { p.hidden = p.dataset.panel !== tab.dataset.tab; });
+            });
+        });
+    </script>
+}

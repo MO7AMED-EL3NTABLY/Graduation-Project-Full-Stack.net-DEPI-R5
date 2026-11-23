@@ -19,7 +19,6 @@
     <Folder Include="Entities\Prescriptions\" />
     <Folder Include="Entities\Notifications\" />
     <Folder Include="Entities\Support\" />
-    <Folder Include="Enums\" />
     <Folder Include="Configurations\" />
     <Folder Include="Dbcontexts\" />
   </ItemGroup>

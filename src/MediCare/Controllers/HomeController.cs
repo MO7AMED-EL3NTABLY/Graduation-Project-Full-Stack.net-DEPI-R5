@@ -1,8 +1,8 @@
-using MediCare.Models;
+using MVC.PL.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace MediCare.Controllers
+namespace MVC.PL.Controllers
 {
     public class HomeController : Controller
     {

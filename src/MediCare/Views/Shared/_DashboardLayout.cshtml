@@ -1,0 +1,69 @@
+﻿@* Layout لوحات التحكم (Patient / Doctor / Admin) - Sidebar + Topbar من Figma
+   في الـ View:  ViewData["Title"] = "..."; ViewData["Subtitle"] = "..."; (الـ Subtitle اختياري) *@
+@using MVC.PL.Security
+@{
+    var culture = CultureInfo.CurrentUICulture;
+    var lang = culture.TwoLetterISOLanguageName;
+    var dir = culture.TextInfo.IsRightToLeft ? "rtl" : "ltr";
+    var area = ViewContext.RouteData.Values["area"]?.ToString() ?? "";
+
+    var fullName = User.FindFirst(AppClaimsPrincipalFactory.FullNameClaim)?.Value ?? User.Identity?.Name ?? "";
+    var initials = string.Concat(fullName.Split(' ', StringSplitOptions.RemoveEmptyEntries).Take(2).Select(p => p[0])).ToUpper();
+    var roleLabel = area switch
+    {
+        AppRoles.Doctor => L["Doctor"].Value,
+        AppRoles.Admin => L["Admin"].Value,
+        _ => L["Patient"].Value
+    };
+}
+<!DOCTYPE html>
+<html lang="@lang" dir="@dir">
+<head>
+    <partial name="_Head" />
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <div class="mc-app">
+        <partial name="_Sidebar" />
+
+        <div class="mc-main">
+            <header class="mc-topbar">
+                <div>
+                    <h1 class="mc-topbar__title">@ViewData["Title"]</h1>
+                    @if (ViewData["Subtitle"] is string subtitle && !string.IsNullOrEmpty(subtitle))
+                    {
+                        <p class="mc-topbar__subtitle">@subtitle</p>
+                    }
+                </div>
+
+                <div class="mc-topbar__actions">
+                    <partial name="_LanguageSwitch" />
+
+                    @* الأدمن مش بيستلم إشعارات، فمفيش جرس عنده *@
+                    @if (area != AppRoles.Admin)
+                    {
+                        <a class="mc-icon-btn" href="/@area/Notifications" aria-label="@L["Notifications"]">
+                            <i data-lucide="bell" class="mc-icon"></i>
+                        </a>
+                    }
+
+                    <div class="mc-user">
+                        <div class="mc-avatar">@initials</div>
+                        <div>
+                            <div class="mc-user__name">@fullName</div>
+                            <div class="mc-user__role">@roleLabel</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main role="main" class="mc-content">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <partial name="_Scripts" />
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

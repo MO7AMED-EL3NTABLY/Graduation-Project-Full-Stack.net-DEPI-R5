@@ -1,0 +1,9 @@
+﻿@* زرار تبديل اللغة: بيعرض اللغة التانية ويرجع لنفس الصفحة *@
+@{
+    var isAr = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ar";
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
+}
+<a class="mc-lang-switch" href="/Culture/Set?culture=@(isAr ? "en-US" : "ar-EG")&returnUrl=@Uri.EscapeDataString(returnUrl)">
+    <i data-lucide="globe" class="mc-icon-sm"></i>
+    <span dir="auto">@(isAr ? "English" : "العربية")</span>
+</a>
