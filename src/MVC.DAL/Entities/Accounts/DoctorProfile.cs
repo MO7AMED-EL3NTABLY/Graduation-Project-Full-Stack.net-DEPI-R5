@@ -22,7 +22,7 @@ namespace MVC.DAL.Entities.Accounts
 
         public int YearsOfExperience { get; set; } // سنين الخبرة - الدكتور بيدخلها بإيده
 
-        public string? Bio { get; set; } // نبذة عن الدكتور (اختياري)
+        public string Bio { get; set; } = null!; // نبذة عن الدكتور (إجباري)
 
         public ApprovalStatus ApprovalStatus { get; set; } // حالة موافقة الأدمن على الدكتور
 

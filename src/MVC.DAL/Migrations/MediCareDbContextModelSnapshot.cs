@@ -193,6 +193,7 @@ namespace MVC.DAL.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Bio")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("GraduationYear")
