@@ -25,6 +25,9 @@ namespace MVC.PL
             builder.Services.AddDbContext<MediCareDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            // الإشعارات - Module 6
+            builder.Services.AddScoped<MVC.BLL.Interfaces.INotificationService, MVC.BLL.Services.NotificationService>();
+
             // Identity - المستخدمين والـ Roles (Patient, Doctor, Admin)
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
