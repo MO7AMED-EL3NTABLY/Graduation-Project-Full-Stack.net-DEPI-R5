@@ -1,0 +1,58 @@
+@*——- Omar Hussein ——-*@
+@* Layout صفحات الدخول والتسجيل (Figma Auth): صورة على الشمال + الفورم في النص
+   في الـ View:  ViewData["AuthPanel"] = "doctor";  للوحة الدكتور (الافتراضي: لوحة المريض) *@
+@{
+    var culture = CultureInfo.CurrentUICulture;
+    var lang = culture.TwoLetterISOLanguageName;
+    var dir = culture.TextInfo.IsRightToLeft ? "rtl" : "ltr";
+    var isDoctorPanel = ViewData["AuthPanel"] as string == "doctor";
+    var image = isDoctorPanel ? "/images/landing/cta-doctor.png" : "/images/landing/hero-doctor.png";
+}
+<!DOCTYPE html>
+<html lang="@lang" dir="@dir">
+<head>
+    <partial name="_Head" />
+    <link rel="stylesheet" href="~/css/accounts.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <div class="mc-auth">
+        <aside class="mc-auth__panel" style="background-image:url('@image')">
+            <a href="/"><partial name="_Logo" /></a>
+            <div>
+                @if (isDoctorPanel)
+                {
+                    <h2 class="mc-auth__headline">@L["Grow your practice."]</h2>
+                    <p class="mc-auth__lead">@L["Manage clinics, shifts, queues and prescriptions in one place."]</p>
+                }
+                else
+                {
+                    <h2 class="mc-auth__headline">@L["Your health, organized."]</h2>
+                    <p class="mc-auth__lead">@L["Book verified doctors, follow your turn and keep your treatment on track."]</p>
+                    <ul class="mc-auth__points">
+                        <li><span class="mc-tick"><i data-lucide="check" style="width:12px;height:12px"></i></span>@L["Admin-verified doctors"]</li>
+                        <li><span class="mc-tick"><i data-lucide="check" style="width:12px;height:12px"></i></span>@L["Reminders by Email, SMS & in-app"]</li>
+                        <li><span class="mc-tick"><i data-lucide="check" style="width:12px;height:12px"></i></span>@L["Your records, shared only with your consent"]</li>
+                    </ul>
+                }
+            </div>
+        </aside>
+
+        <div class="mc-auth__main">
+            <div class="mc-auth__top"><partial name="_LanguageSwitch" /></div>
+            <main class="mc-auth__body" role="main">
+                <div class="mc-auth__card">
+                    @RenderBody()
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <partial name="Accounts/_Flash" />
+    <partial name="_Scripts" />
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/accounts.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+@*————*@

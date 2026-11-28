@@ -1,0 +1,44 @@
+@*——- Omar Hussein ——-*@
+@model ResetOptionsViewModel
+@{
+    ViewData["Title"] = L["Forgot your password?"];
+    var account = Model.Account!;
+}
+<span class="mc-auth__icon"><i data-lucide="lock" class="mc-icon"></i></span>
+<h1 class="mc-auth__title">@L["Forgot your password?"]</h1>
+<p class="mc-auth__subtitle">@L["Choose how you want to reset it."]</p>
+
+<form asp-action="SendReset" method="post">
+    <input type="hidden" asp-for="Ticket" />
+    <div asp-validation-summary="ModelOnly" class="mc-alert mc-alert--danger"></div>
+
+    <label class="mc-choice">
+        <input type="radio" name="Method" value="@ResetMethod.Email" checked="@(Model.Method == ResetMethod.Email || !account.CanUseSms)" />
+        <span class="mc-choice__icon"><i data-lucide="mail" class="mc-icon"></i></span>
+        <span class="mc-choice__body">
+            <span class="mc-choice__title d-block">@L["Email reset link"]</span>
+            <span class="mc-choice__text d-block">@L["Valid for 1 hour"]</span>
+            <span class="mc-choice__extra">@account.MaskedEmail</span>
+        </span>
+        <span class="mc-choice__radio"></span>
+    </label>
+
+    @if (account.CanUseSms)
+    {
+        <label class="mc-choice">
+            <input type="radio" name="Method" value="@ResetMethod.Sms" checked="@(Model.Method == ResetMethod.Sms)" />
+            <span class="mc-choice__icon"><i data-lucide="phone" class="mc-icon"></i></span>
+            <span class="mc-choice__body">
+                <span class="mc-choice__title d-block">@L["SMS reset code"]</span>
+                <span class="mc-choice__text d-block">@L["6 digits · valid for 10 minutes"]</span>
+                <span class="mc-choice__extra">@account.MaskedPhone</span>
+            </span>
+            <span class="mc-choice__radio"></span>
+        </label>
+    }
+
+    <button type="submit" class="mc-btn mc-btn--primary mc-btn--block mc-btn--lg mt-2">@L["Send"]</button>
+</form>
+
+<p class="mc-auth__footer"><a class="mc-link" asp-action="Login">@L["Back to log in"]</a></p>
+@*————*@

@@ -1,0 +1,154 @@
+@*——- Omar Hussein ——-*@
+@model RegisterDoctorViewModel
+@{
+    ViewData["Title"] = L["Create doctor account"];
+    ViewData["AuthPanel"] = "doctor";
+    var isAr = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ar";
+    var thisYear = DateTime.UtcNow.Year;
+}
+<div>
+    <partial name="_Steps" />
+
+    @* فورم واحدة بـ 3 خطوات - الـ JS بيعرض خطوة خطوة ويتأكد من حقولها قبل التالي *@
+    <form asp-action="RegisterDoctor" method="post" enctype="multipart/form-data" novalidate data-steps>
+        <div asp-validation-summary="ModelOnly" class="mc-alert mc-alert--danger"></div>
+
+        @* ===== 1) Personal ===== *@
+        <section class="mc-step-panel">
+            <h1 class="mc-auth__title">@L["Create doctor account"]</h1>
+            <p class="mc-auth__subtitle">@L["Step 1 of 3 — your personal information."]</p>
+
+            <div class="mc-photo">
+                <span class="mc-photo__preview" id="photo-preview"><i data-lucide="image" class="mc-icon"></i></span>
+                <span class="mc-photo__body">
+                    <span class="mc-photo__title d-block">@L["Profile photo"]</span>
+                    <span class="mc-photo__text d-block" id="photo-label">@L["Required · shown to patients"]</span>
+                    <span asp-validation-for="Photo"></span>
+                </span>
+                <label class="mc-btn mc-btn--soft mc-btn--sm mb-0">
+                    @L["Upload"]
+                    <input asp-for="Photo" type="file" class="mc-file-input" accept=".jpg,.jpeg,.png" data-file-label="photo-label" data-preview="photo-preview" />
+                </label>
+            </div>
+
+            <div class="mc-field">
+                <label class="mc-label" asp-for="FullName">@L["Full name"]</label>
+                <input class="mc-input" asp-for="FullName" placeholder="@L["e.g. Dr. Ahmed Mostafa"]" autocomplete="name" />
+                <span asp-validation-for="FullName"></span>
+            </div>
+
+            <div class="mc-row">
+                <div class="mc-field">
+                    <label class="mc-label" asp-for="Email">@L["Email"]</label>
+                    <input class="mc-input" asp-for="Email" type="email" placeholder="name@example.com" autocomplete="email" />
+                    <span asp-validation-for="Email"></span>
+                </div>
+                <div class="mc-field">
+                    <label class="mc-label" asp-for="PhoneNumber">@L["Phone number"]</label>
+                    <input class="mc-input" asp-for="PhoneNumber" type="tel" placeholder="+20 1X XXX XXXX" autocomplete="tel" />
+                    <span asp-validation-for="PhoneNumber"></span>
+                </div>
+            </div>
+
+            <div class="mc-row">
+                <div class="mc-field">
+                    <label class="mc-label" asp-for="Password">@L["Password"]</label>
+                    <input class="mc-input" asp-for="Password" placeholder="••••••••" autocomplete="new-password" data-strength="pwd-strength" />
+                    <span asp-validation-for="Password"></span>
+                </div>
+                <div class="mc-field">
+                    <label class="mc-label" asp-for="ConfirmPassword">@L["Confirm password"]</label>
+                    <input class="mc-input" asp-for="ConfirmPassword" placeholder="••••••••" autocomplete="new-password" />
+                    <span asp-validation-for="ConfirmPassword"></span>
+                </div>
+            </div>
+            <partial name="Accounts/_PasswordStrength" model='"pwd-strength"' />
+
+            <div class="mc-alert mc-alert--info">
+                <i data-lucide="info" class="mc-icon-sm"></i>
+                <p>@L["After verifying your email and phone, your account stays Pending until an admin approves your documents."]</p>
+            </div>
+
+            <button type="button" class="mc-btn mc-btn--primary mc-btn--block mc-btn--lg" data-step-next>@L["Next: Professional details"]</button>
+            <p class="mc-auth__footer">@L["Already have an account?"] <a class="mc-link" asp-action="Login">@L["Log in"]</a></p>
+        </section>
+
+        @* ===== 2) Professional ===== *@
+        <section class="mc-step-panel" hidden>
+            <h1 class="mc-auth__title">@L["Professional details"]</h1>
+            <p class="mc-auth__subtitle">@L["Tell patients about your experience."]</p>
+
+            <div class="mc-field">
+                <label class="mc-label" asp-for="SpecialtyId">@L["Specialty"]</label>
+                <select class="mc-input" asp-for="SpecialtyId">
+                    <option value="">@L["Select your specialty"]</option>
+                    @foreach (var s in Model.Specialties)
+                    {
+                        <option value="@s.SpecialtyId" selected="@(Model.SpecialtyId == s.SpecialtyId)">@(isAr ? s.NameAr : s.NameEn)</option>
+                    }
+                </select>
+                <span asp-validation-for="SpecialtyId"></span>
+            </div>
+
+            <div class="mc-row">
+                <div class="mc-field">
+                    <label class="mc-label" asp-for="LicenseNumber">@L["License number"]</label>
+                    <input class="mc-input" asp-for="LicenseNumber" placeholder="@L["e.g. 123456"]" dir="ltr" />
+                    <span asp-validation-for="LicenseNumber"></span>
+                </div>
+                <div class="mc-field">
+                    <label class="mc-label" asp-for="GraduationYear">@L["Graduation year"]</label>
+                    <input class="mc-input" asp-for="GraduationYear" type="number" min="1950" max="@thisYear" placeholder="YYYY" />
+                    <span asp-validation-for="GraduationYear"></span>
+                </div>
+            </div>
+
+            <div class="mc-row">
+                <div class="mc-field">
+                    <label class="mc-label" asp-for="University">@L["University"]</label>
+                    <input class="mc-input" asp-for="University" placeholder="@L["e.g. Cairo University"]" />
+                    <span asp-validation-for="University"></span>
+                </div>
+                <div class="mc-field">
+                    <label class="mc-label" asp-for="PracticeStartYear">@L["Practice start year"]</label>
+                    <input class="mc-input" asp-for="PracticeStartYear" type="number" min="1950" max="@DateTime.UtcNow.Year" placeholder="@L["e.g. 2016"]" />
+                    <span asp-validation-for="PracticeStartYear"></span>
+                </div>
+            </div>
+
+            <div class="mc-field">
+                <label class="mc-label" asp-for="Bio">@L["Bio"]</label>
+                <textarea class="mc-input" asp-for="Bio" rows="3" placeholder="@L["Write a short professional bio…"]"></textarea>
+                <span asp-validation-for="Bio"></span>
+            </div>
+
+            <div class="mc-actions">
+                <button type="button" class="mc-btn mc-btn--outline mc-btn--lg" data-step-back>@L["Back"]</button>
+                <button type="button" class="mc-btn mc-btn--primary mc-btn--lg mc-btn--grow" data-step-next>@L["Next: Documents"]</button>
+            </div>
+        </section>
+
+        @* ===== 3) Documents ===== *@
+        <section class="mc-step-panel" hidden>
+            <h1 class="mc-auth__title">@L["Upload your documents"]</h1>
+            <p class="mc-auth__subtitle">@L["An admin reviews both documents together to approve your account."]</p>
+
+            <partial name="_UploadBox" model='new UploadBoxModel("License", L["Medical license"], L["PDF, JPG or PNG · required"], false, L["Medical license is required."])' />
+            <span asp-validation-for="License" class="d-block mb-2"></span>
+
+            <partial name="_UploadBox" model='new UploadBoxModel("GraduationCertificate", L["Graduation certificate"], L["PDF, JPG or PNG · required"], false, L["Graduation certificate is required."])' />
+            <span asp-validation-for="GraduationCertificate" class="d-block mb-2"></span>
+
+            <div class="mc-alert mc-alert--warning">
+                <i data-lucide="circle-alert" class="mc-icon-sm"></i>
+                <p>@L["Specialty, license number, university and graduation year can only be changed later with admin approval."]</p>
+            </div>
+
+            <div class="mc-actions">
+                <button type="button" class="mc-btn mc-btn--outline mc-btn--lg" data-step-back>@L["Back"]</button>
+                <button type="submit" class="mc-btn mc-btn--primary mc-btn--lg mc-btn--grow">@L["Submit for review"]</button>
+            </div>
+        </section>
+    </form>
+</div>
+@*————*@

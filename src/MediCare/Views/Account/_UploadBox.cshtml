@@ -1,0 +1,21 @@
+@*——- Omar Hussein ——-*@
+@* صندوق رفع مستند (dashed) - بيتحول "Uploaded" لما يتختار ملف *@
+@model UploadBoxModel
+@{
+    var id = "upload-" + Model.Name.ToLowerInvariant();
+}
+<div class="mc-upload">
+    <span class="mc-upload__icon"><i data-lucide="upload" class="mc-icon-md"></i></span>
+    <span class="mc-upload__body">
+        <span class="mc-upload__title d-block">@Model.Title</span>
+        <span class="mc-upload__text d-block" id="@id-label">@Model.Hint</span>
+    </span>
+    <span class="mc-badge mc-badge--success">@L["Uploaded"]</span>
+    <label class="mc-btn mc-btn--outline mc-btn--sm mb-0">
+        @L["Browse"]
+        <input type="file" name="@Model.Name" id="@id" class="mc-file-input" accept=".pdf,.jpg,.jpeg,.png"
+               data-file-label="@id-label" multiple="@(Model.Multiple ? "multiple" : null)"
+               data-val="@(Model.RequiredMessage is null ? null : "true")" data-val-required="@Model.RequiredMessage" />
+    </label>
+</div>
+@*————*@

@@ -1,0 +1,283 @@
+@*——- Omar Hussein ——-*@
+@* Doctor approvals (Figma 37-38): المراجعة الأولى (قرار واحد للمستندين) + المستندات البديلة *@
+@model DoctorApprovalsPageViewModel
+@{
+    ViewData["Title"] = L["Doctor approvals"];
+    ViewData["Subtitle"] = L["Initial reviews and replacement documents."];
+    var isAr = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ar";
+    var tabs = new (ApprovalTab Tab, string Text, int? Count)[]
+    {
+        (ApprovalTab.Initial, "Initial", Model.Counts.Initial),
+        (ApprovalTab.Replacements, "Replacements", Model.Counts.Replacements),
+        (ApprovalTab.Approved, "Approved", null),
+        (ApprovalTab.Rejected, "Rejected", null)
+    };
+    var reason = ViewData["RejectionReason"] as string;
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/accounts.css" asp-append-version="true" />
+}
+
+@functions {
+    // معاينة المستند: صورة أو PDF
+    private static bool IsImage(string fileName) =>
+        new[] { ".jpg", ".jpeg", ".png" }.Contains(System.IO.Path.GetExtension(fileName).ToLowerInvariant());
+}
+
+<nav class="mc-tabs">
+    @foreach (var t in tabs)
+    {
+        <a asp-action="Index" asp-route-tab="@t.Tab" class="@(Model.Tab == t.Tab ? "is-active" : "")">
+            @L[t.Text]@(t.Count is not null ? $" ({t.Count})" : "")
+        </a>
+    }
+</nav>
+
+@if (Model.Items.Count == 0)
+{
+    <div class="mc-card"><p class="mc-empty">@L["Nothing to show here."]</p></div>
+}
+else
+{
+    <div class="mc-review">
+        @* ===== القائمة ===== *@
+        <div class="mc-queue">
+            @foreach (var item in Model.Items)
+            {
+                var active = Model.Tab == ApprovalTab.Replacements ? item.DocumentId == Model.SelectedDocumentId : item.DoctorId == Model.SelectedDoctorId;
+                <a class="mc-queue__item @(active ? "is-active" : "")"
+                   asp-action="Index" asp-route-tab="@Model.Tab" asp-route-doctorId="@(Model.Tab == ApprovalTab.Replacements ? null : item.DoctorId)" asp-route-documentId="@item.DocumentId">
+                    <div class="mc-queue__top">
+                        @if (item.HasPhoto)
+                        {
+                            <span class="mc-avatar mc-avatar--photo" style="background-image:url('/files/photo/@item.DoctorId')"></span>
+                        }
+                        else
+                        {
+                            <span class="mc-avatar mc-avatar--teal">@AccountsText.Initials(item.FullName)</span>
+                        }
+                        <div>
+                            <div class="mc-queue__name">@item.FullName</div>
+                            <div class="mc-queue__sub">
+                                @if (item.DocumentType is not null)
+                                {
+                                    @L[AccountsText.DocumentType(item.DocumentType.Value)]<text> · </text>@L["replacement"]
+                                }
+                                else
+                                {
+                                    @AccountsText.SpecialtyName(item.Specialty, isAr)
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mc-queue__foot">
+                        <span>@(item.SubmittedAtUtc is null ? "" : L["Submitted"] + " " + AccountsText.Local(item.SubmittedAtUtc.Value).ToString("d MMM · h:mm tt"))</span>
+                        <span class="mc-badge @AccountsText.BadgeClass(item.Status)">@L[AccountsText.Status(item.Status)]</span>
+                    </div>
+                </a>
+            }
+        </div>
+
+        @* ===== التفاصيل ===== *@
+        <div class="mc-stack">
+            @if (Model.Tab == ApprovalTab.Replacements && Model.Replacement is not null)
+            {
+                var r = Model.Replacement;
+                <section class="mc-card">
+                    <div class="mc-setting-row">
+                        @if (r.HasPhoto)
+                        {
+                            <span class="mc-avatar mc-avatar--lg mc-avatar--photo" style="background-image:url('/files/photo/@r.DoctorId')"></span>
+                        }
+                        else
+                        {
+                            <span class="mc-avatar mc-avatar--lg mc-avatar--teal">@AccountsText.Initials(r.FullName)</span>
+                        }
+                        <div class="mc-setting-row__body">
+                            <div class="mc-card__title">@r.FullName</div>
+                            <div class="mc-card__subtitle">@AccountsText.SpecialtyName(r.Specialty, isAr)</div>
+                        </div>
+                        <span class="mc-badge @AccountsText.BadgeClass(r.DoctorStatus)">@L[AccountsText.Status(r.DoctorStatus)]</span>
+                    </div>
+                </section>
+
+                <section class="mc-card">
+                    <h2 class="mc-card__title mb-3">@L["Compare documents"]</h2>
+                    <div class="mc-docs">
+                        <div class="mc-doc">
+                            <div class="mc-doc__frame">
+                                @if (r.Current is null)
+                                {
+                                    <p class="mc-empty">@L["No current document."]</p>
+                                }
+                                else if (IsImage(r.Current.OriginalFileName))
+                                {
+                                    <img src="/files/document/@r.Current.DoctorDocumentId" alt="" />
+                                }
+                                else
+                                {
+                                    <iframe src="/files/document/@r.Current.DoctorDocumentId" title="@r.Current.OriginalFileName"></iframe>
+                                }
+                            </div>
+                            @if (r.Current is not null)
+                            {
+                                <div class="mc-doc__meta">
+                                    <div>
+                                        <div class="mc-doc__name">@L["Current"] — @L[AccountsText.DocumentType(r.Current.DocumentType)]</div>
+                                        <div class="mc-doc__sub">@L["Approved"] @(r.Current.ReviewedAtUtc is null ? "" : AccountsText.Local(r.Current.ReviewedAtUtc.Value).ToString("d MMM yyyy"))</div>
+                                    </div>
+                                    <a class="mc-link" href="/files/document/@r.Current.DoctorDocumentId" target="_blank" rel="noopener">@L["Open full size"]</a>
+                                </div>
+                            }
+                        </div>
+                        <div class="mc-doc">
+                            <div class="mc-doc__frame mc-doc__frame--replacement">
+                                @if (IsImage(r.Replacement.OriginalFileName))
+                                {
+                                    <img src="/files/document/@r.Replacement.DoctorDocumentId" alt="" />
+                                }
+                                else
+                                {
+                                    <iframe src="/files/document/@r.Replacement.DoctorDocumentId" title="@r.Replacement.OriginalFileName"></iframe>
+                                }
+                            </div>
+                            <div class="mc-doc__meta">
+                                <div>
+                                    <div class="mc-doc__name">@L["Replacement"] — @L[AccountsText.DocumentType(r.Replacement.DocumentType)]</div>
+                                    <div class="mc-doc__sub">@L["Uploaded"] @AccountsText.Local(r.Replacement.UploadedAtUtc).ToString("d MMM yyyy")</div>
+                                </div>
+                                <a class="mc-link" href="/files/document/@r.Replacement.DoctorDocumentId" target="_blank" rel="noopener">@L["Open full size"]</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mc-alert mc-alert--info mt-3">
+                        <i data-lucide="info" class="mc-icon-sm"></i>
+                        <p>@L["The current document stays approved and active until you approve the replacement. Rejecting keeps the current one — the doctor's approval status doesn't change."]</p>
+                    </div>
+                </section>
+
+                @if (r.Replacement.ApprovalStatus == ApprovalStatus.Pending)
+                {
+                    <section class="mc-card">
+                        <h2 class="mc-card__title">@L["Decision"]</h2>
+                        <p class="mc-card__subtitle mb-3">@L["This decision applies to the replacement document only."]</p>
+                        <form asp-action="DecideReplacement" method="post">
+                            <input type="hidden" name="DocumentId" value="@r.Replacement.DoctorDocumentId" />
+                            <div asp-validation-summary="ModelOnly" class="mc-alert mc-alert--danger"></div>
+                            <div class="mc-field">
+                                <label class="mc-label" for="reason">@L["Rejection reason"]</label>
+                                <textarea class="mc-input" id="reason" name="RejectionReason" rows="2" maxlength="500" placeholder="@L["Required if you reject…"]">@reason</textarea>
+                            </div>
+                            <div class="mc-actions">
+                                <button type="submit" name="Approve" value="false" class="mc-btn mc-btn--danger-outline mc-btn--lg">@L["Reject"]</button>
+                                <button type="submit" name="Approve" value="true" class="mc-btn mc-btn--primary mc-btn--lg mc-btn--grow">@L["Approve replacement"]</button>
+                            </div>
+                        </form>
+                    </section>
+                }
+            }
+            else if (Model.Doctor is not null)
+            {
+                var d = Model.Doctor;
+                <section class="mc-card">
+                    <div class="mc-setting-row mb-3">
+                        @if (d.HasPhoto)
+                        {
+                            <span class="mc-avatar mc-avatar--lg mc-avatar--photo" style="background-image:url('/files/photo/@d.DoctorId')"></span>
+                        }
+                        else
+                        {
+                            <span class="mc-avatar mc-avatar--lg mc-avatar--teal">@AccountsText.Initials(d.FullName)</span>
+                        }
+                        <div class="mc-setting-row__body">
+                            <div class="mc-card__title">@d.FullName</div>
+                            <div class="mc-card__subtitle">@AccountsText.SpecialtyName(d.Specialty, isAr) · <span class="mc-ltr">@d.Email</span> · <span class="mc-ltr">@d.MaskedPhone</span></div>
+                        </div>
+                        <span class="mc-badge @AccountsText.BadgeClass(d.ApprovalStatus)">@L[AccountsText.Status(d.ApprovalStatus)]</span>
+                    </div>
+                    <div class="mc-facts">
+                        <div class="mc-fact"><div class="mc-fact__label">@L["License number"]</div><div class="mc-fact__value mc-ltr">@d.LicenseNumber</div></div>
+                        <div class="mc-fact"><div class="mc-fact__label">@L["University"]</div><div class="mc-fact__value">@d.University</div></div>
+                        <div class="mc-fact"><div class="mc-fact__label">@L["Graduation year"]</div><div class="mc-fact__value">@d.GraduationYear</div></div>
+                        <div class="mc-fact"><div class="mc-fact__label">@L["Years of experience"]</div><div class="mc-fact__value">@d.YearsOfExperience</div></div>
+                    </div>
+                    @if (!d.IsActive)
+                    {
+                        <div class="mc-alert mc-alert--warning mt-3 mb-0"><i data-lucide="circle-alert" class="mc-icon-sm"></i><p>@L["This account is deactivated."]</p></div>
+                    }
+                </section>
+
+                <section class="mc-card">
+                    <div class="mc-card__head">
+                        <h2 class="mc-card__title">@(d.ApprovalStatus == ApprovalStatus.Pending ? L["Documents to review"] : L["Documents"])</h2>
+                    </div>
+                    <div class="mc-docs">
+                        @foreach (var doc in new[] { (L["Medical license"].Value, d.License), (L["Graduation certificate"].Value, d.GraduationCertificate) })
+                        {
+                            <div class="mc-doc">
+                                <div class="mc-doc__frame">
+                                    @if (doc.Item2 is null)
+                                    {
+                                        <p class="mc-empty">@L["Not uploaded."]</p>
+                                    }
+                                    else if (IsImage(doc.Item2.OriginalFileName))
+                                    {
+                                        <img src="/files/document/@doc.Item2.DoctorDocumentId" alt="" />
+                                    }
+                                    else
+                                    {
+                                        <iframe src="/files/document/@doc.Item2.DoctorDocumentId" title="@doc.Item2.OriginalFileName"></iframe>
+                                    }
+                                </div>
+                                <div class="mc-doc__meta">
+                                    <div class="mc-doc__name"><i data-lucide="file-text" class="mc-icon-sm"></i> @doc.Item1</div>
+                                    @if (doc.Item2 is not null)
+                                    {
+                                        <a class="mc-link" href="/files/document/@doc.Item2.DoctorDocumentId" target="_blank" rel="noopener">@L["Open full size"]</a>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </section>
+
+                @if (d.ApprovalStatus == ApprovalStatus.Pending)
+                {
+                    <section class="mc-card">
+                        <h2 class="mc-card__title">@L["Decision"]</h2>
+                        <p class="mc-card__subtitle mb-3">@L["One decision applies to both documents and the doctor's approval status."]</p>
+                        <form asp-action="Decide" method="post">
+                            <input type="hidden" name="DoctorId" value="@d.DoctorId" />
+                            <div asp-validation-summary="ModelOnly" class="mc-alert mc-alert--danger"></div>
+                            <div class="mc-field">
+                                <label class="mc-label" for="reason">@L["Rejection reason"]</label>
+                                <textarea class="mc-input" id="reason" name="RejectionReason" rows="2" maxlength="500" placeholder="@L["Required if you reject…"]">@reason</textarea>
+                            </div>
+                            <div class="mc-actions">
+                                <button type="submit" name="Approve" value="false" class="mc-btn mc-btn--danger-outline mc-btn--lg">@L["Reject"]</button>
+                                <button type="submit" name="Approve" value="true" class="mc-btn mc-btn--primary mc-btn--lg mc-btn--grow">@L["Approve doctor"]</button>
+                            </div>
+                        </form>
+                        <div class="mc-alert mc-alert--success mt-3 mb-0">
+                            <i data-lucide="shield-check" class="mc-icon-sm"></i>
+                            <p>@L["The doctor becomes visible and bookable only when approved and the account is active."]</p>
+                        </div>
+                    </section>
+                }
+                else if (d.ApprovalStatus == ApprovalStatus.Rejected && !string.IsNullOrEmpty(d.RejectionReason))
+                {
+                    <div class="mc-reason">
+                        <div class="mc-reason__label"><i data-lucide="circle-alert" class="mc-icon-sm"></i>@L["Rejection reason"]</div>
+                        <p>@d.RejectionReason</p>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <partial name="Accounts/_Flash" />
+    <script src="~/js/accounts.js" asp-append-version="true"></script>
+}
+@*————*@

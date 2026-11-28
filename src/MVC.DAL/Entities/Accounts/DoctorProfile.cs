@@ -20,7 +20,7 @@ namespace MVC.DAL.Entities.Accounts
 
         public int GraduationYear { get; set; } // سنة التخرج (بتتغير بموافقة الأدمن بس)
 
-        public int YearsOfExperience { get; set; } // سنين الخبرة - الدكتور بيدخلها بإيده
+        public int PracticeStartYear { get; set; } // سنة بداية الممارسة - سنين الخبرة بتتحسب منها ومش بتتخزن (D-03)
 
         public string Bio { get; set; } = null!; // نبذة عن الدكتور (إجباري)
 

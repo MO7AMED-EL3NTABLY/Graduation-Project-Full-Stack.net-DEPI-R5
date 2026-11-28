@@ -1,0 +1,398 @@
+@*——- Omar Hussein ——-*@
+@* Professional profile (Figma 30): البيانات العادية + المحمية بطلب للأدمن + المستندات + العمليات + الخبرة *@
+@model DoctorProfilePageViewModel
+@{
+    ViewData["Title"] = L["Professional profile"];
+    ViewData["Subtitle"] = L["What patients see about you."];
+    var p = Model.Profile;
+    var isAr = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ar";
+    var modal = Model.OpenModal;
+    var modalId = modal switch
+    {
+        null => null,
+        _ when modal.StartsWith("change-") => "modal-change",
+        _ => "modal-" + modal
+    };
+    var canReplace = p.ApprovalStatus == ApprovalStatus.Approved;
+
+    // الحقول المحمية: (النوع، القيمة الحالية، القيمة الحالية للفورم)
+    var protectedFields = new (ProfileChangeRequestType Type, string Value)[]
+    {
+        (ProfileChangeRequestType.Specialty, AccountsText.SpecialtyName(p.Specialty, isAr)),
+        (ProfileChangeRequestType.LicenseNumber, p.LicenseNumber),
+        (ProfileChangeRequestType.University, p.University),
+        (ProfileChangeRequestType.GraduationYear, p.GraduationYear.ToString())
+    };
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/accounts.css" asp-append-version="true" />
+}
+
+@if (p.ApprovalStatus == ApprovalStatus.Pending)
+{
+    <div class="mc-alert mc-alert--warning mb-4">
+        <i data-lucide="clock" class="mc-icon-sm"></i>
+        <p>@L["Your account is under review. You'll appear in search once an admin approves your documents."]</p>
+    </div>
+}
+else if (p.ApprovalStatus == ApprovalStatus.Rejected)
+{
+    <div class="mc-alert mc-alert--danger mb-4">
+        <i data-lucide="circle-alert" class="mc-icon-sm"></i>
+        <p>@L["Your application was rejected."] <a class="mc-link" href="/Account/Rejected">@L["Upload new documents"]</a></p>
+    </div>
+}
+
+<div class="mc-grid" data-open-modal="@modalId">
+    <div class="mc-stack">
+        @* ===== Basic info ===== *@
+        <section class="mc-card">
+            <h2 class="mc-card__title mb-3">@L["Basic info"]</h2>
+            <form asp-action="BasicInfo" method="post" enctype="multipart/form-data" novalidate>
+                @if (modal is null)
+                {
+                    <div asp-validation-summary="ModelOnly" class="mc-alert mc-alert--danger"></div>
+                }
+                <div class="mc-photo">
+                    @if (p.HasPhoto)
+                    {
+                        <span class="mc-photo__preview has-image mc-avatar--lg" id="photo-preview" style="background-image:url('/files/photo/@p.DoctorId?v=@DateTime.UtcNow.Ticks')"></span>
+                    }
+                    else
+                    {
+                        <span class="mc-photo__preview mc-avatar--lg" id="photo-preview"><span>@AccountsText.Initials(p.FullName)</span></span>
+                    }
+                    <label class="mc-btn mc-btn--outline mc-btn--sm mb-0">
+                        @L["Change photo"]
+                        <input asp-for="BasicInfo.Photo" type="file" class="mc-file-input" accept=".jpg,.jpeg,.png" data-file-label="photo-label" data-preview="photo-preview" />
+                    </label>
+                    <span class="mc-photo__text" id="photo-label"></span>
+                </div>
+
+                <div class="mc-row">
+                    <div class="mc-field">
+                        <label class="mc-label" asp-for="BasicInfo.FullName">@L["Full name"]</label>
+                        <input class="mc-input" asp-for="BasicInfo.FullName" />
+                        <span asp-validation-for="BasicInfo.FullName"></span>
+                    </div>
+                    <div class="mc-field">
+                        <label class="mc-label" asp-for="BasicInfo.PracticeStartYear">@L["Practice start year"]</label>
+                        <input class="mc-input" asp-for="BasicInfo.PracticeStartYear" type="number" min="1950" max="@DateTime.UtcNow.Year" />
+                        <span class="mc-hint">@L["Years of experience"]: @Model.Profile.YearsOfExperience</span>
+                        <span asp-validation-for="BasicInfo.PracticeStartYear"></span>
+                    </div>
+                </div>
+
+                <div class="mc-field">
+                    <label class="mc-label" asp-for="BasicInfo.Bio">@L["Bio"]</label>
+                    <textarea class="mc-input" asp-for="BasicInfo.Bio" rows="3"></textarea>
+                    <span asp-validation-for="BasicInfo.Bio"></span>
+                </div>
+
+                <div class="mc-card__foot">
+                    <button type="submit" class="mc-btn mc-btn--primary">@L["Save changes"]</button>
+                </div>
+            </form>
+        </section>
+
+        @* ===== Protected information ===== *@
+        <section class="mc-card">
+            <div class="mc-setting-row mb-3">
+                <span class="mc-setting-row__icon"><i data-lucide="lock" class="mc-icon-md"></i></span>
+                <div>
+                    <h2 class="mc-card__title">@L["Protected information"]</h2>
+                    <p class="mc-card__subtitle">@L["Changes need admin approval. The approved value stays active until then."]</p>
+                </div>
+            </div>
+
+            @foreach (var field in protectedFields)
+            {
+                var pending = p.PendingChanges.FirstOrDefault(c => c.RequestType == field.Type);
+                var requested = pending is null ? null
+                    : field.Type == ProfileChangeRequestType.Specialty ? AccountsText.SpecialtyName(pending.RequestedSpecialty, isAr) : pending.RequestedValue;
+                <div class="mc-protected @(pending is not null ? "is-pending" : "")">
+                    <div class="mc-protected__body">
+                        <div class="mc-protected__label">@L[AccountsText.ChangeField(field.Type)]</div>
+                        <div class="mc-protected__value">@field.Value</div>
+                        @if (pending is not null)
+                        {
+                            <div class="mc-protected__requested">@L["Requested:"] @requested</div>
+                        }
+                    </div>
+                    @if (pending is not null)
+                    {
+                        <span class="mc-badge mc-badge--warning">@L["Pending"]</span>
+                    }
+                    else
+                    {
+                        <span class="mc-badge mc-badge--success">@L["Approved"]</span>
+                        <button type="button" class="mc-link" data-bs-toggle="modal" data-bs-target="#modal-change"
+                                data-modal-fill='@Json.Serialize(new { type = field.Type.ToString(), title = L[AccountsText.ChangeField(field.Type)].Value, mode = field.Type == ProfileChangeRequestType.Specialty ? "select" : field.Type == ProfileChangeRequestType.GraduationYear ? "year" : "text" })'>
+                            @L["Request change"]
+                        </button>
+                    }
+                </div>
+            }
+        </section>
+
+        @* ===== Work experience ===== *@
+        <section class="mc-card">
+            <div class="mc-card__head">
+                <h2 class="mc-card__title">@L["Work experience"]</h2>
+                <button type="button" class="mc-link" data-bs-toggle="modal" data-bs-target="#modal-experience">@L["Add"]</button>
+            </div>
+            @if (p.WorkExperiences.Count == 0)
+            {
+                <p class="mc-empty">@L["No work experience added yet."]</p>
+            }
+            <ul class="mc-list">
+                @foreach (var w in p.WorkExperiences)
+                {
+                    <li>
+                        <span class="mc-list__icon mc-list__icon--teal"><i data-lucide="briefcase" class="mc-icon-sm"></i></span>
+                        <span class="mc-list__body">
+                            <span class="mc-list__title d-block">@w.Position</span>
+                            <span class="mc-list__text">@w.Organization</span>
+                        </span>
+                        <span class="mc-badge mc-badge--neutral">@w.FromYear – @(w.ToYear?.ToString() ?? L["Present"])</span>
+                        <form asp-action="RemoveExperience" asp-route-id="@w.DoctorWorkExperienceId" method="post" data-confirm="@L["Remove this item?"]">
+                            <button type="submit" class="mc-icon-btn" style="width:32px;height:32px" aria-label="@L["Remove"]"><i data-lucide="trash-2" class="mc-icon-sm"></i></button>
+                        </form>
+                    </li>
+                }
+            </ul>
+        </section>
+    </div>
+
+    <div class="mc-stack">
+        @* ===== Documents ===== *@
+        <section class="mc-card">
+            <div class="mc-card__head">
+                <h2 class="mc-card__title">@L["Documents"]</h2>
+                @if (canReplace)
+                {
+                    <button type="button" class="mc-btn mc-btn--soft mc-btn--sm" data-bs-toggle="modal" data-bs-target="#modal-upload">@L["Upload"]</button>
+                }
+            </div>
+            <ul class="mc-list">
+                @foreach (var d in p.Documents)
+                {
+                    var (iconClass, statusText) = d.ApprovalStatus switch
+                    {
+                        ApprovalStatus.Approved => ("mc-list__icon--success", L["Approved · Current"].Value),
+                        ApprovalStatus.Rejected => ("mc-list__icon--danger", L["Rejected"].Value),
+                        _ => ("mc-list__icon--warning", L["Pending review"].Value)
+                    };
+                    <li>
+                        <span class="mc-list__icon @iconClass"><i data-lucide="file-text" class="mc-icon-sm"></i></span>
+                        <span class="mc-list__body">
+                            <span class="mc-list__title d-block">
+                                <a href="/files/document/@d.DoctorDocumentId" target="_blank" rel="noopener">
+                                    @L[AccountsText.DocumentType(d.DocumentType)]@(d.IsReplacement ? " (" + L["replacement"] + ")" : "")
+                                </a>
+                            </span>
+                            <span class="mc-list__text">@statusText</span>
+                            @if (d.ApprovalStatus == ApprovalStatus.Rejected && !string.IsNullOrEmpty(d.RejectionReason))
+                            {
+                                <span class="mc-list__text d-block text-danger">@d.RejectionReason</span>
+                            }
+                        </span>
+                    </li>
+                }
+            </ul>
+        </section>
+
+        @* ===== Surgeries & procedures ===== *@
+        <section class="mc-card">
+            <div class="mc-card__head">
+                <h2 class="mc-card__title">@L["Surgeries & procedures"]</h2>
+                <button type="button" class="mc-link" data-bs-toggle="modal" data-bs-target="#modal-surgery">@L["Add"]</button>
+            </div>
+            @if (p.Surgeries.Count == 0)
+            {
+                <p class="mc-empty">@L["No procedures added yet."]</p>
+            }
+            <div class="mc-chips">
+                @foreach (var s in p.Surgeries)
+                {
+                    <span class="mc-chip" title="@s.Description">
+                        @s.SurgeryName
+                        <form asp-action="RemoveSurgery" asp-route-id="@s.DoctorSurgeryId" method="post">
+                            <button type="submit" aria-label="@L["Remove"]"><i data-lucide="x" class="mc-icon-sm"></i></button>
+                        </form>
+                    </span>
+                }
+            </div>
+        </section>
+    </div>
+</div>
+
+@* ===== Modals ===== *@
+<div class="modal fade mc-modal" id="modal-change" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" asp-action="RequestChange" method="post" novalidate>
+            <div class="modal-header">
+                <h3 class="modal-title">@L["Request change"] — <span data-fill="title">@(modal?.StartsWith("change-") == true ? L[AccountsText.ChangeField(Model.RequestChange.RequestType)] : "")</span></h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@L["Close"]"></button>
+            </div>
+            <div class="modal-body">
+                @if (modal?.StartsWith("change-") == true) { <div asp-validation-summary="ModelOnly" class="mc-alert mc-alert--danger"></div> }
+                <input type="hidden" name="RequestChange.RequestType" value="@Model.RequestChange.RequestType" data-fill="type" id="change-type" />
+                <p class="mc-hint mb-3">@L["The current value stays active until an admin approves your request."]</p>
+
+                @{ var mode = Model.RequestChange.RequestType switch { ProfileChangeRequestType.Specialty => "select", ProfileChangeRequestType.GraduationYear => "year", _ => "text" }; }
+                @* 3 أشكال للقيمة - واحد بس بيبقى ظاهر ومفعّل حسب الحقل *@
+                <div class="mc-field mb-0" data-fill-show="select" hidden="@(mode != "select")">
+                    <label class="mc-label" for="change-specialty">@L["New specialty"]</label>
+                    <select class="mc-input" id="change-specialty" data-change-input>
+                        <option value="">@L["Select your specialty"]</option>
+                        @foreach (var s in p.ActiveSpecialties.Where(s => s.SpecialtyId != p.Specialty.SpecialtyId))
+                        {
+                            <option value="@s.SpecialtyId">@AccountsText.SpecialtyName(s, isAr)</option>
+                        }
+                    </select>
+                </div>
+                <div class="mc-field mb-0" data-fill-show="year" hidden="@(mode != "year")">
+                    <label class="mc-label" for="change-year">@L["New value"]</label>
+                    <input class="mc-input" id="change-year" type="number" min="1950" max="@DateTime.UtcNow.Year" placeholder="YYYY" data-change-input />
+                </div>
+                <div class="mc-field mb-0" data-fill-show="text" hidden="@(mode != "text")">
+                    <label class="mc-label" for="change-text">@L["New value"]</label>
+                    <input class="mc-input" id="change-text" type="text" maxlength="150" data-change-input />
+                </div>
+                <input type="hidden" name="RequestChange.RequestedValue" id="change-value" />
+                <span asp-validation-for="RequestChange.RequestedValue"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="mc-btn mc-btn--outline" data-bs-dismiss="modal">@L["Cancel"]</button>
+                <button type="submit" class="mc-btn mc-btn--primary">@L["Send request"]</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade mc-modal" id="modal-upload" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" asp-action="UploadDocument" method="post" enctype="multipart/form-data" novalidate>
+            <div class="modal-header">
+                <h3 class="modal-title">@L["Upload document"]</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@L["Close"]"></button>
+            </div>
+            <div class="modal-body">
+                @if (modal == "upload") { <div asp-validation-summary="ModelOnly" class="mc-alert mc-alert--danger"></div> }
+                <div class="mc-field">
+                    <label class="mc-label" asp-for="Upload.DocumentType">@L["Document type"]</label>
+                    <select class="mc-input" asp-for="Upload.DocumentType">
+                        <option value="@DoctorDocumentType.License">@L["Medical license"] (@L["replacement"])</option>
+                        <option value="@DoctorDocumentType.GraduationCertificate">@L["Graduation certificate"] (@L["replacement"])</option>
+                    </select>
+                    <span class="mc-hint">@L["A replacement stays pending until an admin approves it. Your current document stays active meanwhile."]</span>
+                </div>
+                <div class="mc-upload">
+                    <span class="mc-upload__icon"><i data-lucide="upload" class="mc-icon-md"></i></span>
+                    <span class="mc-upload__body">
+                        <span class="mc-upload__title d-block">@L["Choose file"]</span>
+                        <span class="mc-upload__text d-block" id="upload-file-label">@L["PDF, JPG or PNG · up to 10 MB"]</span>
+                    </span>
+                    <label class="mc-btn mc-btn--outline mc-btn--sm mb-0">
+                        @L["Browse"]
+                        <input asp-for="Upload.File" type="file" class="mc-file-input" accept=".pdf,.jpg,.jpeg,.png" data-file-label="upload-file-label" />
+                    </label>
+                </div>
+                <span asp-validation-for="Upload.File"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="mc-btn mc-btn--outline" data-bs-dismiss="modal">@L["Cancel"]</button>
+                <button type="submit" class="mc-btn mc-btn--primary">@L["Upload"]</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade mc-modal" id="modal-surgery" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" asp-action="AddSurgery" method="post" novalidate>
+            <div class="modal-header">
+                <h3 class="modal-title">@L["Add surgery or procedure"]</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@L["Close"]"></button>
+            </div>
+            <div class="modal-body">
+                @if (modal == "surgery") { <div asp-validation-summary="ModelOnly" class="mc-alert mc-alert--danger"></div> }
+                <div class="mc-field">
+                    <label class="mc-label" asp-for="Surgery.SurgeryName">@L["Name"]</label>
+                    <input class="mc-input" asp-for="Surgery.SurgeryName" placeholder="@L["e.g. Cardiac catheterization"]" />
+                    <span asp-validation-for="Surgery.SurgeryName"></span>
+                </div>
+                <div class="mc-field mb-0">
+                    <label class="mc-label" asp-for="Surgery.Description">@L["Description (optional)"]</label>
+                    <textarea class="mc-input" asp-for="Surgery.Description" rows="2"></textarea>
+                    <span asp-validation-for="Surgery.Description"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="mc-btn mc-btn--outline" data-bs-dismiss="modal">@L["Cancel"]</button>
+                <button type="submit" class="mc-btn mc-btn--primary">@L["Add"]</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade mc-modal" id="modal-experience" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" asp-action="AddExperience" method="post" novalidate>
+            <div class="modal-header">
+                <h3 class="modal-title">@L["Add work experience"]</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@L["Close"]"></button>
+            </div>
+            <div class="modal-body">
+                @if (modal == "experience") { <div asp-validation-summary="ModelOnly" class="mc-alert mc-alert--danger"></div> }
+                <div class="mc-field">
+                    <label class="mc-label" asp-for="Experience.Position">@L["Position"]</label>
+                    <input class="mc-input" asp-for="Experience.Position" placeholder="@L["e.g. Consultant Cardiologist"]" />
+                    <span asp-validation-for="Experience.Position"></span>
+                </div>
+                <div class="mc-field">
+                    <label class="mc-label" asp-for="Experience.Organization">@L["Organization"]</label>
+                    <input class="mc-input" asp-for="Experience.Organization" placeholder="@L["e.g. Ain Shams University Hospitals"]" />
+                    <span asp-validation-for="Experience.Organization"></span>
+                </div>
+                <div class="mc-row">
+                    <div class="mc-field">
+                        <label class="mc-label" asp-for="Experience.FromYear">@L["From year"]</label>
+                        <input class="mc-input" asp-for="Experience.FromYear" type="number" min="1950" max="@DateTime.UtcNow.Year" placeholder="YYYY" />
+                        <span asp-validation-for="Experience.FromYear"></span>
+                    </div>
+                    <div class="mc-field">
+                        <label class="mc-label" asp-for="Experience.ToYear">@L["To year"]</label>
+                        <input class="mc-input" asp-for="Experience.ToYear" type="number" min="1950" max="@DateTime.UtcNow.Year" placeholder="YYYY" id="experience-to" />
+                        <span asp-validation-for="Experience.ToYear"></span>
+                    </div>
+                </div>
+                <label class="mc-check"><input asp-for="Experience.CurrentlyWorking" data-disables="experience-to" /> @L["I currently work here"]</label>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="mc-btn mc-btn--outline" data-bs-dismiss="modal">@L["Cancel"]</button>
+                <button type="submit" class="mc-btn mc-btn--primary">@L["Add"]</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="Accounts/_Flash" />
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/accounts.js" asp-append-version="true"></script>
+    <script>
+        // طلب التعديل: القيمة بتيجي من الـ input الظاهر بس
+        (function () {
+            var form = document.querySelector("#modal-change form") || document.querySelector("form[action$='RequestChange']");
+            if (!form) return;
+            form.addEventListener("submit", function () {
+                var visible = Array.from(form.querySelectorAll("[data-fill-show]")).find(function (el) { return !el.hidden; });
+                var input = visible ? visible.querySelector("[data-change-input]") : null;
+                document.getElementById("change-value").value = input ? input.value : "";
+            });
+        })();
+    </script>
+}
+@*————*@

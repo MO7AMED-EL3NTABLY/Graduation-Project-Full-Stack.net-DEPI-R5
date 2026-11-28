@@ -458,4 +458,1045 @@
   <data name="Email us" xml:space="preserve">
     <value>راسلنا</value>
   </data>
+  <!-- —— Omar Hussein —— -->
+  <!-- ===== Module 1: Accounts ===== -->
+  <data name="(valid for 24 hours)." xml:space="preserve">
+    <value>(صالح لمدة 24 ساعة).</value>
+  </data>
+  <data name="5 failed attempts lock the account for 15 minutes." xml:space="preserve">
+    <value>5 محاولات خاطئة تقفل الحساب لمدة 15 دقيقة.</value>
+  </data>
+  <data name="6 digits · valid for 10 minutes" xml:space="preserve">
+    <value>6 أرقام · صالح لمدة 10 دقائق</value>
+  </data>
+  <data name="A rejection reason is required." xml:space="preserve">
+    <value>سبب الرفض مطلوب.</value>
+  </data>
+  <data name="A replacement stays pending until an admin approves it. Your current document stays active meanwhile." xml:space="preserve">
+    <value>المستند البديل يظل قيد المراجعة حتى يعتمده الأدمن، ويظل مستندك الحالي ساريًا خلال ذلك.</value>
+  </data>
+  <data name="Access denied" xml:space="preserve">
+    <value>غير مسموح بالدخول</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>الحساب</value>
+  </data>
+  <data name="Account created" xml:space="preserve">
+    <value>تم إنشاء الحساب</value>
+  </data>
+  <data name="Account not found." xml:space="preserve">
+    <value>الحساب غير موجود.</value>
+  </data>
+  <data name="Account, security and language." xml:space="preserve">
+    <value>الحساب والأمان واللغة.</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>إضافة</value>
+  </data>
+  <data name="Add surgery or procedure" xml:space="preserve">
+    <value>إضافة عملية أو إجراء</value>
+  </data>
+  <data name="Add work experience" xml:space="preserve">
+    <value>إضافة خبرة عمل</value>
+  </data>
+  <data name="Admin review" xml:space="preserve">
+    <value>مراجعة الأدمن</value>
+  </data>
+  <data name="After verifying your email and phone, your account stays Pending until an admin approves your documents." xml:space="preserve">
+    <value>بعد تأكيد بريدك الإلكتروني ورقم موبايلك، يظل حسابك قيد المراجعة حتى يعتمد الأدمن مستنداتك.</value>
+  </data>
+  <data name="Already have an account?" xml:space="preserve">
+    <value>لديك حساب بالفعل؟</value>
+  </data>
+  <data name="An account with this email already exists." xml:space="preserve">
+    <value>يوجد حساب مسجل بهذا البريد الإلكتروني بالفعل.</value>
+  </data>
+  <data name="An admin reviews both documents together to approve your account." xml:space="preserve">
+    <value>يراجع الأدمن المستندين معًا لاعتماد حسابك.</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>اعتماد</value>
+  </data>
+  <data name="Approve doctor" xml:space="preserve">
+    <value>اعتماد الطبيب</value>
+  </data>
+  <data name="Approve replacement" xml:space="preserve">
+    <value>اعتماد المستند البديل</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>معتمد</value>
+  </data>
+  <data name="Approved · Current" xml:space="preserve">
+    <value>معتمد · الحالي</value>
+  </data>
+  <data name="At least 8 characters" xml:space="preserve">
+    <value>8 أحرف على الأقل</value>
+  </data>
+  <data name="At least one number" xml:space="preserve">
+    <value>رقم واحد على الأقل</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>رجوع</value>
+  </data>
+  <data name="Back to home" xml:space="preserve">
+    <value>العودة للرئيسية</value>
+  </data>
+  <data name="Back to log in" xml:space="preserve">
+    <value>العودة لتسجيل الدخول</value>
+  </data>
+  <data name="Basic info" xml:space="preserve">
+    <value>البيانات الأساسية</value>
+  </data>
+  <data name="Bio" xml:space="preserve">
+    <value>نبذة</value>
+  </data>
+  <data name="Bio is required." xml:space="preserve">
+    <value>النبذة مطلوبة.</value>
+  </data>
+  <data name="Bio is too long." xml:space="preserve">
+    <value>النبذة طويلة جدًا.</value>
+  </data>
+  <data name="Book verified doctors, follow your turn and keep your treatment on track." xml:space="preserve">
+    <value>احجز مع أطباء معتمدين، وتابع دورك، والتزم بخطة علاجك.</value>
+  </data>
+  <data name="Both the license and the graduation certificate are needed to decide." xml:space="preserve">
+    <value>يلزم وجود الترخيص وشهادة التخرج معًا لاتخاذ القرار.</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>استعراض</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>إلغاء</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>تغيير</value>
+  </data>
+  <data name="Change email" xml:space="preserve">
+    <value>تغيير البريد الإلكتروني</value>
+  </data>
+  <data name="Change number" xml:space="preserve">
+    <value>تغيير الرقم</value>
+  </data>
+  <data name="Change password" xml:space="preserve">
+    <value>تغيير كلمة المرور</value>
+  </data>
+  <data name="Change phone number" xml:space="preserve">
+    <value>تغيير رقم الموبايل</value>
+  </data>
+  <data name="Change photo" xml:space="preserve">
+    <value>تغيير الصورة</value>
+  </data>
+  <data name="Changes need admin approval. The approved value stays active until then." xml:space="preserve">
+    <value>التعديلات تحتاج موافقة الأدمن، وتظل القيمة المعتمدة سارية حتى ذلك الحين.</value>
+  </data>
+  <data name="Check your email" xml:space="preserve">
+    <value>تحقق من بريدك الإلكتروني</value>
+  </data>
+  <data name="Check your email too — we sent a confirmation link to" xml:space="preserve">
+    <value>تحقق من بريدك الإلكتروني أيضًا — أرسلنا رابط تأكيد إلى</value>
+  </data>
+  <data name="Choose a file to upload." xml:space="preserve">
+    <value>اختر ملفًا لرفعه.</value>
+  </data>
+  <data name="Choose file" xml:space="preserve">
+    <value>اختر ملفًا</value>
+  </data>
+  <data name="Choose how you want to reset it." xml:space="preserve">
+    <value>اختر طريقة استعادة كلمة المرور.</value>
+  </data>
+  <data name="Choose how you want to use MediCare." xml:space="preserve">
+    <value>اختر طريقة استخدامك لميدي كير.</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>إغلاق</value>
+  </data>
+  <data name="Compare documents" xml:space="preserve">
+    <value>مقارنة المستندات</value>
+  </data>
+  <data name="Complete your profile" xml:space="preserve">
+    <value>أكمل ملفك الشخصي</value>
+  </data>
+  <data name="Confirm new password" xml:space="preserve">
+    <value>تأكيد كلمة المرور الجديدة</value>
+  </data>
+  <data name="Confirm password" xml:space="preserve">
+    <value>تأكيد كلمة المرور</value>
+  </data>
+  <data name="Confirm your email" xml:space="preserve">
+    <value>أكّد بريدك الإلكتروني</value>
+  </data>
+  <data name="Confirm your password." xml:space="preserve">
+    <value>أكّد كلمة المرور.</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>متابعة</value>
+  </data>
+  <data name="Create doctor account" xml:space="preserve">
+    <value>إنشاء حساب طبيب</value>
+  </data>
+  <data name="Create patient account" xml:space="preserve">
+    <value>إنشاء حساب مريض</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>الحالي</value>
+  </data>
+  <data name="Current (approved)" xml:space="preserve">
+    <value>الحالي (المعتمد)</value>
+  </data>
+  <data name="Current password" xml:space="preserve">
+    <value>كلمة المرور الحالية</value>
+  </data>
+  <data name="Current password is incorrect." xml:space="preserve">
+    <value>كلمة المرور الحالية غير صحيحة.</value>
+  </data>
+  <data name="Date of birth" xml:space="preserve">
+    <value>تاريخ الميلاد</value>
+  </data>
+  <data name="Decision" xml:space="preserve">
+    <value>القرار</value>
+  </data>
+  <data name="Description (optional)" xml:space="preserve">
+    <value>الوصف (اختياري)</value>
+  </data>
+  <data name="Description is too long." xml:space="preserve">
+    <value>الوصف طويل جدًا.</value>
+  </data>
+  <data name="Digit" xml:space="preserve">
+    <value>رقم</value>
+  </data>
+  <data name="Doctor profile not found." xml:space="preserve">
+    <value>ملف الطبيب غير موجود.</value>
+  </data>
+  <data name="Document not found." xml:space="preserve">
+    <value>المستند غير موجود.</value>
+  </data>
+  <data name="Document type" xml:space="preserve">
+    <value>نوع المستند</value>
+  </data>
+  <data name="Documents" xml:space="preserve">
+    <value>المستندات</value>
+  </data>
+  <data name="Documents submitted" xml:space="preserve">
+    <value>تم رفع المستندات</value>
+  </data>
+  <data name="Documents to review" xml:space="preserve">
+    <value>مستندات للمراجعة</value>
+  </data>
+  <data name="Each protected field is a separate request. The old approved value stays in effect until you approve the new one." xml:space="preserve">
+    <value>كل حقل محمي طلب منفصل، وتظل القيمة المعتمدة القديمة سارية حتى تعتمد الجديدة.</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>البريد الإلكتروني</value>
+  </data>
+  <data name="Email &amp; phone verified" xml:space="preserve">
+    <value>تم تأكيد البريد والموبايل</value>
+  </data>
+  <data name="Email confirmed" xml:space="preserve">
+    <value>تم تأكيد البريد الإلكتروني</value>
+  </data>
+  <data name="Email or phone number" xml:space="preserve">
+    <value>البريد الإلكتروني أو رقم الموبايل</value>
+  </data>
+  <data name="Email reset link" xml:space="preserve">
+    <value>رابط عبر البريد الإلكتروني</value>
+  </data>
+  <data name="Email updated" xml:space="preserve">
+    <value>تم تحديث البريد الإلكتروني</value>
+  </data>
+  <data name="End year must be between the start year and this year." xml:space="preserve">
+    <value>سنة النهاية يجب أن تكون بين سنة البداية والسنة الحالية.</value>
+  </data>
+  <data name="Enter a valid Egyptian mobile number." xml:space="preserve">
+    <value>أدخل رقم موبايل مصري صحيح.</value>
+  </data>
+  <data name="Enter a valid date of birth." xml:space="preserve">
+    <value>أدخل تاريخ ميلاد صحيح.</value>
+  </data>
+  <data name="Enter a valid email address." xml:space="preserve">
+    <value>أدخل بريدًا إلكترونيًا صحيحًا.</value>
+  </data>
+  <data name="Enter a valid graduation year." xml:space="preserve">
+    <value>أدخل سنة تخرج صحيحة.</value>
+  </data>
+  <data name="Enter a valid start year." xml:space="preserve">
+    <value>أدخل سنة بداية صحيحة.</value>
+  </data>
+  <data name="Enter code" xml:space="preserve">
+    <value>إدخال الكود</value>
+  </data>
+  <data name="Enter the 6-digit code." xml:space="preserve">
+    <value>أدخل الكود المكون من 6 أرقام.</value>
+  </data>
+  <data name="Enter the email or phone number of your account." xml:space="preserve">
+    <value>أدخل البريد الإلكتروني أو رقم الموبايل الخاص بحسابك.</value>
+  </data>
+  <data name="Enter the new value." xml:space="preserve">
+    <value>أدخل القيمة الجديدة.</value>
+  </data>
+  <data name="Enter the reset code" xml:space="preserve">
+    <value>أدخل كود الاستعادة</value>
+  </data>
+  <data name="Enter valid years of experience." xml:space="preserve">
+    <value>أدخل عدد سنوات خبرة صحيح.</value>
+  </data>
+  <data name="Enter your current password." xml:space="preserve">
+    <value>أدخل كلمة المرور الحالية.</value>
+  </data>
+  <data name="Enter your email or phone number." xml:space="preserve">
+    <value>أدخل بريدك الإلكتروني أو رقم موبايلك.</value>
+  </data>
+  <data name="Enter your full name" xml:space="preserve">
+    <value>أدخل اسمك الكامل</value>
+  </data>
+  <data name="Enter your password." xml:space="preserve">
+    <value>أدخل كلمة المرور.</value>
+  </data>
+  <data name="Female" xml:space="preserve">
+    <value>أنثى</value>
+  </data>
+  <data name="Field" xml:space="preserve">
+    <value>الحقل</value>
+  </data>
+  <data name="Find doctors, book appointments and follow your treatment." xml:space="preserve">
+    <value>ابحث عن أطباء، واحجز مواعيد، وتابع علاجك.</value>
+  </data>
+  <data name="Forgot password?" xml:space="preserve">
+    <value>نسيت كلمة المرور؟</value>
+  </data>
+  <data name="Forgot your password?" xml:space="preserve">
+    <value>نسيت كلمة المرور؟</value>
+  </data>
+  <data name="From year" xml:space="preserve">
+    <value>من سنة</value>
+  </data>
+  <data name="Full name" xml:space="preserve">
+    <value>الاسم الكامل</value>
+  </data>
+  <data name="Full name is required." xml:space="preserve">
+    <value>الاسم الكامل مطلوب.</value>
+  </data>
+  <data name="Full name is too long." xml:space="preserve">
+    <value>الاسم الكامل طويل جدًا.</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>النوع</value>
+  </data>
+  <data name="Graduation certificate" xml:space="preserve">
+    <value>شهادة التخرج</value>
+  </data>
+  <data name="Graduation certificate is required." xml:space="preserve">
+    <value>شهادة التخرج مطلوبة.</value>
+  </data>
+  <data name="Graduation year" xml:space="preserve">
+    <value>سنة التخرج</value>
+  </data>
+  <data name="Grow your practice." xml:space="preserve">
+    <value>طوّر ممارستك الطبية.</value>
+  </data>
+  <data name="I agree to the Terms and Privacy Policy" xml:space="preserve">
+    <value>أوافق على الشروط وسياسة الخصوصية</value>
+  </data>
+  <data name="I currently work here" xml:space="preserve">
+    <value>أعمل هنا حاليًا</value>
+  </data>
+  <data name="I'm a doctor" xml:space="preserve">
+    <value>أنا طبيب</value>
+  </data>
+  <data name="I'm a patient" xml:space="preserve">
+    <value>أنا مريض</value>
+  </data>
+  <data name="I've confirmed my email" xml:space="preserve">
+    <value>أكّدت بريدي الإلكتروني</value>
+  </data>
+  <data name="In progress" xml:space="preserve">
+    <value>جارٍ الآن</value>
+  </data>
+  <data name="Incorrect code. Please try again." xml:space="preserve">
+    <value>الكود غير صحيح. حاول مرة أخرى.</value>
+  </data>
+  <data name="Incorrect email, phone number or password." xml:space="preserve">
+    <value>البريد الإلكتروني أو رقم الموبايل أو كلمة المرور غير صحيحة.</value>
+  </data>
+  <data name="Initial" xml:space="preserve">
+    <value>المراجعة الأولى</value>
+  </data>
+  <data name="Initial reviews and replacement documents." xml:space="preserve">
+    <value>المراجعات الأولى والمستندات البديلة.</value>
+  </data>
+  <data name="It only takes a minute." xml:space="preserve">
+    <value>لن يستغرق الأمر سوى دقيقة.</value>
+  </data>
+  <data name="Item not found." xml:space="preserve">
+    <value>العنصر غير موجود.</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>اللغة</value>
+  </data>
+  <data name="License number" xml:space="preserve">
+    <value>رقم الترخيص</value>
+  </data>
+  <data name="License number is required." xml:space="preserve">
+    <value>رقم الترخيص مطلوب.</value>
+  </data>
+  <data name="License number is too long." xml:space="preserve">
+    <value>رقم الترخيص طويل جدًا.</value>
+  </data>
+  <data name="License · Graduation certificate" xml:space="preserve">
+    <value>الترخيص · شهادة التخرج</value>
+  </data>
+  <data name="Link expired" xml:space="preserve">
+    <value>انتهت صلاحية الرابط</value>
+  </data>
+  <data name="Log in to manage your appointments and prescriptions." xml:space="preserve">
+    <value>سجّل الدخول لإدارة مواعيدك وروشتاتك.</value>
+  </data>
+  <data name="Log in with another account" xml:space="preserve">
+    <value>الدخول بحساب آخر</value>
+  </data>
+  <data name="Male" xml:space="preserve">
+    <value>ذكر</value>
+  </data>
+  <data name="Manage clinics, shifts and patients. Requires admin approval." xml:space="preserve">
+    <value>أدر العيادات والشيفتات والمرضى. يتطلب موافقة الأدمن.</value>
+  </data>
+  <data name="Manage clinics, shifts, queues and prescriptions in one place." xml:space="preserve">
+    <value>أدر العيادات والشيفتات والأدوار والروشتات في مكان واحد.</value>
+  </data>
+  <data name="Medical license" xml:space="preserve">
+    <value>ترخيص مزاولة المهنة</value>
+  </data>
+  <data name="Medical license is required." xml:space="preserve">
+    <value>ترخيص مزاولة المهنة مطلوب.</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>الاسم</value>
+  </data>
+  <data name="New email" xml:space="preserve">
+    <value>البريد الإلكتروني الجديد</value>
+  </data>
+  <data name="New password" xml:space="preserve">
+    <value>كلمة المرور الجديدة</value>
+  </data>
+  <data name="New phone number" xml:space="preserve">
+    <value>رقم الموبايل الجديد</value>
+  </data>
+  <data name="New specialty" xml:space="preserve">
+    <value>التخصص الجديد</value>
+  </data>
+  <data name="New to MediCare?" xml:space="preserve">
+    <value>جديد على ميدي كير؟</value>
+  </data>
+  <data name="New value" xml:space="preserve">
+    <value>القيمة الجديدة</value>
+  </data>
+  <data name="Next: Documents" xml:space="preserve">
+    <value>التالي: المستندات</value>
+  </data>
+  <data name="Next: Professional details" xml:space="preserve">
+    <value>التالي: البيانات المهنية</value>
+  </data>
+  <data name="No active code. Please request a new one." xml:space="preserve">
+    <value>لا يوجد كود فعّال. اطلب كودًا جديدًا.</value>
+  </data>
+  <data name="No current document." xml:space="preserve">
+    <value>لا يوجد مستند حالي.</value>
+  </data>
+  <data name="No procedures added yet." xml:space="preserve">
+    <value>لم تتم إضافة إجراءات بعد.</value>
+  </data>
+  <data name="No work experience added yet." xml:space="preserve">
+    <value>لم تتم إضافة خبرات عمل بعد.</value>
+  </data>
+  <data name="Not reviewed · extra info" xml:space="preserve">
+    <value>لا يُراجع · معلومات إضافية</value>
+  </data>
+  <data name="Not uploaded." xml:space="preserve">
+    <value>لم يتم الرفع.</value>
+  </data>
+  <data name="Nothing to show here." xml:space="preserve">
+    <value>لا يوجد ما يُعرض هنا.</value>
+  </data>
+  <data name="One decision applies to both documents and the doctor's approval status." xml:space="preserve">
+    <value>قرار واحد يُطبق على المستندين وعلى حالة اعتماد الطبيب.</value>
+  </data>
+  <data name="Only a rejected application can be resubmitted." xml:space="preserve">
+    <value>يمكن إعادة التقديم فقط للطلبات المرفوضة.</value>
+  </data>
+  <data name="Open full size" xml:space="preserve">
+    <value>فتح بالحجم الكامل</value>
+  </data>
+  <data name="Open it to finish creating your account. The link is valid for 24 hours." xml:space="preserve">
+    <value>افتحه لإكمال إنشاء حسابك. الرابط صالح لمدة 24 ساعة.</value>
+  </data>
+  <data name="Optional · not part of the review" xml:space="preserve">
+    <value>اختياري · ليس ضمن المراجعة</value>
+  </data>
+  <data name="Organization" xml:space="preserve">
+    <value>جهة العمل</value>
+  </data>
+  <data name="Organization is required." xml:space="preserve">
+    <value>جهة العمل مطلوبة.</value>
+  </data>
+  <data name="Organization is too long." xml:space="preserve">
+    <value>اسم جهة العمل طويل جدًا.</value>
+  </data>
+  <data name="Other document" xml:space="preserve">
+    <value>مستند آخر</value>
+  </data>
+  <data name="Other documents" xml:space="preserve">
+    <value>مستندات أخرى</value>
+  </data>
+  <data name="Other documents (not reviewed):" xml:space="preserve">
+    <value>مستندات أخرى (لا تُراجع):</value>
+  </data>
+  <data name="PDF, JPG or PNG · required" xml:space="preserve">
+    <value>PDF أو JPG أو PNG · مطلوب</value>
+  </data>
+  <data name="PDF, JPG or PNG · up to 10 MB" xml:space="preserve">
+    <value>PDF أو JPG أو PNG · حتى 10 ميجابايت</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>كلمة المرور</value>
+  </data>
+  <data name="Password must be at least 8 characters with upper and lower case letters and a number." xml:space="preserve">
+    <value>كلمة المرور يجب أن تكون 8 أحرف على الأقل وتحتوي على حروف كبيرة وصغيرة ورقم.</value>
+  </data>
+  <data name="Password updated" xml:space="preserve">
+    <value>تم تحديث كلمة المرور</value>
+  </data>
+  <data name="Passwords don't match." xml:space="preserve">
+    <value>كلمتا المرور غير متطابقتين.</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>قيد المراجعة</value>
+  </data>
+  <data name="Pending review" xml:space="preserve">
+    <value>في انتظار المراجعة</value>
+  </data>
+  <data name="Personal" xml:space="preserve">
+    <value>البيانات الشخصية</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>الموبايل</value>
+  </data>
+  <data name="Phone number" xml:space="preserve">
+    <value>رقم الموبايل</value>
+  </data>
+  <data name="Please choose a file." xml:space="preserve">
+    <value>من فضلك اختر ملفًا.</value>
+  </data>
+  <data name="Please review the reason below and upload a new license and graduation certificate." xml:space="preserve">
+    <value>راجع السبب بالأسفل وارفع ترخيصًا وشهادة تخرج جديدين.</value>
+  </data>
+  <data name="Please wait a minute before requesting a new code." xml:space="preserve">
+    <value>انتظر دقيقة قبل طلب كود جديد.</value>
+  </data>
+  <data name="Position" xml:space="preserve">
+    <value>المسمى الوظيفي</value>
+  </data>
+  <data name="Position is required." xml:space="preserve">
+    <value>المسمى الوظيفي مطلوب.</value>
+  </data>
+  <data name="Position is too long." xml:space="preserve">
+    <value>المسمى الوظيفي طويل جدًا.</value>
+  </data>
+  <data name="Present" xml:space="preserve">
+    <value>حتى الآن</value>
+  </data>
+  <data name="Professional" xml:space="preserve">
+    <value>البيانات المهنية</value>
+  </data>
+  <data name="Professional details" xml:space="preserve">
+    <value>البيانات المهنية</value>
+  </data>
+  <data name="Professional information (specialty, license, bio) is managed in" xml:space="preserve">
+    <value>البيانات المهنية (التخصص، الترخيص، النبذة) تُدار من</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>الملف الشخصي</value>
+  </data>
+  <data name="Profile change requests" xml:space="preserve">
+    <value>طلبات تعديل الملف</value>
+  </data>
+  <data name="Profile photo" xml:space="preserve">
+    <value>الصورة الشخصية</value>
+  </data>
+  <data name="Profile photo is required." xml:space="preserve">
+    <value>الصورة الشخصية مطلوبة.</value>
+  </data>
+  <data name="Protected information" xml:space="preserve">
+    <value>البيانات المحمية</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>السبب</value>
+  </data>
+  <data name="Reason (optional)" xml:space="preserve">
+    <value>السبب (اختياري)</value>
+  </data>
+  <data name="Reason from admin" xml:space="preserve">
+    <value>سبب الرفض من الأدمن</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>رفض</value>
+  </data>
+  <data name="Reject request" xml:space="preserve">
+    <value>رفض الطلب</value>
+  </data>
+  <data name="Rejected" xml:space="preserve">
+    <value>مرفوض</value>
+  </data>
+  <data name="Rejection reason" xml:space="preserve">
+    <value>سبب الرفض</value>
+  </data>
+  <data name="Remember me" xml:space="preserve">
+    <value>تذكرني</value>
+  </data>
+  <data name="Reminders by Email, SMS &amp; in-app" xml:space="preserve">
+    <value>تذكيرات بالبريد والرسائل وداخل التطبيق</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="Remove this item?" xml:space="preserve">
+    <value>حذف هذا العنصر؟</value>
+  </data>
+  <data name="Replacement" xml:space="preserve">
+    <value>البديل</value>
+  </data>
+  <data name="Replacements" xml:space="preserve">
+    <value>المستندات البديلة</value>
+  </data>
+  <data name="Request change" xml:space="preserve">
+    <value>طلب تعديل</value>
+  </data>
+  <data name="Request not found." xml:space="preserve">
+    <value>الطلب غير موجود.</value>
+  </data>
+  <data name="Requested" xml:space="preserve">
+    <value>المطلوب</value>
+  </data>
+  <data name="Requested:" xml:space="preserve">
+    <value>المطلوب:</value>
+  </data>
+  <data name="Required if you reject…" xml:space="preserve">
+    <value>مطلوب في حالة الرفض…</value>
+  </data>
+  <data name="Required · JPG or PNG" xml:space="preserve">
+    <value>مطلوبة · JPG أو PNG</value>
+  </data>
+  <data name="Required · shown to patients" xml:space="preserve">
+    <value>مطلوبة · تظهر للمرضى</value>
+  </data>
+  <data name="Resend code" xml:space="preserve">
+    <value>إعادة إرسال الكود</value>
+  </data>
+  <data name="Resend code in" xml:space="preserve">
+    <value>إعادة الإرسال بعد</value>
+  </data>
+  <data name="Resend link" xml:space="preserve">
+    <value>إعادة إرسال الرابط</value>
+  </data>
+  <data name="Reset password" xml:space="preserve">
+    <value>تعيين كلمة المرور</value>
+  </data>
+  <data name="Reviewed" xml:space="preserve">
+    <value>تاريخ المراجعة</value>
+  </data>
+  <data name="SMS reset code" xml:space="preserve">
+    <value>كود عبر رسالة SMS</value>
+  </data>
+  <data name="SMS reset isn't available for this account." xml:space="preserve">
+    <value>الاستعادة عبر SMS غير متاحة لهذا الحساب.</value>
+  </data>
+  <data name="Save changes" xml:space="preserve">
+    <value>حفظ التغييرات</value>
+  </data>
+  <data name="Security" xml:space="preserve">
+    <value>الأمان</value>
+  </data>
+  <data name="Select a valid specialty." xml:space="preserve">
+    <value>اختر تخصصًا صحيحًا.</value>
+  </data>
+  <data name="Select your gender." xml:space="preserve">
+    <value>اختر النوع.</value>
+  </data>
+  <data name="Select your specialty" xml:space="preserve">
+    <value>اختر تخصصك</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>إرسال</value>
+  </data>
+  <data name="Send code" xml:space="preserve">
+    <value>إرسال الكود</value>
+  </data>
+  <data name="Send link" xml:space="preserve">
+    <value>إرسال الرابط</value>
+  </data>
+  <data name="Send request" xml:space="preserve">
+    <value>إرسال الطلب</value>
+  </data>
+  <data name="Sensitive fields need your approval before they change." xml:space="preserve">
+    <value>الحقول الحساسة تحتاج موافقتك قبل تغييرها.</value>
+  </data>
+  <data name="Set a new password" xml:space="preserve">
+    <value>تعيين كلمة مرور جديدة</value>
+  </data>
+  <data name="Specialty, license number, university and graduation year can only be changed later with admin approval." xml:space="preserve">
+    <value>التخصص ورقم الترخيص والجامعة وسنة التخرج لا يمكن تغييرها لاحقًا إلا بموافقة الأدمن.</value>
+  </data>
+  <data name="Step 1 of 3 — your personal information." xml:space="preserve">
+    <value>الخطوة 1 من 3 — بياناتك الشخصية.</value>
+  </data>
+  <data name="Strong password" xml:space="preserve">
+    <value>كلمة مرور قوية</value>
+  </data>
+  <data name="Submit for review" xml:space="preserve">
+    <value>إرسال للمراجعة</value>
+  </data>
+  <data name="Submitted" xml:space="preserve">
+    <value>تاريخ التقديم</value>
+  </data>
+  <data name="Surgeries &amp; procedures" xml:space="preserve">
+    <value>العمليات والإجراءات</value>
+  </data>
+  <data name="Surgery name is required." xml:space="preserve">
+    <value>اسم العملية مطلوب.</value>
+  </data>
+  <data name="Surgery name is too long." xml:space="preserve">
+    <value>اسم العملية طويل جدًا.</value>
+  </data>
+  <data name="Tell patients about your experience." xml:space="preserve">
+    <value>عرّف المرضى بخبرتك.</value>
+  </data>
+  <data name="Thanks, {0}. Our admin team is reviewing your license and graduation certificate. You'll appear in search once approved." xml:space="preserve">
+    <value>شكرًا يا {0}. فريق الإدارة يراجع ترخيصك وشهادة تخرجك، وستظهر في البحث بمجرد اعتمادك.</value>
+  </data>
+  <data name="The application was rejected." xml:space="preserve">
+    <value>تم رفض الطلب.</value>
+  </data>
+  <data name="The code expires in 10 minutes." xml:space="preserve">
+    <value>الكود صالح لمدة 10 دقائق.</value>
+  </data>
+  <data name="The current document stays approved and active until you approve the replacement. Rejecting keeps the current one — the doctor's approval status doesn't change." xml:space="preserve">
+    <value>يظل المستند الحالي معتمدًا وساريًا حتى تعتمد البديل. الرفض يُبقي الحالي كما هو — ولا تتغير حالة اعتماد الطبيب.</value>
+  </data>
+  <data name="The current value stays active until an admin approves your request." xml:space="preserve">
+    <value>تظل القيمة الحالية سارية حتى يعتمد الأدمن طلبك.</value>
+  </data>
+  <data name="The doctor becomes visible and bookable only when approved and the account is active." xml:space="preserve">
+    <value>يظهر الطبيب ويمكن الحجز معه فقط بعد اعتماده وعندما يكون الحساب مفعّلًا.</value>
+  </data>
+  <data name="The doctor was approved." xml:space="preserve">
+    <value>تم اعتماد الطبيب.</value>
+  </data>
+  <data name="The reason is too long." xml:space="preserve">
+    <value>السبب طويل جدًا.</value>
+  </data>
+  <data name="The replacement was approved." xml:space="preserve">
+    <value>تم اعتماد المستند البديل.</value>
+  </data>
+  <data name="The replacement was rejected." xml:space="preserve">
+    <value>تم رفض المستند البديل.</value>
+  </data>
+  <data name="The request was approved." xml:space="preserve">
+    <value>تم اعتماد الطلب.</value>
+  </data>
+  <data name="The request was rejected." xml:space="preserve">
+    <value>تم رفض الطلب.</value>
+  </data>
+  <data name="The requested specialty is no longer active." xml:space="preserve">
+    <value>التخصص المطلوب لم يعد متاحًا.</value>
+  </data>
+  <data name="The requested value is the same as the current one." xml:space="preserve">
+    <value>القيمة المطلوبة هي نفس القيمة الحالية.</value>
+  </data>
+  <data name="The value is too long." xml:space="preserve">
+    <value>القيمة طويلة جدًا.</value>
+  </data>
+  <data name="There is no phone number waiting for verification." xml:space="preserve">
+    <value>لا يوجد رقم موبايل في انتظار التأكيد.</value>
+  </data>
+  <data name="This account has been deactivated. Please contact support." xml:space="preserve">
+    <value>تم إيقاف هذا الحساب. تواصل مع الدعم.</value>
+  </data>
+  <data name="This account is deactivated." xml:space="preserve">
+    <value>هذا الحساب موقوف.</value>
+  </data>
+  <data name="This application has already been reviewed." xml:space="preserve">
+    <value>تمت مراجعة هذا الطلب بالفعل.</value>
+  </data>
+  <data name="This code has expired. Please request a new one." xml:space="preserve">
+    <value>انتهت صلاحية الكود. اطلب كودًا جديدًا.</value>
+  </data>
+  <data name="This confirmation link is invalid or has expired." xml:space="preserve">
+    <value>رابط التأكيد غير صالح أو انتهت صلاحيته.</value>
+  </data>
+  <data name="This decision applies to the replacement document only." xml:space="preserve">
+    <value>هذا القرار يُطبق على المستند البديل فقط.</value>
+  </data>
+  <data name="This document has already been reviewed." xml:space="preserve">
+    <value>تمت مراجعة هذا المستند بالفعل.</value>
+  </data>
+  <data name="This is already your email." xml:space="preserve">
+    <value>هذا هو بريدك الإلكتروني الحالي بالفعل.</value>
+  </data>
+  <data name="This is already your verified phone number." xml:space="preserve">
+    <value>هذا هو رقمك المؤكد بالفعل.</value>
+  </data>
+  <data name="This phone number is already used by another account." xml:space="preserve">
+    <value>رقم الموبايل هذا مستخدم في حساب آخر.</value>
+  </data>
+  <data name="This request has already been reviewed." xml:space="preserve">
+    <value>تمت مراجعة هذا الطلب بالفعل.</value>
+  </data>
+  <data name="This reset link is invalid or has expired." xml:space="preserve">
+    <value>رابط الاستعادة غير صالح أو انتهت صلاحيته.</value>
+  </data>
+  <data name="To year" xml:space="preserve">
+    <value>إلى سنة</value>
+  </data>
+  <data name="Too many failed attempts. Your account is locked for 15 minutes." xml:space="preserve">
+    <value>محاولات خاطئة كثيرة. تم قفل حسابك لمدة 15 دقيقة.</value>
+  </data>
+  <data name="Too many incorrect attempts. Please request a new code." xml:space="preserve">
+    <value>محاولات خاطئة كثيرة. اطلب كودًا جديدًا.</value>
+  </data>
+  <data name="University" xml:space="preserve">
+    <value>الجامعة</value>
+  </data>
+  <data name="University is required." xml:space="preserve">
+    <value>الجامعة مطلوبة.</value>
+  </data>
+  <data name="University name is too long." xml:space="preserve">
+    <value>اسم الجامعة طويل جدًا.</value>
+  </data>
+  <data name="Unknown request type." xml:space="preserve">
+    <value>نوع الطلب غير معروف.</value>
+  </data>
+  <data name="Update password" xml:space="preserve">
+    <value>تحديث كلمة المرور</value>
+  </data>
+  <data name="Upload" xml:space="preserve">
+    <value>رفع</value>
+  </data>
+  <data name="Upload document" xml:space="preserve">
+    <value>رفع مستند</value>
+  </data>
+  <data name="Upload new documents" xml:space="preserve">
+    <value>رفع مستندات جديدة</value>
+  </data>
+  <data name="Upload new documents from your application status page." xml:space="preserve">
+    <value>ارفع المستندات الجديدة من صفحة حالة طلبك.</value>
+  </data>
+  <data name="Upload your documents" xml:space="preserve">
+    <value>ارفع مستنداتك</value>
+  </data>
+  <data name="Uploaded" xml:space="preserve">
+    <value>تم الرفع</value>
+  </data>
+  <data name="Uploading new documents sends your application back to review (Pending)." xml:space="preserve">
+    <value>رفع مستندات جديدة يعيد طلبك للمراجعة (قيد المراجعة).</value>
+  </data>
+  <data name="Upper &amp; lower case letters" xml:space="preserve">
+    <value>حروف كبيرة وصغيرة</value>
+  </data>
+  <data name="Valid for 1 hour" xml:space="preserve">
+    <value>صالح لمدة ساعة</value>
+  </data>
+  <data name="Verified" xml:space="preserve">
+    <value>مؤكد</value>
+  </data>
+  <data name="Verify" xml:space="preserve">
+    <value>تأكيد</value>
+  </data>
+  <data name="Verify your new number" xml:space="preserve">
+    <value>أكّد رقمك الجديد</value>
+  </data>
+  <data name="Verify your phone" xml:space="preserve">
+    <value>أكّد رقم موبايلك</value>
+  </data>
+  <data name="We couldn't find an account with these details." xml:space="preserve">
+    <value>لم نجد حسابًا بهذه البيانات.</value>
+  </data>
+  <data name="We sent a 6-digit code to" xml:space="preserve">
+    <value>أرسلنا كودًا من 6 أرقام إلى</value>
+  </data>
+  <data name="We sent a code to" xml:space="preserve">
+    <value>أرسلنا كودًا إلى</value>
+  </data>
+  <data name="We sent a code to your new number." xml:space="preserve">
+    <value>أرسلنا كودًا إلى رقمك الجديد.</value>
+  </data>
+  <data name="We sent a confirmation link to" xml:space="preserve">
+    <value>أرسلنا رابط تأكيد إلى</value>
+  </data>
+  <data name="We sent you a link to reset your password. It's valid for 1 hour." xml:space="preserve">
+    <value>أرسلنا لك رابطًا لإعادة تعيين كلمة المرور، وهو صالح لمدة ساعة.</value>
+  </data>
+  <data name="We sent you a new code." xml:space="preserve">
+    <value>أرسلنا لك كودًا جديدًا.</value>
+  </data>
+  <data name="We sent you a new confirmation link." xml:space="preserve">
+    <value>أرسلنا لك رابط تأكيد جديدًا.</value>
+  </data>
+  <data name="We'll send a 6-digit code to the new number. Your current number stays active until you verify." xml:space="preserve">
+    <value>سنرسل كودًا من 6 أرقام إلى الرقم الجديد، ويظل رقمك الحالي ساريًا حتى تؤكد.</value>
+  </data>
+  <data name="We'll send a confirmation link to the new email. Your current email stays active until you confirm." xml:space="preserve">
+    <value>سنرسل رابط تأكيد إلى البريد الجديد، ويظل بريدك الحالي ساريًا حتى تؤكد.</value>
+  </data>
+  <data name="We'll send a new code to this number." xml:space="preserve">
+    <value>سنرسل كودًا جديدًا إلى هذا الرقم.</value>
+  </data>
+  <data name="Weak password" xml:space="preserve">
+    <value>كلمة مرور ضعيفة</value>
+  </data>
+  <data name="Welcome back" xml:space="preserve">
+    <value>مرحبًا بعودتك</value>
+  </data>
+  <data name="What patients see about you." xml:space="preserve">
+    <value>ما يراه المرضى عنك.</value>
+  </data>
+  <data name="Work experience" xml:space="preserve">
+    <value>الخبرات العملية</value>
+  </data>
+  <data name="Write a short professional bio…" xml:space="preserve">
+    <value>اكتب نبذة مهنية قصيرة…</value>
+  </data>
+  <data name="Years of experience" xml:space="preserve">
+    <value>سنوات الخبرة</value>
+  </data>
+  <data name="You already have a pending request for this field." xml:space="preserve">
+    <value>لديك طلب قيد المراجعة لهذا الحقل بالفعل.</value>
+  </data>
+  <data name="You already have a replacement waiting for review." xml:space="preserve">
+    <value>لديك مستند بديل في انتظار المراجعة بالفعل.</value>
+  </data>
+  <data name="You become visible &amp; bookable" xml:space="preserve">
+    <value>تظهر للمرضى ويمكنهم الحجز معك</value>
+  </data>
+  <data name="You can upload up to 5 other documents." xml:space="preserve">
+    <value>يمكنك رفع 5 مستندات أخرى بحد أقصى.</value>
+  </data>
+  <data name="You don't have permission to open this page." xml:space="preserve">
+    <value>ليس لديك صلاحية لفتح هذه الصفحة.</value>
+  </data>
+  <data name="You must agree to the Terms and Privacy Policy." xml:space="preserve">
+    <value>يجب الموافقة على الشروط وسياسة الخصوصية.</value>
+  </data>
+  <data name="Your account is under review" xml:space="preserve">
+    <value>حسابك قيد المراجعة</value>
+  </data>
+  <data name="Your account is under review. You'll appear in search once an admin approves your documents." xml:space="preserve">
+    <value>حسابك قيد المراجعة، وستظهر في البحث بمجرد أن يعتمد الأدمن مستنداتك.</value>
+  </data>
+  <data name="Your application was rejected" xml:space="preserve">
+    <value>تم رفض طلبك</value>
+  </data>
+  <data name="Your application was rejected." xml:space="preserve">
+    <value>تم رفض طلبك.</value>
+  </data>
+  <data name="Your changes were saved." xml:space="preserve">
+    <value>تم حفظ التغييرات.</value>
+  </data>
+  <data name="Your current email stays active until you confirm (link valid 24 h)." xml:space="preserve">
+    <value>يظل بريدك الحالي ساريًا حتى تؤكد (الرابط صالح 24 ساعة).</value>
+  </data>
+  <data name="Your current number stays active until you verify the new one." xml:space="preserve">
+    <value>يظل رقمك الحالي ساريًا حتى تؤكد الرقم الجديد.</value>
+  </data>
+  <data name="Your document was uploaded." xml:space="preserve">
+    <value>تم رفع المستند.</value>
+  </data>
+  <data name="Your documents are already under review." xml:space="preserve">
+    <value>مستنداتك قيد المراجعة بالفعل.</value>
+  </data>
+  <data name="Your documents were sent for review." xml:space="preserve">
+    <value>تم إرسال مستنداتك للمراجعة.</value>
+  </data>
+  <data name="Your email is confirmed. You can log in now." xml:space="preserve">
+    <value>تم تأكيد بريدك الإلكتروني. يمكنك تسجيل الدخول الآن.</value>
+  </data>
+  <data name="Your health, organized." xml:space="preserve">
+    <value>صحتك، منظّمة.</value>
+  </data>
+  <data name="Your new email is confirmed. Use it the next time you log in." xml:space="preserve">
+    <value>تم تأكيد بريدك الجديد. استخدمه في المرة القادمة لتسجيل الدخول.</value>
+  </data>
+  <data name="Your new password must be different from the old one." xml:space="preserve">
+    <value>يجب أن تكون كلمة المرور الجديدة مختلفة عن القديمة.</value>
+  </data>
+  <data name="Your password was changed." xml:space="preserve">
+    <value>تم تغيير كلمة المرور.</value>
+  </data>
+  <data name="Your password was changed. You can log in with the new one." xml:space="preserve">
+    <value>تم تغيير كلمة المرور. يمكنك الدخول بالكلمة الجديدة.</value>
+  </data>
+  <data name="Your phone number is verified." xml:space="preserve">
+    <value>تم تأكيد رقم موبايلك.</value>
+  </data>
+  <data name="Your phone number was updated." xml:space="preserve">
+    <value>تم تحديث رقم موبايلك.</value>
+  </data>
+  <data name="Your records, shared only with your consent" xml:space="preserve">
+    <value>سجلاتك لا تُشارك إلا بموافقتك</value>
+  </data>
+  <data name="Your request was sent to the admin." xml:space="preserve">
+    <value>تم إرسال طلبك للأدمن.</value>
+  </data>
+  <data name="Your reset session has expired. Please start again." xml:space="preserve">
+    <value>انتهت جلسة الاستعادة. ابدأ من جديد.</value>
+  </data>
+  <data name="e.g. 123456" xml:space="preserve">
+    <value>مثال: 123456</value>
+  </data>
+  <data name="e.g. 8" xml:space="preserve">
+    <value>مثال: 8</value>
+  </data>
+  <data name="e.g. Ain Shams University Hospitals" xml:space="preserve">
+    <value>مثال: مستشفيات جامعة عين شمس</value>
+  </data>
+  <data name="e.g. Cairo University" xml:space="preserve">
+    <value>مثال: جامعة القاهرة</value>
+  </data>
+  <data name="e.g. Cardiac catheterization" xml:space="preserve">
+    <value>مثال: قسطرة القلب</value>
+  </data>
+  <data name="e.g. Consultant Cardiologist" xml:space="preserve">
+    <value>مثال: استشاري أمراض القلب</value>
+  </data>
+  <data name="e.g. Dr. Ahmed Mostafa" xml:space="preserve">
+    <value>مثال: د. أحمد مصطفى</value>
+  </data>
+  <data name="replacement" xml:space="preserve">
+    <value>بديل</value>
+  </data>
+  <!-- ———— -->
+  <data name="Incorrect email or password." xml:space="preserve">
+    <value>البريد الإلكتروني أو كلمة المرور غير صحيحة.</value>
+  </data>
+  <data name="Enter your email." xml:space="preserve">
+    <value>أدخل بريدك الإلكتروني.</value>
+  </data>
+  <data name="Enter the email of your account." xml:space="preserve">
+    <value>أدخل البريد الإلكتروني الخاص بحسابك.</value>
+  </data>
+  <data name="Practice start year" xml:space="preserve">
+    <value>سنة بداية الممارسة</value>
+  </data>
+  <data name="e.g. 2016" xml:space="preserve">
+    <value>مثال: 2016</value>
+  </data>
+  <data name="Enter the year you started practicing." xml:space="preserve">
+    <value>أدخل السنة التي بدأت فيها الممارسة.</value>
+  </data>
+  <data name="Enter a valid practice start year." xml:space="preserve">
+    <value>أدخل سنة بداية ممارسة صحيحة.</value>
+  </data>
+  <data name="Practice start year can't be in the future." xml:space="preserve">
+    <value>سنة بداية الممارسة لا يمكن أن تكون في المستقبل.</value>
+  </data>
+  <data name="Practice start year can't be before your graduation year." xml:space="preserve">
+    <value>سنة بداية الممارسة لا يمكن أن تكون قبل سنة التخرج.</value>
+  </data>
 </root>

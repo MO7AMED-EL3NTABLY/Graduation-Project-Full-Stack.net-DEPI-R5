@@ -1,0 +1,28 @@
+@*——- Omar Hussein ——-*@
+@model ResetCodeViewModel
+@{
+    ViewData["Title"] = L["Enter the reset code"];
+}
+<span class="mc-auth__icon"><i data-lucide="phone" class="mc-icon"></i></span>
+<h1 class="mc-auth__title">@L["Enter the reset code"]</h1>
+<p class="mc-auth__subtitle">@L["We sent a 6-digit code to"] <span class="mc-ltr">@Model.MaskedPhone</span></p>
+
+<form asp-action="ResetCode" method="post" id="code-form">
+    <input type="hidden" asp-for="Ticket" />
+    <div asp-validation-summary="All" class="mc-alert mc-alert--danger"></div>
+    <partial name="_OtpInput" />
+</form>
+
+<div class="mc-otp-meta">
+    <span>@L["The code expires in 10 minutes."]</span>
+    <span data-countdown="60" data-countdown-target="resend-btn">@L["Resend code in"] <span class="mc-ltr" data-countdown-time></span></span>
+    <form asp-action="ResendResetCode" method="post">
+        <input type="hidden" name="ticket" value="@Model.Ticket" />
+        <button type="submit" class="mc-link" id="resend-btn">@L["Resend code"]</button>
+    </form>
+</div>
+
+<button type="submit" form="code-form" class="mc-btn mc-btn--primary mc-btn--block mc-btn--lg">@L["Verify"]</button>
+
+<p class="mc-auth__footer"><a class="mc-link" asp-action="Login">@L["Back to log in"]</a></p>
+@*————*@

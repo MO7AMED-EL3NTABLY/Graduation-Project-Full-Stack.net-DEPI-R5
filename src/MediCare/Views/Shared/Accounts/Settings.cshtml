@@ -1,0 +1,261 @@
+@*——- Omar Hussein ——-*@
+@* صفحة Settings المشتركة بين المريض والدكتور (Figma: Patient settings + Doctor settings)
+   تفضيلات الإشعارات جزء Module 6 - مش هنا *@
+@model SettingsPageViewModel
+@{
+    Layout = "_DashboardLayout";
+    ViewData["Title"] = L["Settings"];
+    ViewData["Subtitle"] = L["Account, security and language."];
+    var area = Model.IsDoctor ? "Doctor" : "Patient";
+    var isAr = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ar";
+    var returnUrl = Context.Request.Path.Value;
+    var emailSentTo = TempData["mc-email-sent"] as string;
+    var initials = string.Concat(Model.Account.FullName.Split(' ', StringSplitOptions.RemoveEmptyEntries).Take(2).Select(p => p[0])).ToUpper();
+    var modal = Model.OpenModal;
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/accounts.css" asp-append-version="true" />
+}
+
+<div class="mc-grid" data-open-modal="@(modal is null ? null : "modal-" + modal)">
+    <div class="mc-stack">
+        <section class="mc-card">
+            <div class="mc-card__head">
+                <h2 class="mc-card__title">@(Model.IsDoctor ? L["Account"] : L["Profile"])</h2>
+            </div>
+
+            @if (!Model.IsDoctor)
+            {
+                <form asp-area="Patient" asp-controller="Settings" asp-action="Profile" method="post" enctype="multipart/form-data" id="profile-form" novalidate>
+                    @if (modal is null)
+                    {
+                        <div asp-validation-summary="ModelOnly" class="mc-alert mc-alert--danger"></div>
+                    }
+                    <div class="mc-photo">
+                        @if (Model.Account.HasPhoto)
+                        {
+                            <span class="mc-photo__preview has-image mc-avatar--lg" id="photo-preview" style="background-image:url('/files/photo/@Model.Account.UserId?v=@DateTime.UtcNow.Ticks')"></span>
+                        }
+                        else
+                        {
+                            <span class="mc-photo__preview mc-avatar--lg" id="photo-preview"><span>@initials</span></span>
+                        }
+                        <label class="mc-btn mc-btn--outline mc-btn--sm mb-0">
+                            @L["Change photo"]
+                            <input asp-for="Profile.Photo" type="file" class="mc-file-input" accept=".jpg,.jpeg,.png" data-file-label="photo-label" data-preview="photo-preview" />
+                        </label>
+                        <span class="mc-photo__text" id="photo-label"></span>
+                    </div>
+
+                    <div class="mc-field">
+                        <label class="mc-label" asp-for="Profile.FullName">@L["Full name"]</label>
+                        <input class="mc-input" asp-for="Profile.FullName" autocomplete="name" />
+                        <span asp-validation-for="Profile.FullName"></span>
+                    </div>
+                </form>
+            }
+
+            <div class="mc-field">
+                <span class="mc-label">@L["Email"]</span>
+                <div class="mc-inline-field">
+                    <span class="mc-inline-field__value mc-ltr">@Model.Account.Email</span>
+                    @if (Model.Account.EmailConfirmed)
+                    {
+                        <span class="mc-badge mc-badge--success">@L["Verified"]</span>
+                    }
+                    <button type="button" class="mc-btn mc-btn--sm mc-link" data-bs-toggle="modal" data-bs-target="#modal-email">@L["Change"]</button>
+                </div>
+            </div>
+            @if (!string.IsNullOrEmpty(emailSentTo))
+            {
+                <div class="mc-alert mc-alert--info">
+                    <i data-lucide="mail" class="mc-icon-sm"></i>
+                    <p>@L["We sent a confirmation link to"] <span class="mc-ltr">@emailSentTo</span>. @L["Your current email stays active until you confirm (link valid 24 h)."]</p>
+                </div>
+            }
+
+            <div class="mc-field">
+                <span class="mc-label">@L["Phone"]</span>
+                <div class="mc-inline-field">
+                    <span class="mc-inline-field__value mc-ltr">@Model.Account.PhoneNumber</span>
+                    @if (Model.Account.PhoneConfirmed)
+                    {
+                        <span class="mc-badge mc-badge--success">@L["Verified"]</span>
+                    }
+                    <button type="button" class="mc-btn mc-btn--sm mc-link" data-bs-toggle="modal" data-bs-target="#modal-phone">@L["Change"]</button>
+                </div>
+            </div>
+            @if (Model.PendingPhone is not null)
+            {
+                <div class="mc-alert mc-alert--warning">
+                    <i data-lucide="smartphone" class="mc-icon-sm"></i>
+                    <p>
+                        @L["We sent a code to"] <span class="mc-ltr">@Model.PendingPhone</span>. @L["Your current number stays active until you verify the new one."]
+                        <button type="button" class="mc-link" data-bs-toggle="modal" data-bs-target="#modal-code">@L["Enter code"]</button>
+                    </p>
+                </div>
+            }
+
+            @if (Model.IsDoctor)
+            {
+                <div class="mc-alert mc-alert--neutral">
+                    <i data-lucide="info" class="mc-icon-sm"></i>
+                    <p>@L["Professional information (specialty, license, bio) is managed in"] <a class="mc-link" href="/Doctor/Profile">@L["Professional profile"]</a>.</p>
+                </div>
+            }
+            else
+            {
+                <div class="mc-card__foot">
+                    <button type="submit" form="profile-form" class="mc-btn mc-btn--primary">@L["Save changes"]</button>
+                </div>
+            }
+        </section>
+    </div>
+
+    <div class="mc-stack">
+        <section class="mc-card">
+            <h2 class="mc-card__title mb-3">@L["Security"]</h2>
+            <div class="mc-setting-row">
+                <span class="mc-setting-row__icon"><i data-lucide="lock" class="mc-icon-md"></i></span>
+                <span class="mc-setting-row__body">@L["Change password"]</span>
+                <button type="button" class="mc-btn mc-btn--outline mc-btn--sm" data-bs-toggle="modal" data-bs-target="#modal-password">@L["Change"]</button>
+            </div>
+        </section>
+
+        <section class="mc-card">
+            <h2 class="mc-card__title mb-3">@L["Language"]</h2>
+            <div class="mc-segment mc-segment--block">
+                <a class="@(isAr ? "is-active" : "")" href="/Culture/Set?culture=ar-EG&returnUrl=@Uri.EscapeDataString(returnUrl ?? "/")">العربية</a>
+                <a class="@(!isAr ? "is-active" : "")" href="/Culture/Set?culture=en-US&returnUrl=@Uri.EscapeDataString(returnUrl ?? "/")">English</a>
+            </div>
+        </section>
+    </div>
+</div>
+
+@* ===== Modals ===== *@
+<div class="modal fade mc-modal" id="modal-email" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" asp-area="@area" asp-controller="Settings" asp-action="ChangeEmail" method="post" novalidate>
+            <div class="modal-header">
+                <h3 class="modal-title">@L["Change email"]</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@L["Close"]"></button>
+            </div>
+            <div class="modal-body">
+                @if (modal == "email") { <div asp-validation-summary="ModelOnly" class="mc-alert mc-alert--danger"></div> }
+                <p class="mc-hint mb-3">@L["We'll send a confirmation link to the new email. Your current email stays active until you confirm."]</p>
+                <div class="mc-field mb-0">
+                    <label class="mc-label" asp-for="ChangeEmail.NewEmail">@L["New email"]</label>
+                    <input class="mc-input" asp-for="ChangeEmail.NewEmail" type="email" placeholder="name@example.com" />
+                    <span asp-validation-for="ChangeEmail.NewEmail"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="mc-btn mc-btn--outline" data-bs-dismiss="modal">@L["Cancel"]</button>
+                <button type="submit" class="mc-btn mc-btn--primary">@L["Send link"]</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade mc-modal" id="modal-phone" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" asp-area="@area" asp-controller="Settings" asp-action="ChangePhone" method="post" novalidate>
+            <div class="modal-header">
+                <h3 class="modal-title">@L["Change phone number"]</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@L["Close"]"></button>
+            </div>
+            <div class="modal-body">
+                @if (modal == "phone") { <div asp-validation-summary="ModelOnly" class="mc-alert mc-alert--danger"></div> }
+                <p class="mc-hint mb-3">@L["We'll send a 6-digit code to the new number. Your current number stays active until you verify."]</p>
+                <div class="mc-field mb-0">
+                    <label class="mc-label" asp-for="ChangePhone.NewPhoneNumber">@L["New phone number"]</label>
+                    <input class="mc-input" asp-for="ChangePhone.NewPhoneNumber" type="tel" placeholder="+20 1X XXX XXXX" />
+                    <span asp-validation-for="ChangePhone.NewPhoneNumber"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="mc-btn mc-btn--outline" data-bs-dismiss="modal">@L["Cancel"]</button>
+                <button type="submit" class="mc-btn mc-btn--primary">@L["Send code"]</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (Model.PendingPhone is not null || modal == "code")
+{
+    <div class="modal fade mc-modal" id="modal-code" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">@L["Verify your new number"]</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@L["Close"]"></button>
+                </div>
+                <div class="modal-body">
+                    <form asp-area="@area" asp-controller="Settings" asp-action="VerifyPhone" method="post" id="code-form">
+                        @if (modal == "code") { <div asp-validation-summary="All" class="mc-alert mc-alert--danger"></div> }
+                        <p class="mc-hint mb-3">@L["We sent a 6-digit code to"] <span class="mc-ltr">@Model.PendingPhone</span></p>
+                        <div class="mc-otp" data-otp>
+                            @for (var i = 0; i < 6; i++)
+                            {
+                                <input type="text" inputmode="numeric" maxlength="1" autocomplete="@(i == 0 ? "one-time-code" : "off")" data-otp-digit aria-label="@L["Digit"] @(i + 1)" />
+                            }
+                        </div>
+                        <input type="hidden" name="VerifyCode.Code" data-otp-value />
+                    </form>
+                    <div class="mc-otp-meta mb-0">
+                        <span>@L["The code expires in 10 minutes."]</span>
+                        <span data-countdown="@Model.ResendInSeconds" data-countdown-target="resend-btn">@L["Resend code in"] <span class="mc-ltr" data-countdown-time></span></span>
+                        <form asp-area="@area" asp-controller="Settings" asp-action="ResendPhoneCode" method="post">
+                            <button type="submit" class="mc-link" id="resend-btn">@L["Resend code"]</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="mc-btn mc-btn--outline" data-bs-dismiss="modal">@L["Cancel"]</button>
+                    <button type="submit" form="code-form" class="mc-btn mc-btn--primary">@L["Verify"]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="modal fade mc-modal" id="modal-password" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" asp-area="@area" asp-controller="Settings" asp-action="ChangePassword" method="post" novalidate>
+            <div class="modal-header">
+                <h3 class="modal-title">@L["Change password"]</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@L["Close"]"></button>
+            </div>
+            <div class="modal-body">
+                @if (modal == "password") { <div asp-validation-summary="ModelOnly" class="mc-alert mc-alert--danger"></div> }
+                <div class="mc-field">
+                    <label class="mc-label" asp-for="ChangePassword.CurrentPassword">@L["Current password"]</label>
+                    <input class="mc-input" asp-for="ChangePassword.CurrentPassword" autocomplete="current-password" />
+                    <span asp-validation-for="ChangePassword.CurrentPassword"></span>
+                </div>
+                <div class="mc-field mb-0">
+                    <label class="mc-label" asp-for="ChangePassword.NewPassword">@L["New password"]</label>
+                    <input class="mc-input" asp-for="ChangePassword.NewPassword" autocomplete="new-password" data-strength="pwd-strength" />
+                    <span asp-validation-for="ChangePassword.NewPassword"></span>
+                </div>
+                <partial name="Accounts/_PasswordStrength" model='"pwd-strength"' />
+                <div class="mc-field mb-0">
+                    <label class="mc-label" asp-for="ChangePassword.ConfirmPassword">@L["Confirm new password"]</label>
+                    <input class="mc-input" asp-for="ChangePassword.ConfirmPassword" autocomplete="new-password" />
+                    <span asp-validation-for="ChangePassword.ConfirmPassword"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="mc-btn mc-btn--outline" data-bs-dismiss="modal">@L["Cancel"]</button>
+                <button type="submit" class="mc-btn mc-btn--primary">@L["Update password"]</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="Accounts/_Flash" />
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/accounts.js" asp-append-version="true"></script>
+}
+@*————*@

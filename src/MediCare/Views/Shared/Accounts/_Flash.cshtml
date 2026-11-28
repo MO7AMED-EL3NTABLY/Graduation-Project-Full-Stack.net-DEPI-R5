@@ -1,0 +1,22 @@
+@*——- Omar Hussein ——-*@
+@* رسالة بعد الـ Redirect (TempData) - بتختفي لوحدها *@
+@using MVC.PL.Security
+@{
+    var success = TempData[ControllerExtensions.SuccessKey] as string;
+    var error = TempData[ControllerExtensions.ErrorKey] as string;
+}
+@if (!string.IsNullOrEmpty(success))
+{
+    <div class="mc-flash" role="status">
+        <i data-lucide="circle-check" class="mc-icon"></i><span>@success</span>
+        <button type="button" aria-label="@L["Close"]"><i data-lucide="x" class="mc-icon-sm"></i></button>
+    </div>
+}
+@if (!string.IsNullOrEmpty(error))
+{
+    <div class="mc-flash mc-flash--error" role="alert">
+        <i data-lucide="circle-alert" class="mc-icon"></i><span>@error</span>
+        <button type="button" aria-label="@L["Close"]"><i data-lucide="x" class="mc-icon-sm"></i></button>
+    </div>
+}
+@*————*@

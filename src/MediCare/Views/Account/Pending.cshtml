@@ -1,0 +1,36 @@
+@*——- Omar Hussein ——-*@
+@model DoctorStatusDto
+@{
+    ViewData["Title"] = L["Your account is under review"];
+    ViewData["AuthPanel"] = "doctor";
+}
+<span class="mc-badge mc-badge--warning mb-3">@L["Pending"]</span>
+<h1 class="mc-auth__title">@L["Your account is under review"]</h1>
+<p class="mc-auth__subtitle">@string.Format(L["Thanks, {0}. Our admin team is reviewing your license and graduation certificate. You'll appear in search once approved."], Model.FullName)</p>
+
+<ol class="mc-timeline">
+    <li>
+        <span class="mc-timeline__dot mc-timeline__dot--done"><i data-lucide="check" style="width:12px;height:12px"></i></span>
+        <span><span class="mc-timeline__title d-block">@L["Account created"]</span><span class="mc-timeline__text">@L["Email & phone verified"]</span></span>
+    </li>
+    <li>
+        <span class="mc-timeline__dot mc-timeline__dot--done"><i data-lucide="check" style="width:12px;height:12px"></i></span>
+        <span><span class="mc-timeline__title d-block">@L["Documents submitted"]</span><span class="mc-timeline__text">@L["License · Graduation certificate"]</span></span>
+    </li>
+    <li>
+        <span class="mc-timeline__dot mc-timeline__dot--current"><i data-lucide="clock" style="width:12px;height:12px"></i></span>
+        <span><span class="mc-timeline__title d-block">@L["Admin review"]</span><span class="mc-timeline__text">@L["In progress"]</span></span>
+    </li>
+    <li class="is-todo">
+        <span class="mc-timeline__dot mc-timeline__dot--todo"><i data-lucide="lock" style="width:12px;height:12px"></i></span>
+        <span><span class="mc-timeline__title d-block">@L["Approved"]</span><span class="mc-timeline__text">@L["You become visible & bookable"]</span></span>
+    </li>
+</ol>
+
+<div class="mc-actions">
+    <form method="post" asp-action="Logout">
+        <button type="submit" class="mc-btn mc-btn--outline mc-btn--lg">@L["Log out"]</button>
+    </form>
+    <a class="mc-btn mc-btn--primary mc-btn--lg mc-btn--grow" href="/Doctor/Profile">@L["Complete your profile"]</a>
+</div>
+@*————*@

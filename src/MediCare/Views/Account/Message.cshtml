@@ -1,0 +1,15 @@
+@*——- Omar Hussein ——-*@
+@model AccountMessageViewModel
+@{
+    ViewData["Title"] = Model.Title;
+    if (Model.DoctorPanel) { ViewData["AuthPanel"] = "doctor"; }
+}
+<span class="mc-auth__icon"><i data-lucide="@Model.Icon" class="mc-icon"></i></span>
+<h1 class="mc-auth__title">@Model.Title</h1>
+<p class="mc-auth__subtitle">@Model.Text</p>
+
+@if (!string.IsNullOrEmpty(Model.ActionUrl))
+{
+    <a class="mc-btn mc-btn--primary mc-btn--block mc-btn--lg" href="@Model.ActionUrl">@Model.ActionText</a>
+}
+@*————*@

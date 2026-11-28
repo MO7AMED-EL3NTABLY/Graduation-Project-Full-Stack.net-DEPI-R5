@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
+/*——- Omar Hussein ——-*/
+using MVC.BLL;
+/*————*/
 using MVC.DAL.Dbcontexts;
 using MVC.DAL.Entities.Accounts;
 using MVC.DAL.Seeding;
@@ -16,7 +19,12 @@ namespace MVC.PL
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews()
+                /*——- Omar Hussein ——-*/
+                // رسائل الـ Validation بتترجم من نفس ملف SharedResource
+                .AddDataAnnotationsLocalization(options =>
+                    options.DataAnnotationLocalizerProvider = (_, factory) => factory.Create(typeof(SharedResource)));
+                /*————*/
 
             // الترجمة: النصوص العربية في Resources/SharedResource.ar.resx
             builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
@@ -31,9 +39,21 @@ namespace MVC.PL
                 options.User.RequireUniqueEmail = true;                            // الإيميل مطلوب لكل حساب
                 options.Lockout.MaxFailedAccessAttempts = 5;                       // 5 محاولات دخول غلط ورا بعض
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15); // قفل الحساب 15 دقيقة
+
+                /*——- Omar Hussein ——-*/
+                // شروط الباسورد زي Figma: 8 حروف + Capital و Small + رقم
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = false;
+
+                // لينك Reset الباسورد صالح ساعة (تأكيد الإيميل بيفضل 24 ساعة)
+                options.Tokens.PasswordResetTokenProvider = PasswordResetTokenProvider<ApplicationUser>.ProviderName;
+                /*————*/
             })
             .AddEntityFrameworkStores<MediCareDbContext>()
             .AddDefaultTokenProviders()
+            /*——- Omar Hussein ——-*/
+            .AddTokenProvider<PasswordResetTokenProvider<ApplicationUser>>(PasswordResetTokenProvider<ApplicationUser>.ProviderName)
+            /*————*/
             .AddClaimsPrincipalFactory<AppClaimsPrincipalFactory>(); // بيضيف FullName للـ claims
 
             // صفحات الدخول ومنع الوصول (هتتعمل في Accounts module)
@@ -42,6 +62,12 @@ namespace MVC.PL
                 options.LoginPath = "/Account/Login";
                 options.AccessDeniedPath = "/Account/AccessDenied";
             });
+
+            /*——- Omar Hussein ——-*/
+            // Module 1 (Accounts): الخدمات + الملفات المحمية برة wwwroot + الإيميل والـ SMS (Fake - بيتكتبوا في الـ Log)
+            builder.Services.AddAccountsModule(Path.Combine(builder.Environment.ContentRootPath, "App_Data", "uploads"));
+            builder.Services.AddSingleton<AccountFlowProtector>();
+            /*————*/
 
             var app = builder.Build();
 

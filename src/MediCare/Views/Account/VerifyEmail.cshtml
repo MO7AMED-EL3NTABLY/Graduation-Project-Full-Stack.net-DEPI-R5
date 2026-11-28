@@ -1,0 +1,25 @@
+@*——- Omar Hussein ——-*@
+@model VerificationStatusDto
+@{
+    ViewData["Title"] = L["Confirm your email"];
+}
+<span class="mc-auth__icon"><i data-lucide="mail" class="mc-icon"></i></span>
+<h1 class="mc-auth__title">@L["Confirm your email"]</h1>
+<p class="mc-auth__subtitle">@L["We sent a confirmation link to"] <span class="mc-ltr">@Model.Email</span>. @L["Open it to finish creating your account. The link is valid for 24 hours."]</p>
+
+@if (Model.PhoneConfirmed)
+{
+    <div class="mc-alert mc-alert--success">
+        <i data-lucide="circle-check" class="mc-icon-sm"></i>
+        <p>@L["Your phone number is verified."]</p>
+    </div>
+}
+
+<form asp-action="ResendEmail" method="post">
+    <button type="submit" class="mc-btn mc-btn--outline mc-btn--block mc-btn--lg">@L["Resend link"]</button>
+</form>
+
+<a class="mc-btn mc-btn--primary mc-btn--block mc-btn--lg mt-2" asp-action="VerifyEmail">@L["I've confirmed my email"]</a>
+
+<p class="mc-auth__footer"><a class="mc-link" asp-action="Login">@L["Back to log in"]</a></p>
+@*————*@

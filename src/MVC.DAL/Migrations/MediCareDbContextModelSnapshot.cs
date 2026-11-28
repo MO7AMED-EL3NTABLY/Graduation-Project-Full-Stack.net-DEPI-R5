@@ -203,15 +203,15 @@ namespace MVC.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("PracticeStartYear")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("SpecialtyId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("University")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("YearsOfExperience")
-                        .HasColumnType("int");
 
                     b.HasKey("DoctorId");
 

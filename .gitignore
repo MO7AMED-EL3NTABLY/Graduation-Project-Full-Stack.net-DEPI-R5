@@ -485,3 +485,6 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# MediCare: user uploads (profile photos, doctor documents) - never commit
+**/App_Data/

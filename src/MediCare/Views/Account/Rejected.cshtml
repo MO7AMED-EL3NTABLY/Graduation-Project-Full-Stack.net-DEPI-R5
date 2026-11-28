@@ -1,0 +1,37 @@
+@*——- Omar Hussein ——-*@
+@model ResubmitDocumentsViewModel
+@{
+    ViewData["Title"] = L["Your application was rejected"];
+    ViewData["AuthPanel"] = "doctor";
+}
+<span class="mc-badge mc-badge--danger mb-3">@L["Rejected"]</span>
+<h1 class="mc-auth__title">@L["Your application was rejected"]</h1>
+<p class="mc-auth__subtitle">@L["Please review the reason below and upload a new license and graduation certificate."]</p>
+
+@if (!string.IsNullOrEmpty(Model.Status?.RejectionReason))
+{
+    <div class="mc-reason">
+        <div class="mc-reason__label"><i data-lucide="circle-alert" class="mc-icon-sm"></i>@L["Reason from admin"]</div>
+        <p>@Model.Status.RejectionReason</p>
+    </div>
+}
+
+<form asp-action="Rejected" method="post" enctype="multipart/form-data" id="resubmit-form" novalidate>
+    <div asp-validation-summary="ModelOnly" class="mc-alert mc-alert--danger"></div>
+
+    <partial name="_UploadBox" model='new UploadBoxModel("License", L["Medical license"], L["PDF, JPG or PNG · required"], false, L["Medical license is required."])' />
+    <span asp-validation-for="License" class="d-block mb-2"></span>
+
+    <partial name="_UploadBox" model='new UploadBoxModel("GraduationCertificate", L["Graduation certificate"], L["PDF, JPG or PNG · required"], false, L["Graduation certificate is required."])' />
+    <span asp-validation-for="GraduationCertificate" class="d-block mb-2"></span>
+
+    <p class="mc-hint mb-3">@L["Uploading new documents sends your application back to review (Pending)."]</p>
+</form>
+
+<div class="mc-actions">
+    <form method="post" asp-action="Logout">
+        <button type="submit" class="mc-btn mc-btn--outline mc-btn--lg">@L["Log out"]</button>
+    </form>
+    <button type="submit" form="resubmit-form" class="mc-btn mc-btn--primary mc-btn--lg mc-btn--grow">@L["Upload new documents"]</button>
+</div>
+@*————*@

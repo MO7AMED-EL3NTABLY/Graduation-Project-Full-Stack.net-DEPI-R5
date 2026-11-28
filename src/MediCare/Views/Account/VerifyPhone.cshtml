@@ -1,0 +1,35 @@
+@*——- Omar Hussein ——-*@
+@model VerifyPhoneViewModel
+@{
+    ViewData["Title"] = L["Verify your phone"];
+    var status = Model.Status!;
+}
+<span class="mc-auth__icon"><i data-lucide="phone" class="mc-icon"></i></span>
+<h1 class="mc-auth__title">@L["Verify your phone"]</h1>
+<p class="mc-auth__subtitle">@L["We sent a 6-digit code to"] <span class="mc-ltr">@status.MaskedPhone</span></p>
+
+<form asp-action="VerifyPhone" method="post" id="verify-form">
+    <div asp-validation-summary="All" class="mc-alert mc-alert--danger"></div>
+    <partial name="_OtpInput" />
+</form>
+
+<div class="mc-otp-meta">
+    <span>@L["The code expires in 10 minutes."]</span>
+    <span data-countdown="@status.ResendInSeconds" data-countdown-target="resend-btn">@L["Resend code in"] <span class="mc-ltr" data-countdown-time></span></span>
+    <form asp-action="ResendPhoneCode" method="post">
+        <button type="submit" class="mc-link" id="resend-btn">@L["Resend code"]</button>
+    </form>
+</div>
+
+<button type="submit" form="verify-form" class="mc-btn mc-btn--primary mc-btn--block mc-btn--lg">@L["Verify"]</button>
+
+@if (!status.EmailConfirmed)
+{
+    <div class="mc-alert mc-alert--info mt-3">
+        <i data-lucide="mail" class="mc-icon-sm"></i>
+        <p>@L["Check your email too — we sent a confirmation link to"] <span class="mc-ltr">@status.Email</span> @L["(valid for 24 hours)."]</p>
+    </div>
+}
+
+<p class="mc-auth__footer"><a class="mc-link" asp-action="ChangeNumber">@L["Change number"]</a></p>
+@*————*@

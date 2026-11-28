@@ -1,0 +1,16 @@
+@*——- Omar Hussein ——-*@
+@{
+    ViewData["Title"] = L["Access denied"];
+}
+<span class="mc-auth__icon"><i data-lucide="shield-alert" class="mc-icon"></i></span>
+<h1 class="mc-auth__title">@L["Access denied"]</h1>
+<p class="mc-auth__subtitle">@L["You don't have permission to open this page."]</p>
+
+<a class="mc-btn mc-btn--primary mc-btn--block mc-btn--lg" href="/">@L["Back to home"]</a>
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <form method="post" asp-action="Logout" class="mt-2">
+        <button type="submit" class="mc-btn mc-btn--outline mc-btn--block mc-btn--lg">@L["Log in with another account"]</button>
+    </form>
+}
+@*————*@

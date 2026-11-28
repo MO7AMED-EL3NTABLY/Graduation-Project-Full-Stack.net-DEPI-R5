@@ -1,0 +1,33 @@
+@*——- Omar Hussein ——-*@
+@{
+    ViewData["Title"] = L["Create account"];
+}
+<h1 class="mc-auth__title">@L["Create your account"]</h1>
+<p class="mc-auth__subtitle">@L["Choose how you want to use MediCare."]</p>
+
+<form asp-action="Register" method="post">
+    <label class="mc-choice">
+        <input type="radio" name="role" value="@AppRoles.Patient" checked />
+        <span class="mc-choice__icon"><i data-lucide="user" class="mc-icon"></i></span>
+        <span class="mc-choice__body">
+            <span class="mc-choice__title d-block">@L["I'm a patient"]</span>
+            <span class="mc-choice__text d-block">@L["Find doctors, book appointments and follow your treatment."]</span>
+        </span>
+        <span class="mc-choice__radio"></span>
+    </label>
+
+    <label class="mc-choice">
+        <input type="radio" name="role" value="@AppRoles.Doctor" />
+        <span class="mc-choice__icon"><i data-lucide="stethoscope" class="mc-icon"></i></span>
+        <span class="mc-choice__body">
+            <span class="mc-choice__title d-block">@L["I'm a doctor"]</span>
+            <span class="mc-choice__text d-block">@L["Manage clinics, shifts and patients. Requires admin approval."]</span>
+        </span>
+        <span class="mc-choice__radio"></span>
+    </label>
+
+    <button type="submit" class="mc-btn mc-btn--primary mc-btn--block mc-btn--lg mt-2">@L["Continue"]</button>
+</form>
+
+<p class="mc-auth__footer">@L["Already have an account?"] <a class="mc-link" asp-action="Login">@L["Log in"]</a></p>
+@*————*@

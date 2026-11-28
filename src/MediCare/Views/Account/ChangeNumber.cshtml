@@ -1,0 +1,21 @@
+@*——- Omar Hussein ——-*@
+@model ChangeNumberViewModel
+@{
+    ViewData["Title"] = L["Change number"];
+}
+<span class="mc-auth__icon"><i data-lucide="smartphone" class="mc-icon"></i></span>
+<h1 class="mc-auth__title">@L["Change number"]</h1>
+<p class="mc-auth__subtitle">@L["We'll send a new code to this number."]</p>
+
+<form asp-action="ChangeNumber" method="post" novalidate>
+    <div asp-validation-summary="ModelOnly" class="mc-alert mc-alert--danger"></div>
+    <div class="mc-field">
+        <label class="mc-label" asp-for="PhoneNumber">@L["Phone number"]</label>
+        <input class="mc-input" asp-for="PhoneNumber" type="tel" placeholder="+20 1X XXX XXXX" autocomplete="tel" />
+        <span asp-validation-for="PhoneNumber"></span>
+    </div>
+    <button type="submit" class="mc-btn mc-btn--primary mc-btn--block mc-btn--lg">@L["Send code"]</button>
+</form>
+
+<p class="mc-auth__footer"><a class="mc-link" asp-action="VerifyPhone">@L["Back"]</a></p>
+@*————*@

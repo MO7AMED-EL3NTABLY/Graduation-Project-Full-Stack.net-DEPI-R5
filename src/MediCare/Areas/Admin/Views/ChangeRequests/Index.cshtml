@@ -1,0 +1,116 @@
+@*——- Omar Hussein ——-*@
+@* Profile change requests (Figma 39): كل حقل محمي طلب لوحده، والقيمة القديمة شغالة لحد الموافقة *@
+@model ChangeRequestsPageViewModel
+@{
+    ViewData["Title"] = L["Profile change requests"];
+    ViewData["Subtitle"] = L["Sensitive fields need your approval before they change."];
+    var isAr = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ar";
+    var tabs = new (ApprovalStatus Status, string Text, int Count)[]
+    {
+        (ApprovalStatus.Pending, "Pending", Model.Counts.Pending),
+        (ApprovalStatus.Approved, "Approved", Model.Counts.Approved),
+        (ApprovalStatus.Rejected, "Rejected", Model.Counts.Rejected)
+    };
+    var isPending = Model.Status == ApprovalStatus.Pending;
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/accounts.css" asp-append-version="true" />
+}
+
+<nav class="mc-tabs">
+    @foreach (var t in tabs)
+    {
+        <a asp-action="Index" asp-route-status="@t.Status" class="@(Model.Status == t.Status ? "is-active" : "")">@L[t.Text] (@t.Count)</a>
+    }
+</nav>
+
+@if (Model.Rows.Count == 0)
+{
+    <div class="mc-card mb-3"><p class="mc-empty">@L["Nothing to show here."]</p></div>
+}
+else
+{
+    <div class="mc-table-wrap">
+        <table class="mc-table">
+            <thead>
+                <tr>
+                    <th>@L["Doctor"]</th>
+                    <th>@L["Field"]</th>
+                    <th>@(isPending ? L["Current (approved)"] : L["Current"])</th>
+                    <th>@L["Requested"]</th>
+                    <th>@(isPending ? L["Submitted"] : L["Reviewed"])</th>
+                    @if (isPending) { <th></th> } else { <th>@L["Reason"]</th> }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var r in Model.Rows)
+                {
+                    var current = r.CurrentSpecialty is not null ? AccountsText.SpecialtyName(r.CurrentSpecialty, isAr) : r.CurrentValue;
+                    var requested = r.RequestedSpecialty is not null ? AccountsText.SpecialtyName(r.RequestedSpecialty, isAr) : r.RequestedValue;
+                    var date = isPending ? r.CreatedAtUtc : (r.ReviewedAtUtc ?? r.CreatedAtUtc);
+                    <tr>
+                        <td>
+                            <span class="mc-table__doctor">
+                                <span class="mc-avatar">@AccountsText.Initials(r.DoctorName)</span>
+                                @r.DoctorName
+                            </span>
+                        </td>
+                        <td><strong class="fw-medium">@L[AccountsText.ChangeField(r.RequestType)]</strong></td>
+                        <td class="mc-table__muted">@current</td>
+                        <td class="mc-table__requested"><i data-lucide="@(isAr ? "arrow-left" : "arrow-right")" class="mc-icon-sm"></i> @requested</td>
+                        <td class="mc-table__muted text-nowrap">@AccountsText.Local(date).ToString("d MMM")</td>
+                        @if (isPending)
+                        {
+                            <td>
+                                <div class="mc-table__actions">
+                                    <button type="button" class="mc-btn mc-btn--outline mc-btn--sm text-danger" data-bs-toggle="modal" data-bs-target="#modal-reject"
+                                            data-modal-fill='@Json.Serialize(new { id = r.RequestId, doctor = r.DoctorName })'>@L["Reject"]</button>
+                                    <form asp-action="Approve" asp-route-id="@r.RequestId" method="post">
+                                        <button type="submit" class="mc-btn mc-btn--primary mc-btn--sm">@L["Approve"]</button>
+                                    </form>
+                                </div>
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="mc-table__muted">@(r.ReviewReason ?? "—")</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+<div class="mc-alert mc-alert--info">
+    <i data-lucide="info" class="mc-icon-sm"></i>
+    <p>@L["Each protected field is a separate request. The old approved value stays in effect until you approve the new one."]</p>
+</div>
+
+<div class="modal fade mc-modal" id="modal-reject" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content" asp-action="Reject" method="post">
+            <div class="modal-header">
+                <h3 class="modal-title">@L["Reject request"] — <span data-fill="doctor"></span></h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@L["Close"]"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="id" data-fill="id" />
+                <div class="mc-field mb-0">
+                    <label class="mc-label" for="reject-reason">@L["Reason (optional)"]</label>
+                    <textarea class="mc-input" id="reject-reason" name="reason" rows="3" maxlength="500"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="mc-btn mc-btn--outline" data-bs-dismiss="modal">@L["Cancel"]</button>
+                <button type="submit" class="mc-btn mc-btn--danger-outline">@L["Reject"]</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="Accounts/_Flash" />
+    <script src="~/js/accounts.js" asp-append-version="true"></script>
+}
+@*————*@
