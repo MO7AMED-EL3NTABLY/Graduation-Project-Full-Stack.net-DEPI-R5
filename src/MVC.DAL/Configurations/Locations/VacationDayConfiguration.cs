@@ -9,7 +9,11 @@ namespace MVC.DAL.Configurations.Locations
     {
         public void Configure(EntityTypeBuilder<VacationDay> builder)
         {
-            builder.ToTable("VacationDays");
+            builder.ToTable("VacationDays", t =>
+            {
+                // تاريخ نهاية الإجازة مينفعش يكون قبل تاريخ البداية (الفترة شاملة الطرفين)
+                t.HasCheckConstraint("CK_VacationDays_DateRange", "[EndDate] >= [StartDate]");
+            });
 
             builder.HasKey(v => v.VacationDayId);
 

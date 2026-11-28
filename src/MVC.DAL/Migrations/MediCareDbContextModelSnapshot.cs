@@ -277,6 +277,8 @@ namespace MVC.DAL.Migrations
                     b.ToTable("DoctorProfileChangeRequests", null, t =>
                         {
                             t.HasCheckConstraint("CK_DoctorProfileChangeRequests_RequestedValue", "([RequestType] = 'Specialty' AND [RequestedSpecialtyId] IS NOT NULL AND [RequestedLicenseNumber] IS NULL AND [RequestedUniversity] IS NULL AND [RequestedGraduationYear] IS NULL) OR ([RequestType] = 'LicenseNumber' AND [RequestedSpecialtyId] IS NULL AND [RequestedLicenseNumber] IS NOT NULL AND [RequestedUniversity] IS NULL AND [RequestedGraduationYear] IS NULL) OR ([RequestType] = 'University' AND [RequestedSpecialtyId] IS NULL AND [RequestedLicenseNumber] IS NULL AND [RequestedUniversity] IS NOT NULL AND [RequestedGraduationYear] IS NULL) OR ([RequestType] = 'GraduationYear' AND [RequestedSpecialtyId] IS NULL AND [RequestedLicenseNumber] IS NULL AND [RequestedUniversity] IS NULL AND [RequestedGraduationYear] IS NOT NULL)");
+
+                            t.HasCheckConstraint("CK_DoctorProfileChangeRequests_Review", "([Status] = 'Pending' AND [ReviewedAtUtc] IS NULL AND [ReviewedByAdminId] IS NULL) OR ([Status] IN ('Approved','Rejected') AND [ReviewedAtUtc] IS NOT NULL AND [ReviewedByAdminId] IS NOT NULL)");
                         });
                 });
 
@@ -872,7 +874,10 @@ namespace MVC.DAL.Migrations
                     b.HasIndex("ShiftId", "ExceptionDate")
                         .IsUnique();
 
-                    b.ToTable("ShiftExceptions", (string)null);
+                    b.ToTable("ShiftExceptions", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_ShiftExceptions_Times", "([ExceptionType] = 'Blocked' AND [StartTime] IS NULL AND [EndTime] IS NULL) OR ([ExceptionType] = 'SpecialWorkingHours' AND [StartTime] IS NOT NULL AND [EndTime] IS NOT NULL AND [EndTime] > [StartTime])");
+                        });
                 });
 
             modelBuilder.Entity("MVC.DAL.Entities.Locations.VacationDay", b =>
@@ -895,7 +900,10 @@ namespace MVC.DAL.Migrations
 
                     b.HasIndex("DoctorId");
 
-                    b.ToTable("VacationDays", (string)null);
+                    b.ToTable("VacationDays", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_VacationDays_DateRange", "[EndDate] >= [StartDate]");
+                        });
                 });
 
             modelBuilder.Entity("MVC.DAL.Entities.Notifications.Notification", b =>

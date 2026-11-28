@@ -2,7 +2,7 @@
 
 namespace MVC.DAL.Entities.Accounts
 {
-    // مستندات الدكتور (رخصة / شهادة تخرج / غيره) - جدول DoctorDocuments
+    // مستندات الدكتور (رخصة مزاولة المهنة / شهادة التخرج) - جدول DoctorDocuments
     public class DoctorDocument
     {
         public Guid DoctorDocumentId { get; set; }
@@ -19,7 +19,7 @@ namespace MVC.DAL.Entities.Accounts
 
         public long FileSizeBytes { get; set; } // حجم الملف بالبايت
 
-        public ApprovalStatus ApprovalStatus { get; set; } // حالة المراجعة (Other بيفضل Pending)
+        public ApprovalStatus ApprovalStatus { get; set; } // حالة مراجعة الأدمن
 
         public bool IsCurrent { get; set; } // المستند الحالي المعتمد (1 لما يكون Approved بس)
 

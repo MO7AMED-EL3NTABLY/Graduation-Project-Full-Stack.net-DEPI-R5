@@ -9,7 +9,13 @@ namespace MVC.DAL.Configurations.Locations
     {
         public void Configure(EntityTypeBuilder<ShiftException> builder)
         {
-            builder.ToTable("ShiftExceptions");
+            builder.ToTable("ShiftExceptions", t =>
+            {
+                // Blocked => من غير أوقات - SpecialWorkingHours => الوقتين مطلوبين والنهاية بعد البداية
+                t.HasCheckConstraint("CK_ShiftExceptions_Times",
+                    "([ExceptionType] = 'Blocked' AND [StartTime] IS NULL AND [EndTime] IS NULL) OR " +
+                    "([ExceptionType] = 'SpecialWorkingHours' AND [StartTime] IS NOT NULL AND [EndTime] IS NOT NULL AND [EndTime] > [StartTime])");
+            });
 
             builder.HasKey(e => e.ShiftExceptionId);
 

@@ -17,6 +17,11 @@ namespace MVC.DAL.Configurations.Accounts
                     "([RequestType] = 'LicenseNumber' AND [RequestedSpecialtyId] IS NULL AND [RequestedLicenseNumber] IS NOT NULL AND [RequestedUniversity] IS NULL AND [RequestedGraduationYear] IS NULL) OR " +
                     "([RequestType] = 'University' AND [RequestedSpecialtyId] IS NULL AND [RequestedLicenseNumber] IS NULL AND [RequestedUniversity] IS NOT NULL AND [RequestedGraduationYear] IS NULL) OR " +
                     "([RequestType] = 'GraduationYear' AND [RequestedSpecialtyId] IS NULL AND [RequestedLicenseNumber] IS NULL AND [RequestedUniversity] IS NULL AND [RequestedGraduationYear] IS NOT NULL)");
+
+                // Pending: مفيش بيانات مراجعة / Approved أو Rejected: وقت المراجعة والأدمن الاتنين متملين
+                t.HasCheckConstraint("CK_DoctorProfileChangeRequests_Review",
+                    "([Status] = 'Pending' AND [ReviewedAtUtc] IS NULL AND [ReviewedByAdminId] IS NULL) OR " +
+                    "([Status] IN ('Approved','Rejected') AND [ReviewedAtUtc] IS NOT NULL AND [ReviewedByAdminId] IS NOT NULL)");
             });
 
             builder.HasKey(r => r.DoctorProfileChangeRequestId);
