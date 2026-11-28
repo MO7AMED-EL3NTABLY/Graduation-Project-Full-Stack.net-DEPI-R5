@@ -34,5 +34,23 @@ namespace MVC.BLL.Interfaces
             Guid notificationId,
             string userId,
             CancellationToken cancellationToken = default);
+
+        // تعليم كل الإشعارات غير المقروءة كمقروءة
+        Task MarkAllAsReadAsync(
+            string userId,
+            CancellationToken cancellationToken = default);
+
+        // قراءة إعدادات الإشعارات (بالقيم الافتراضية لو المستخدم لسه مغيرهاش)
+        Task<IReadOnlyList<NotificationPreferenceDto>> GetUserPreferencesAsync(
+            string userId,
+            bool isDoctor,
+            CancellationToken cancellationToken = default);
+
+        // حفظ تعديلات المستخدم لإعدادات الإشعارات
+        Task UpdateUserPreferencesAsync(
+            string userId,
+            bool isDoctor,
+            IReadOnlyList<NotificationPreferenceDto> preferences,
+            CancellationToken cancellationToken = default);
     }
 }

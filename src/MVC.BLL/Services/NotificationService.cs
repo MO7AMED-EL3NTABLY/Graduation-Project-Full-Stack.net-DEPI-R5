@@ -158,5 +158,114 @@ namespace MVC.BLL.Services
 
             return true;
         }
+    
+
+    // الأحداث المسموحة للدكتور حسب الـ Schema (المريض بيستلم الـ 8 أحداث)
+        private static readonly NotificationEventType[] DoctorEventTypes =
+        {
+            NotificationEventType.AppointmentConfirmed,
+            NotificationEventType.AppointmentCancelled,
+            NotificationEventType.ChatMessageReceived,
+            NotificationEventType.SupportMessageReceived
+        };
+
+        public async Task MarkAllAsReadAsync(
+            string userId,
+            CancellationToken cancellationToken = default)
+        {
+            var unread = await _dbContext.Notifications
+                .Where(n => n.UserId == userId && n.InAppEnabled && !n.IsRead)
+                .ToListAsync(cancellationToken);
+
+            if (unread.Count == 0)
+                return;
+
+            foreach (var item in unread)
+                item.IsRead = true;
+
+            await _dbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<IReadOnlyList<NotificationPreferenceDto>> GetUserPreferencesAsync(
+            string userId,
+            bool isDoctor,
+            CancellationToken cancellationToken = default)
+        {
+            var allowedEvents = isDoctor
+                ? DoctorEventTypes
+                : Enum.GetValues<NotificationEventType>();
+
+            var saved = await _dbContext.NotificationPreferences
+                .AsNoTracking()
+                .Where(p => p.UserId == userId)
+                .ToListAsync(cancellationToken);
+
+            var result = new List<NotificationPreferenceDto>();
+
+            foreach (var eventType in allowedEvents)
+            {
+                var forEvent = saved.Where(p => p.EventType == eventType).ToList();
+
+                result.Add(new NotificationPreferenceDto
+                {
+                    EventType = eventType,
+                    EmailEnabled = forEvent.FirstOrDefault(p => p.Channel == NotificationChannel.Email)?.IsEnabled ?? true,
+                    InAppEnabled = forEvent.FirstOrDefault(p => p.Channel == NotificationChannel.InApp)?.IsEnabled ?? true,
+                    SmsEnabled = forEvent.FirstOrDefault(p => p.Channel == NotificationChannel.SMS)?.IsEnabled ?? false
+                });
+            }
+
+            return result;
+        }
+
+        public async Task UpdateUserPreferencesAsync(
+            string userId,
+            bool isDoctor,
+            IReadOnlyList<NotificationPreferenceDto> preferences,
+            CancellationToken cancellationToken = default)
+        {
+            var allowedSet = isDoctor
+                ? DoctorEventTypes.ToHashSet()
+                : Enum.GetValues<NotificationEventType>().ToHashSet();
+
+            var existing = await _dbContext.NotificationPreferences
+                .Where(p => p.UserId == userId)
+                .ToListAsync(cancellationToken);
+
+            foreach (var pref in preferences.Where(p => allowedSet.Contains(p.EventType)))
+            {
+                UpsertChannel(existing, userId, pref.EventType, NotificationChannel.Email, pref.EmailEnabled);
+                UpsertChannel(existing, userId, pref.EventType, NotificationChannel.InApp, pref.InAppEnabled);
+                UpsertChannel(existing, userId, pref.EventType, NotificationChannel.SMS, pref.SmsEnabled);
+            }
+
+            await _dbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        private void UpsertChannel(
+            List<NotificationPreference> existing,
+            string userId,
+            NotificationEventType eventType,
+            NotificationChannel channel,
+            bool isEnabled)
+        {
+            var row = existing.FirstOrDefault(p => p.EventType == eventType && p.Channel == channel);
+            if (row is null)
+            {
+                row = new NotificationPreference
+                {
+                    UserId = userId,
+                    EventType = eventType,
+                    Channel = channel,
+                    IsEnabled = isEnabled
+                };
+                _dbContext.NotificationPreferences.Add(row);
+                existing.Add(row);
+            }
+            else
+            {
+                row.IsEnabled = isEnabled;
+            }
+        }
     }
 }

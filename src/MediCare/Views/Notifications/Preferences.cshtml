@@ -1,0 +1,53 @@
+﻿@model MVC.PL.ViewModels.Notifications.NotificationPreferencesViewModel
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    ViewData["Title"] = L["Notification settings"];
+    ViewData["Subtitle"] = L["Choose how you want to be notified"];
+}
+
+@if (TempData["SuccessMessage"] is string msg)
+{
+    <div class="alert alert-success">@L[msg]</div>
+}
+
+<form method="post" action="/@Model.CurrentArea/Notifications/Preferences">
+    @Html.AntiForgeryToken()
+
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>@L["Event"]</th>
+                    <th class="text-center">@L["In-App"]</th>
+                    <th class="text-center">@L["Email"]</th>
+                    <th class="text-center">@L["SMS"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Items.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            <input type="hidden" name="Items[@i].EventType" value="@Model.Items[i].EventType" />
+                            @L[Model.Items[i].EventType.ToString()]
+                        </td>
+                        <td class="text-center">
+                            <input class="form-check-input" type="checkbox" asp-for="Items[i].InAppEnabled" />
+                        </td>
+                        <td class="text-center">
+                            <input class="form-check-input" type="checkbox" asp-for="Items[i].EmailEnabled" />
+                        </td>
+                        <td class="text-center">
+                            <input class="form-check-input" type="checkbox" asp-for="Items[i].SmsEnabled" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex gap-2 mt-3">
+        <button type="submit" class="btn btn-primary">@L["Save changes"]</button>
+        <a href="/@Model.CurrentArea/Notifications" class="btn btn-outline-secondary">@L["Back to notifications"]</a>
+    </div>
+</form>
