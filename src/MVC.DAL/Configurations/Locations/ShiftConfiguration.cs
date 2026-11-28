@@ -4,14 +4,14 @@ using MVC.DAL.Entities.Locations;
 
 namespace MVC.DAL.Configurations.Locations
 {
-    // جدول Shifts
+    // Shifts table
     public class ShiftConfiguration : IEntityTypeConfiguration<Shift>
     {
         public void Configure(EntityTypeBuilder<Shift> builder)
         {
             builder.ToTable("Shifts", t =>
             {
-                // مفيش شيفت بيعدي نص الليل
+                // No shift crosses midnight
                 t.HasCheckConstraint("CK_Shifts_EndAfterStart", "[EndTime] > [StartTime]");
             });
 

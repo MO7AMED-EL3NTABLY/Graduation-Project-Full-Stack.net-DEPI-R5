@@ -1,12 +1,11 @@
-/*——- Omar Hussein ——-*/
 using System.Text.RegularExpressions;
 
 namespace MVC.BLL.Common
 {
-    // توحيد أرقام الموبايل المصرية وإخفاء جزء من الإيميل والرقم في الشاشات
+    // Normalizes Egyptian mobile numbers and masks part of the email and number on screens
     public static class ContactFormat
     {
-        // يقبل: 01012345678 / +201012345678 / 00201012345678 / 201012345678
+        // Accepts: 01012345678 / +201012345678 / 00201012345678 / 201012345678
         private static readonly Regex EgyptMobile = new(@"^(?:\+20|0020|20|0)?(1[0125]\d{8})$", RegexOptions.Compiled);
 
         public static bool TryNormalizePhone(string? input, out string normalized)
@@ -20,7 +19,7 @@ namespace MVC.BLL.Common
             if (!match.Success)
                 return false;
 
-            normalized = "+20" + match.Groups[1].Value; // دايماً بنخزن +20XXXXXXXXXX
+            normalized = "+20" + match.Groups[1].Value; // Always stored as +20XXXXXXXXXX
             return true;
         }
 
@@ -54,4 +53,3 @@ namespace MVC.BLL.Common
         public static bool LooksLikeEmail(string input) => input.Contains('@');
     }
 }
-/*————*/

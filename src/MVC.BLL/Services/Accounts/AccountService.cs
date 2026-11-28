@@ -1,4 +1,3 @@
-/*——- Omar Hussein ——-*/
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MVC.BLL.Common;
@@ -11,7 +10,7 @@ using MVC.DAL.Enums;
 
 namespace MVC.BLL.Services.Accounts
 {
-    // التسجيل وتسجيل الدخول وتأكيد الإيميل وحالة موافقة الدكتور
+    // Registration, sign-in, email confirmation and doctor approval status
     public class AccountService : IAccountService
     {
         public const string PhotosFolder = "profile-photos";
@@ -66,7 +65,7 @@ namespace MVC.BLL.Services.Accounts
                 var photoKey = await _files.SaveAsync(dto.Photo!, PhotosFolder);
                 savedKeys.Add(photoKey);
 
-                // الحساب والـ Role والبروفايل في transaction واحدة - يا الكل يتحفظ يا ولا حاجة
+                // The account, role and profile in one transaction - everything is saved or nothing is
                 await using var transaction = await _db.Database.BeginTransactionAsync();
 
                 var user = NewUser(dto.FullName, dto.Email, phone, photoKey);
@@ -82,7 +81,7 @@ namespace MVC.BLL.Services.Accounts
                     PatientId = user.Id,
                     DateOfBirth = dto.DateOfBirth,
                     Gender = dto.Gender,
-                    ShareMedicalProfile = false // المشاركة بتبدأ مقفولة
+                    ShareMedicalProfile = false // Sharing starts turned off
                 });
 
                 await _db.SaveChangesAsync();
@@ -154,7 +153,7 @@ namespace MVC.BLL.Services.Accounts
                     GraduationYear = dto.GraduationYear,
                     PracticeStartYear = dto.PracticeStartYear,
                     Bio = dto.Bio.Trim(),
-                    ApprovalStatus = ApprovalStatus.Pending // مش بيظهر في البحث لحد موافقة الأدمن
+                    ApprovalStatus = ApprovalStatus.Pending // Not shown in search until the admin approves
                 });
 
                 var now = DateTimeOffset.UtcNow;
@@ -177,7 +176,7 @@ namespace MVC.BLL.Services.Accounts
 
         // ---------------- Login & verification ----------------
 
-        // الدخول بالإيميل بس (Spec §5.1: email/password form)
+        // Sign-in by email only (Spec §5.1: email/password form)
         public async Task<string?> FindUserIdByEmailAsync(string email)
         {
             var input = (email ?? string.Empty).Trim();
@@ -246,15 +245,17 @@ namespace MVC.BLL.Services.Accounts
             if (user.EmailConfirmed)
                 return ServiceResult.Success();
 
-            // Identity token - صالح 24 ساعة (الافتراضي بتاع DataProtectorTokenProvider)
+            // Identity token - valid for 24 hours (DataProtectorTokenProvider default)
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var link = emailLink(user.Id, token);
-            await _email.SendAsync(user.Email!, "Confirm your MediCare email",
+            var sent = await _email.SendAsync(user.Email!, "Confirm your MediCare email",
                 EmailTemplates.ActionEmail(user.FullName,
                     "Confirm your email",
                     "Thanks for joining MediCare. Please confirm your email address to finish setting up your account.",
                     "Confirm email", link,
                     "This link is valid for 24 hours."));
+            if (!sent)
+                return ServiceResult.Fail("We couldn't send the email. Please try again later.");
             return ServiceResult.Success();
         }
 
@@ -323,7 +324,7 @@ namespace MVC.BLL.Services.Accounts
                 var certificateKey = await SaveTracked(graduationCertificate!, savedKeys);
                 var now = DateTimeOffset.UtcNow;
 
-                // المستندات المرفوضة بتفضل بسببها، والجداد بيرجّعوا الدكتور Pending لمراجعة أولى جديدة
+                // The rejected documents keep their reason, and the new ones send the doctor back to Pending for a new initial review
                 await using var transaction = await _db.Database.BeginTransactionAsync();
                 _db.DoctorDocuments.Add(NewPendingDocument(doctorId, DoctorDocumentType.License, license!, licenseKey, now));
                 _db.DoctorDocuments.Add(NewPendingDocument(doctorId, DoctorDocumentType.GraduationCertificate, graduationCertificate!, certificateKey, now));
@@ -342,7 +343,7 @@ namespace MVC.BLL.Services.Accounts
 
         // ---------------- Helpers ----------------
 
-        // بيتأكد من الاسم والإيميل والموبايل، وبيرجع الرقم بعد التوحيد
+        // Validates the name, email and phone, and returns the normalized number
         private async Task<string> ValidateNewAccountAsync(string fullName, string email, string phoneNumber, List<string> errors)
         {
             if (string.IsNullOrWhiteSpace(fullName))
@@ -379,7 +380,7 @@ namespace MVC.BLL.Services.Accounts
                 errors.Add("Bio is required.");
         }
 
-        // D-03: سنة بداية الممارسة: مش قبل سنة التخرج ومش بعد السنة الحالية
+        // D-03: practice start year: not before the graduation year and not after the current year
         internal static string? ValidatePracticeStartYear(int practiceStartYear, int graduationYear)
         {
             if (practiceStartYear > DateTime.UtcNow.Year)
@@ -394,7 +395,7 @@ namespace MVC.BLL.Services.Accounts
             UserName = email.Trim(),
             Email = email.Trim(),
             FullName = fullName.Trim(),
-            PhoneNumber = phone,            // بيتأكد بالكود بعد التسجيل
+            PhoneNumber = phone,            // Verified with the code after registration
             PhoneNumberConfirmed = false,
             ProfilePhotoStorageKey = photoKey,
             IsActive = true
@@ -435,6 +436,8 @@ namespace MVC.BLL.Services.Accounts
 
         private async Task SendVerificationMessagesAsync(string userId, string phone, AccountLinkBuilder emailLink)
         {
+            // The account is already saved, so registration stays successful even if the email failed:
+            // the failure is logged by the sender and the user can press Resend on the Verify Email page
             await SendEmailConfirmationAsync(userId, emailLink);
             await _phoneVerification.SendCodeAsync(userId, phone);
         }
@@ -452,4 +455,3 @@ namespace MVC.BLL.Services.Accounts
         }
     }
 }
-/*————*/

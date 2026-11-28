@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MVC.DAL.Configurations.Accounts
 {
-    // جدول AspNetUserRoles - Unique index على UserId عشان كل حساب ياخد role واحد بالكتير
+    // AspNetUserRoles table - unique index on UserId so each account gets at most one role
     public class IdentityUserRoleConfiguration : IEntityTypeConfiguration<IdentityUserRole<string>>
     {
         public void Configure(EntityTypeBuilder<IdentityUserRole<string>> builder)

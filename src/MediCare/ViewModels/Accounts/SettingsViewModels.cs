@@ -1,17 +1,16 @@
-/*——- Omar Hussein ——-*/
 using System.ComponentModel.DataAnnotations;
 using MVC.BLL.DTOs.Accounts;
 using MVC.DAL.Enums;
 
 namespace MVC.PL.ViewModels.Accounts
 {
-    // صفحة Settings (المريض والدكتور) - الفورمز منفصلة عشان كل واحدة ليها validation
+    // Settings page (patient and doctor) - separate forms so each one has its own validation
     public class SettingsPageViewModel
     {
         public AccountSettingsDto Account { get; set; } = new();
         public bool IsDoctor { get; set; }
 
-        // رقم جديد مستني الكود (لو فيه)
+        // A new number waiting for the code (if any)
         public string? PendingPhone { get; set; }
         public int ResendInSeconds { get; set; }
 
@@ -170,4 +169,3 @@ namespace MVC.PL.ViewModels.Accounts
         public List<ChangeRequestRowDto> Rows { get; set; } = new();
     }
 }
-/*————*/

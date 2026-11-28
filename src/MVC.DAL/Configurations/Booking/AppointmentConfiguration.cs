@@ -4,14 +4,14 @@ using MVC.DAL.Entities.Booking;
 
 namespace MVC.DAL.Configurations.Booking
 {
-    // جدول Appointments
+    // Appointments table
     public class AppointmentConfiguration : IEntityTypeConfiguration<Appointment>
     {
         public void Configure(EntityTypeBuilder<Appointment> builder)
         {
             builder.ToTable("Appointments", t =>
             {
-                // XOR: واحد بس من ShiftId و AdditionalShiftId
+                // XOR: exactly one of ShiftId and AdditionalShiftId
                 t.HasCheckConstraint("CK_Appointments_ShiftTarget",
                     "([ShiftId] IS NOT NULL AND [AdditionalShiftId] IS NULL) OR ([ShiftId] IS NULL AND [AdditionalShiftId] IS NOT NULL)");
             });
@@ -43,7 +43,7 @@ namespace MVC.DAL.Configurations.Booking
                    .HasForeignKey(a => a.CancelledByUserId)
                    .OnDelete(DeleteBehavior.Restrict);
 
-            // مفيش حجزين مش ملغيين لنفس المريض والدكتور في نفس اليوم
+            // No two non-cancelled appointments for the same patient and doctor on the same date
             builder.HasIndex(a => new { a.PatientId, a.DoctorId, a.AppointmentDate }, "UX_Appointments_Patient_Doctor_Date")
                    .IsUnique()
                    .HasFilter("[Status] <> 'Cancelled'");

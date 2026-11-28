@@ -1,9 +1,9 @@
 ﻿namespace MVC.DAL.Enums
 {
-    // نوع الشخص (المريض) اللي بيسجل على المنصة - PatientProfiles.Gender
+    // Gender of the person (patient) registering on the platform - PatientProfiles.Gender
     public enum Gender
     {
-        Male, // ذكر
-        Female // أنثى
+        Male, // Male
+        Female // Female
     }
 }

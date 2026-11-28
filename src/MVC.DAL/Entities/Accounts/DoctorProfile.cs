@@ -6,25 +6,25 @@ using MVC.DAL.Enums;
 
 namespace MVC.DAL.Entities.Accounts
 {
-    // بروفايل الدكتور - جدول DoctorProfiles
-    // DoctorId هو PK و FK لـ AspNetUsers.Id في نفس الوقت (Shared PK)
+    // Doctor profile - DoctorProfiles table
+    // DoctorId is both the PK and the FK to AspNetUsers.Id (shared PK)
     public class DoctorProfile
     {
-        public string DoctorId { get; set; } = null!; // نفس Id بتاع المستخدم
+        public string DoctorId { get; set; } = null!; // Same Id as the user
 
-        public Guid SpecialtyId { get; set; } // التخصص (بيتغير بموافقة الأدمن بس)
+        public Guid SpecialtyId { get; set; } // Specialty (changes only with admin approval)
 
-        public string LicenseNumber { get; set; } = null!; // رقم الرخصة (بيتغير بموافقة الأدمن بس)
+        public string LicenseNumber { get; set; } = null!; // License number (changes only with admin approval)
 
-        public string University { get; set; } = null!; // الجامعة (بتتغير بموافقة الأدمن بس)
+        public string University { get; set; } = null!; // University (changes only with admin approval)
 
-        public int GraduationYear { get; set; } // سنة التخرج (بتتغير بموافقة الأدمن بس)
+        public int GraduationYear { get; set; } // Graduation year (changes only with admin approval)
 
-        public int PracticeStartYear { get; set; } // سنة بداية الممارسة - سنين الخبرة بتتحسب منها ومش بتتخزن (D-03)
+        public int PracticeStartYear { get; set; } // Practice start year - years of experience are derived from it and never stored (D-03)
 
-        public string Bio { get; set; } = null!; // نبذة عن الدكتور (إجباري)
+        public string Bio { get; set; } = null!; // About the doctor (required)
 
-        public ApprovalStatus ApprovalStatus { get; set; } // حالة موافقة الأدمن على الدكتور
+        public ApprovalStatus ApprovalStatus { get; set; } // Admin approval status of the doctor
 
         // Navigation properties
         public ApplicationUser User { get; set; } = null!;
@@ -37,7 +37,7 @@ namespace MVC.DAL.Entities.Accounts
         public ICollection<VacationDay> VacationDays { get; set; } = new List<VacationDay>();
         public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
-        public ICollection<PatientCondition> CreatedConditions { get; set; } = new List<PatientCondition>(); // الأمراض المزمنة اللي الدكتور ده سجلها
+        public ICollection<PatientCondition> CreatedConditions { get; set; } = new List<PatientCondition>(); // Chronic conditions recorded by this doctor
         public ICollection<ChatThread> ChatThreads { get; set; } = new List<ChatThread>();
     }
 }

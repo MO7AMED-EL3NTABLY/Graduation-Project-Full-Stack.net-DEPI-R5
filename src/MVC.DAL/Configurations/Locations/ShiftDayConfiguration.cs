@@ -4,7 +4,7 @@ using MVC.DAL.Entities.Locations;
 
 namespace MVC.DAL.Configurations.Locations
 {
-    // جدول ShiftDays - Composite PK (ShiftId, DayOfWeek)
+    // ShiftDays table - composite PK (ShiftId, DayOfWeek)
     public class ShiftDayConfiguration : IEntityTypeConfiguration<ShiftDay>
     {
         public void Configure(EntityTypeBuilder<ShiftDay> builder)

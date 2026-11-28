@@ -4,12 +4,12 @@ using MVC.DAL.Entities.Accounts;
 
 namespace MVC.DAL.Configurations.Accounts
 {
-    // جدول AspNetUsers - الأعمدة الزيادة على IdentityUser
+    // AspNetUsers table - the extra columns on top of IdentityUser
     public class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
     {
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
-            // اسم الجدول AspNetUsers بيتحدد من Identity نفسه
+            // The AspNetUsers table name is set by Identity itself
             builder.Property(u => u.FullName)
                    .IsRequired();
         }

@@ -4,14 +4,14 @@ using MVC.DAL.Entities.Notifications;
 
 namespace MVC.DAL.Configurations.Notifications
 {
-    // جدول Reminders
+    // Reminders table
     public class ReminderConfiguration : IEntityTypeConfiguration<Reminder>
     {
         public void Configure(EntityTypeBuilder<Reminder> builder)
         {
             builder.ToTable("Reminders", t =>
             {
-                // XOR: واحد بس من AppointmentId و PrescriptionMedicineId
+                // XOR: exactly one of AppointmentId and PrescriptionMedicineId
                 t.HasCheckConstraint("CK_Reminders_Target",
                     "([AppointmentId] IS NOT NULL AND [PrescriptionMedicineId] IS NULL) OR ([AppointmentId] IS NULL AND [PrescriptionMedicineId] IS NOT NULL)");
             });
@@ -28,12 +28,12 @@ namespace MVC.DAL.Configurations.Notifications
                    .HasForeignKey(r => r.PrescriptionMedicineId)
                    .OnDelete(DeleteBehavior.Restrict);
 
-            // تذكير واحد مش ملغي لكل حجز
+            // One non-cancelled reminder per appointment
             builder.HasIndex(r => r.AppointmentId, "UX_Reminders_Appointment")
                    .IsUnique()
                    .HasFilter("[AppointmentId] IS NOT NULL AND [Status] <> 'Cancelled'");
 
-            // مفيش تذكيرين مش ملغيين لنفس الدوا ونفس الميعاد
+            // No two non-cancelled reminders for the same medicine and time
             builder.HasIndex(r => new { r.PrescriptionMedicineId, r.DueAtUtc }, "UX_Reminders_Medicine_Due")
                    .IsUnique()
                    .HasFilter("[PrescriptionMedicineId] IS NOT NULL AND [Status] <> 'Cancelled'");

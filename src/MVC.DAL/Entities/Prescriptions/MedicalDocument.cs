@@ -2,25 +2,25 @@
 
 namespace MVC.DAL.Entities.Prescriptions
 {
-    // ملف طبي للمريض (نتيجة تحليل/أشعة أو تقرير قديم) - جدول MedicalDocuments
-    // كل صف = ملف واحد، ومفيش نص مستخرج أو ناتج AI بيتخزن
+    // A patient's medical file (lab/scan result or old report) - MedicalDocuments table
+    // Each row = one file, and no extracted text or AI output is stored
     public class MedicalDocument
     {
         public Guid MedicalDocumentId { get; set; }
 
-        public string PatientId { get; set; } = null!; // FK لـ PatientProfiles
+        public string PatientId { get; set; } = null!; // FK to PatientProfiles
 
-        public Guid? ScanOrderId { get; set; } // FK لـ ScanOrders - null للتقارير القديمة من غير طلب
+        public Guid? ScanOrderId { get; set; } // FK to ScanOrders - null for old reports without an order
 
-        public string StorageKey { get; set; } = null!; // مفتاح الملف (مش رابط عام)
+        public string StorageKey { get; set; } = null!; // File key (not a public link)
 
-        public string OriginalFileName { get; set; } = null!; // اسم الملف الأصلي
+        public string OriginalFileName { get; set; } = null!; // Original file name
 
-        public string ContentType { get; set; } = null!; // نوع الملف
+        public string ContentType { get; set; } = null!; // File type
 
-        public long FileSizeBytes { get; set; } // حجم الملف بالبايت
+        public long FileSizeBytes { get; set; } // File size in bytes
 
-        public DateTimeOffset UploadedAtUtc { get; set; } // وقت الرفع
+        public DateTimeOffset UploadedAtUtc { get; set; } // Upload time
 
         // Navigation properties
         public PatientProfile Patient { get; set; } = null!;

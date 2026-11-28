@@ -1,11 +1,10 @@
-/*——- Omar Hussein ——-*/
 using Microsoft.AspNetCore.DataProtection;
 
 namespace MVC.PL.Security
 {
-    // بيحمي الـ userId في خطوات التأكيد واسترجاع الباسورد من غير ما المستخدم يكون عامل Login
-    // - Verify cookie: الحساب اللي لسه بيأكد الإيميل/الموبايل (مش Signed in لحد ما يخلص)
-    // - Reset ticket: الحساب اللي بيعمل Reset للباسورد (Hidden field في الفورم)
+    // Protects the userId during verification and password recovery steps without the user being signed in
+    // - Verify cookie: the account that is still verifying email/phone (not signed in until it finishes)
+    // - Reset ticket: the account resetting its password (hidden field in the form)
     public class AccountFlowProtector
     {
         public const string VerifyCookieName = "MediCare.Verify";
@@ -48,9 +47,8 @@ namespace MVC.PL.Security
             }
             catch (System.Security.Cryptography.CryptographicException)
             {
-                return null; // متلعب فيه أو انتهى
+                return null; // Tampered with or expired
             }
         }
     }
 }
-/*————*/

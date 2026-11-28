@@ -1,4 +1,3 @@
-@*——- Omar Hussein ——-*@
 @model RegisterDoctorViewModel
 @{
     ViewData["Title"] = L["Create doctor account"];
@@ -9,7 +8,7 @@
 <div>
     <partial name="_Steps" />
 
-    @* فورم واحدة بـ 3 خطوات - الـ JS بيعرض خطوة خطوة ويتأكد من حقولها قبل التالي *@
+    @* One form with 3 steps - the JS shows one step at a time and validates its fields before the next *@
     <form asp-action="RegisterDoctor" method="post" enctype="multipart/form-data" novalidate data-steps>
         <div asp-validation-summary="ModelOnly" class="mc-alert mc-alert--danger"></div>
 
@@ -151,4 +150,3 @@
         </section>
     </form>
 </div>
-@*————*@

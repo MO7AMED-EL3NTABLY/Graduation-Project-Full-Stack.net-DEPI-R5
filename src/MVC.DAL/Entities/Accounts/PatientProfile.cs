@@ -5,17 +5,17 @@ using MVC.DAL.Enums;
 
 namespace MVC.DAL.Entities.Accounts
 {
-    // بروفايل المريض - جدول PatientProfiles
-    // PatientId هو PK و FK لـ AspNetUsers.Id في نفس الوقت (Shared PK)
+    // Patient profile - PatientProfiles table
+    // PatientId is both the PK and the FK to AspNetUsers.Id (shared PK)
     public class PatientProfile
     {
-        public string PatientId { get; set; } = null!; // نفس Id بتاع المستخدم
+        public string PatientId { get; set; } = null!; // Same Id as the user
 
-        public DateOnly DateOfBirth { get; set; } // تاريخ الميلاد (العمر بيتحسب ومش بيتخزن)
+        public DateOnly DateOfBirth { get; set; } // Date of birth (age is derived and never stored)
 
-        public Gender Gender { get; set; } // ذكر / أنثى
+        public Gender Gender { get; set; } // Male / Female
 
-        public bool ShareMedicalProfile { get; set; } // مشاركة الملف الطبي مع الدكاترة (default false)
+        public bool ShareMedicalProfile { get; set; } // Share the medical profile with doctors (default false)
 
         // Navigation properties
         public ApplicationUser User { get; set; } = null!;

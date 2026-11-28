@@ -4,7 +4,7 @@ using MVC.DAL.Entities.Locations;
 
 namespace MVC.DAL.Configurations.Locations
 {
-    // جدول Locations
+    // Locations table
     public class LocationConfiguration : IEntityTypeConfiguration<Location>
     {
         public void Configure(EntityTypeBuilder<Location> builder)

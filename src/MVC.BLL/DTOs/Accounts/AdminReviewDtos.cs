@@ -1,13 +1,12 @@
-/*——- Omar Hussein ——-*/
 using MVC.DAL.Enums;
 
 namespace MVC.BLL.DTOs.Accounts
 {
-    // تابات صفحة Doctor approvals
+    // Doctor approvals page tabs
     public enum ApprovalTab
     {
-        Initial,      // دكاترة جداد مستنيين المراجعة الأولى
-        Replacements, // مستندات بديلة لدكاترة معتمدين
+        Initial,      // New doctors waiting for the initial review
+        Replacements, // Replacement documents for approved doctors
         Approved,
         Rejected
     }
@@ -18,7 +17,7 @@ namespace MVC.BLL.DTOs.Accounts
         public int Replacements { get; set; }
     }
 
-    // عنصر في القائمة الشمال
+    // An item in the left list
     public class ApprovalListItemDto
     {
         public string DoctorId { get; set; } = string.Empty;
@@ -28,12 +27,12 @@ namespace MVC.BLL.DTOs.Accounts
         public ApprovalStatus Status { get; set; }
         public DateTimeOffset? SubmittedAtUtc { get; set; }
 
-        // لتاب Replacements: المستند البديل
+        // For the Replacements tab: the replacement document
         public Guid? DocumentId { get; set; }
         public DoctorDocumentType? DocumentType { get; set; }
     }
 
-    // تفاصيل الدكتور في المراجعة الأولى (أو في تابات Approved / Rejected)
+    // Doctor details in the initial review (or in the Approved / Rejected tabs)
     public class DoctorReviewDto
     {
         public string DoctorId { get; set; } = string.Empty;
@@ -49,13 +48,13 @@ namespace MVC.BLL.DTOs.Accounts
         public ApprovalStatus ApprovalStatus { get; set; }
         public bool IsActive { get; set; }
 
-        // آخر رخصة وآخر شهادة تخرج (الـ Pending في المراجعة الأولى)
+        // Latest license and latest graduation certificate (the Pending ones in the initial review)
         public DoctorDocumentDto? License { get; set; }
         public DoctorDocumentDto? GraduationCertificate { get; set; }
         public string? RejectionReason { get; set; }
     }
 
-    // مقارنة المستند الحالي بالبديل
+    // Compares the current document with the replacement
     public class ReplacementReviewDto
     {
         public string DoctorId { get; set; } = string.Empty;
@@ -67,7 +66,7 @@ namespace MVC.BLL.DTOs.Accounts
         public DoctorDocumentDto Replacement { get; set; } = new();
     }
 
-    // صف في جدول Profile change requests
+    // A row in the Profile change requests table
     public class ChangeRequestRowDto
     {
         public Guid RequestId { get; set; }
@@ -76,7 +75,7 @@ namespace MVC.BLL.DTOs.Accounts
         public ProfileChangeRequestType RequestType { get; set; }
         public ApprovalStatus Status { get; set; }
 
-        // القيمة الحالية والمطلوبة (للتخصص بنبعت الاسمين عربي وإنجليزي)
+        // Current and requested values (for specialty we send both Arabic and English names)
         public string? CurrentValue { get; set; }
         public string? RequestedValue { get; set; }
         public SpecialtyDto? CurrentSpecialty { get; set; }
@@ -94,4 +93,3 @@ namespace MVC.BLL.DTOs.Accounts
         public int Rejected { get; set; }
     }
 }
-/*————*/

@@ -1,41 +1,40 @@
-/*——- Omar Hussein ——-*/
 using MVC.DAL.Enums;
 
 namespace MVC.BLL.DTOs.Accounts
 {
-    // صفحة Professional profile بتاعة الدكتور
+    // The doctor's Professional profile page
     public class DoctorProfileDto
     {
         public string DoctorId { get; set; } = string.Empty;
         public string FullName { get; set; } = string.Empty;
         public bool HasPhoto { get; set; }
         public int PracticeStartYear { get; set; }
-        public int YearsOfExperience { get; set; } // محسوبة من PracticeStartYear
+        public int YearsOfExperience { get; set; } // Derived from PracticeStartYear
         public string Bio { get; set; } = string.Empty;
         public ApprovalStatus ApprovalStatus { get; set; }
 
-        // البيانات المحمية (القيمة المعتمدة حالياً)
+        // Protected data (the currently approved value)
         public SpecialtyDto Specialty { get; set; } = new();
         public string LicenseNumber { get; set; } = string.Empty;
         public string University { get; set; } = string.Empty;
         public int GraduationYear { get; set; }
 
-        // الطلبات اللي لسه Pending لكل حقل
+        // Requests still Pending for each field
         public List<PendingChangeDto> PendingChanges { get; set; } = new();
 
         public List<DoctorDocumentDto> Documents { get; set; } = new();
         public List<DoctorSurgeryDto> Surgeries { get; set; } = new();
         public List<DoctorWorkExperienceDto> WorkExperiences { get; set; } = new();
 
-        // التخصصات المتاحة لطلب تغيير التخصص
+        // Specialties available for a specialty change request
         public List<SpecialtyDto> ActiveSpecialties { get; set; } = new();
     }
 
     public class PendingChangeDto
     {
         public ProfileChangeRequestType RequestType { get; set; }
-        public string? RequestedValue { get; set; }        // للحقول النصية والرقمية
-        public SpecialtyDto? RequestedSpecialty { get; set; } // لو الطلب تغيير تخصص
+        public string? RequestedValue { get; set; }        // For text and numeric fields
+        public SpecialtyDto? RequestedSpecialty { get; set; } // If the request is a specialty change
     }
 
     public class DoctorDocumentDto
@@ -67,4 +66,3 @@ namespace MVC.BLL.DTOs.Accounts
         public int? ToYear { get; set; }
     }
 }
-/*————*/

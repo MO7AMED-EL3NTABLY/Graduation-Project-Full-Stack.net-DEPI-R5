@@ -1,4 +1,3 @@
-/*——- Omar Hussein ——-*/
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +11,7 @@ using MVC.PL.ViewModels.Accounts;
 
 namespace MVC.PL.Areas.Patient.Controllers
 {
-    // Settings المريض: البروفايل (الاسم والصورة) + الإيميل والموبايل والباسورد + اللغة
+    // Patient settings: profile (name and photo) + email, phone and password + language
     [Area("Patient")]
     [Authorize(Roles = AppRoles.Patient)]
     public class SettingsController : AccountSettingsControllerBase
@@ -38,7 +37,7 @@ namespace MVC.PL.Areas.Patient.Controllers
                 var result = await Settings.UpdatePatientProfileAsync(UserId, model.FullName, await model.Photo.ToFileUploadAsync());
                 if (result.Succeeded)
                 {
-                    // الاسم في الـ Topbar جاي من الـ claims
+                    // The name in the topbar comes from the claims
                     var user = await Users.FindByIdAsync(UserId);
                     if (user is not null)
                         await SignInMgr.RefreshSignInAsync(user);
@@ -56,4 +55,3 @@ namespace MVC.PL.Areas.Patient.Controllers
         }
     }
 }
-/*————*/

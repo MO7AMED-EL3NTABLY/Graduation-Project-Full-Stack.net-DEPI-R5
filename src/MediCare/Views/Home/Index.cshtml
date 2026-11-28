@@ -1,6 +1,6 @@
-﻿@* الصفحة الرئيسية (Landing) - من Figma "Landing — EN / AR"
-   الصور في wwwroot/images/landing - اعملها Export من Figma (01 Design System > Image assets)
-   التخصصات والقوائم هنا ثابتة زي التصميم، وهتتربط بالداتابيز في module الـ Find a doctor *@
+﻿@* Home page (Landing) - from Figma "Landing — EN / AR"
+   Images are in wwwroot/images/landing - export them from Figma (01 Design System > Image assets)
+   Specialties and lists here are static like the design; they will be connected to the database in the Find a doctor module *@
 @{
     ViewData["Title"] = L["Home"];
 }
@@ -167,7 +167,7 @@
             <div class="lp-feature"><span class="lp-chip lp-chip--48"><i data-lucide="star"></i></span><h3 class="lp-h4">@L["Rate your doctor"]</h3><p class="lp-muted lp-small">@L["Give 1–5 stars after a completed visit."]</p></div>
         </div>
 
-        @* محتوى "للأطباء" مش موجود في الـ Figma - مكتوب من الـ Project Document *@
+        @* The "For doctors" content isn't in Figma - written from the Project Document *@
         <div class="lp-panel lp-grid-3" data-panel="doctors" hidden>
             <div class="lp-feature"><span class="lp-chip lp-chip--48"><i data-lucide="map-pin"></i></span><h3 class="lp-h4">@L["Clinics and visit fees"]</h3><p class="lp-muted lp-small">@L["Add your clinics and set the visit fee for each one."]</p></div>
             <div class="lp-feature"><span class="lp-chip lp-chip--48"><i data-lucide="calendar"></i></span><h3 class="lp-h4">@L["Weekly shifts"]</h3><p class="lp-muted lp-small">@L["Set your weekly shifts, exceptions and vacations."]</p></div>
@@ -241,7 +241,7 @@
             <p class="lp-eyebrow">@L["FAQ"]</p>
             <h2 class="lp-h2">@L["Frequently asked questions"]</h2>
         </div>
-        @* إجابات الأسئلة من 2 لـ 5 مش في الـ Figma - مكتوبة من قواعد الـ Project Document *@
+        @* Answers to questions 2 to 5 aren't in Figma - written from the Project Document rules *@
         <div class="lp-faq">
             @foreach (var (q, a, open) in new[]
             {
@@ -281,7 +281,7 @@
 
 @section Scripts {
     <script>
-        // تبديل تبويب "للمرضى / للأطباء"
+        // Switches the "For patients / For doctors" tab
         document.querySelectorAll('.lp-tab').forEach(function (tab) {
             tab.addEventListener('click', function () {
                 document.querySelectorAll('.lp-tab').forEach(function (t) { t.classList.toggle('is-active', t === tab); });

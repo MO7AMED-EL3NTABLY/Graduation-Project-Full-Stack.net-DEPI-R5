@@ -1,10 +1,10 @@
 ﻿namespace MVC.DAL.Enums
 {
-    // حالة جرعة الدوا المجدولة للمريض - MedicationDoseLogs.Status
+    // Status of a patient's scheduled medicine dose - MedicationDoseLogs.Status
     public enum DoseLogStatus
     {
-        Pending, // الجرعة لسه متاخدتش
-        Taken, // المريض داس إنه أخدها
-        Cancelled // الجرعة اتلغت (إيقاف أو تجديد أو Finish)
+        Pending, // Dose not taken yet
+        Taken, // The patient tapped that they took it
+        Cancelled // Dose cancelled (stop, renew or Finish)
     }
 }

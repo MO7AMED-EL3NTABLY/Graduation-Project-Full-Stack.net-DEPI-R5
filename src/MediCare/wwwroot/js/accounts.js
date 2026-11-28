@@ -1,12 +1,11 @@
-/*——- Omar Hussein ——-*/
 // =========================================================
-// Accounts module — سلوك الصفحات: OTP، العداد، قوة الباسورد، خطوات تسجيل الدكتور،
-// رفع الملفات، الكروت (radio)، فتح المودال بعد خطأ، ورسائل الـ Flash
+// Accounts module — page behavior: OTP, countdown, password strength, doctor registration steps,
+// file uploads, choice cards (radio), opening the modal after an error, and Flash messages
 // =========================================================
 (function () {
     "use strict";
 
-    // ---------- Checkbox لازم يتعلّم عليه: [MustBeTrue] ----------
+    // ---------- Checkbox that must be ticked: [MustBeTrue] ----------
     if (window.jQuery && jQuery.validator && jQuery.validator.unobtrusive) {
         jQuery.validator.addMethod("mustbetrue", (value, element) => element.checked);
         jQuery.validator.unobtrusive.adapters.addBool("mustbetrue");
@@ -15,7 +14,7 @@
     const $$ = (sel, root) => Array.from((root || document).querySelectorAll(sel));
     const refreshIcons = () => window.lucide && window.lucide.createIcons();
 
-    // ---------- OTP: 6 خانات بتملا input مخفي ----------
+    // ---------- OTP: 6 boxes fill a hidden input ----------
     $$("[data-otp]").forEach(box => {
         const inputs = $$("input[data-otp-digit]", box);
         const hidden = box.parentElement.querySelector("input[data-otp-value]");
@@ -42,7 +41,7 @@
         if (inputs[0]) inputs[0].focus();
     });
 
-    // ---------- عداد "إعادة الإرسال بعد 0:45" ----------
+    // ---------- "Resend in 0:45" countdown ----------
     $$("[data-countdown]").forEach(el => {
         let seconds = parseInt(el.getAttribute("data-countdown"), 10) || 0;
         const button = document.getElementById(el.getAttribute("data-countdown-target"));
@@ -61,7 +60,7 @@
         tick();
     });
 
-    // ---------- قوة الباسورد ----------
+    // ---------- Password strength ----------
     $$("input[data-strength]").forEach(input => {
         const meter = document.getElementById(input.getAttribute("data-strength"));
         if (!meter) return;
@@ -92,7 +91,7 @@
         update();
     });
 
-    // ---------- كروت الاختيار (radio) ----------
+    // ---------- Choice cards (radio) ----------
     const syncChoices = name => $$('input[type="radio"][name="' + name + '"]').forEach(r => {
         const card = r.closest(".mc-choice");
         if (card) card.classList.toggle("is-selected", r.checked);
@@ -102,7 +101,7 @@
         syncChoices(radio.name);
     });
 
-    // ---------- رفع الملفات: اسم الملف + معاينة الصورة ----------
+    // ---------- File upload: file name + image preview ----------
     $$("input[type=file][data-file-label]").forEach(input => {
         const label = document.getElementById(input.getAttribute("data-file-label"));
         const box = input.closest(".mc-upload");
@@ -124,7 +123,7 @@
         });
     });
 
-    // ---------- خطوات تسجيل الدكتور (فورم واحدة بـ 3 خطوات) ----------
+    // ---------- Doctor registration steps (one form with 3 steps) ----------
     $$("form[data-steps]").forEach(form => {
         const panels = $$(".mc-step-panel", form);
         const indicators = $$("[data-step-indicator]", form.parentElement);
@@ -158,13 +157,13 @@
         }));
         $$("[data-step-back]", form).forEach(btn => btn.addEventListener("click", () => show(Math.max(current - 1, 0))));
 
-        // بعد خطأ من السيرفر: نفتح أول خطوة فيها خطأ
+        // After a server error: open the first step that has an error
         const firstError = panels.findIndex(p => p.querySelector(".field-validation-error, .input-validation-error"));
         const summaryHasErrors = form.querySelector(".validation-summary-errors");
         show(firstError >= 0 ? firstError : summaryHasErrors ? panels.length - 1 : 0);
     });
 
-    // ---------- "لسه شغال هنا" بيقفل سنة النهاية ----------
+    // ---------- "Currently working here" disables the end year ----------
     $$("input[data-disables]").forEach(cb => {
         const target = document.getElementById(cb.getAttribute("data-disables"));
         const sync = () => { if (target) { target.disabled = cb.checked; if (cb.checked) target.value = ""; } };
@@ -172,7 +171,7 @@
         sync();
     });
 
-    // ---------- مودال بيملا قيم من الزرار (طلب تعديل / رفع مستند / رفض) ----------
+    // ---------- Modal filled with values from the button (change request / document upload / rejection) ----------
     document.addEventListener("click", e => {
         const trigger = e.target.closest("[data-modal-fill]");
         if (!trigger) return;
@@ -190,14 +189,14 @@
         });
     });
 
-    // ---------- فتح المودال تلقائي لو الصفحة رجعت بخطأ ----------
+    // ---------- Open the modal automatically if the page came back with an error ----------
     const auto = document.querySelector("[data-open-modal]");
     if (auto && window.bootstrap) {
         const modal = document.getElementById(auto.getAttribute("data-open-modal"));
         if (modal) bootstrap.Modal.getOrCreateInstance(modal).show();
     }
 
-    // ---------- تأكيد قبل الإجراءات المهمة ----------
+    // ---------- Confirmation before important actions ----------
     document.addEventListener("submit", e => {
         const msg = e.target.getAttribute("data-confirm");
         if (msg && !window.confirm(msg)) e.preventDefault();
@@ -211,4 +210,3 @@
         setTimeout(close, 6000);
     });
 })();
-/*————*/

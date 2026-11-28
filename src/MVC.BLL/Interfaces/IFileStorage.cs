@@ -1,10 +1,9 @@
-/*——- Omar Hussein ——-*/
 using MVC.BLL.Common;
 
 namespace MVC.BLL.Interfaces
 {
-    // تخزين الملفات المحمية (صور البروفايل ومستندات الدكاترة) برة wwwroot
-    // الملف بيتحفظ بـ StorageKey، ومفيش رابط عام - التحميل من Endpoint عليه Authorization بس
+    // Stores protected files (profile photos and doctor documents) outside wwwroot
+    // The file is saved with a StorageKey and has no public link - downloads only through an endpoint protected by authorization
     public interface IFileStorage
     {
         Task<string> SaveAsync(FileUpload file, string folder);
@@ -14,4 +13,3 @@ namespace MVC.BLL.Interfaces
         void Delete(string storageKey);
     }
 }
-/*————*/

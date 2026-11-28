@@ -1,4 +1,3 @@
-/*——- Omar Hussein ——-*/
 using Microsoft.EntityFrameworkCore;
 using MVC.BLL.Common;
 using MVC.BLL.DTOs.Accounts;
@@ -9,7 +8,7 @@ using MVC.DAL.Enums;
 
 namespace MVC.BLL.Services.Accounts
 {
-    // صفحة Doctor approvals عند الأدمن: المراجعة الأولى + المستندات البديلة
+    // The admin's Doctor approvals page: initial review + replacement documents
     public class DoctorApprovalService : IDoctorApprovalService
     {
         private const int MaxReasonLength = 500;
@@ -59,13 +58,13 @@ namespace MVC.BLL.Services.Accounts
                     HasPhoto = d.User.ProfilePhotoStorageKey != null,
                     Specialty = new SpecialtyDto { SpecialtyId = d.SpecialtyId, NameEn = d.Specialty.NameEn, NameAr = d.Specialty.NameAr },
                     Status = d.ApprovalStatus,
-                    // آخر رفع للرخصة أو الشهادة = وقت التقديم
+                    // Latest license or certificate upload = submission time
                     SubmittedAtUtc = d.Documents
                         .Max(x => (DateTimeOffset?)x.UploadedAtUtc)
                 })
                 .ToListAsync();
 
-            // الأقدم الأول في المراجعة، والأحدث الأول في الأرشيف
+            // Oldest first in the review queue, newest first in the archive
             return status == ApprovalStatus.Pending
                 ? items.OrderBy(i => i.SubmittedAtUtc).ToList()
                 : items.OrderByDescending(i => i.SubmittedAtUtc).ToList();
@@ -119,7 +118,7 @@ namespace MVC.BLL.Services.Accounts
             if (replacement is null)
                 return null;
 
-            // لو المستند الأصلي مش هو الحالي (حالة نادرة) بنعرض الحالي الفعلي
+            // If the original document is not the current one (rare case), show the actual current one
             var current = replacement.ReplacesDocument is { IsCurrent: true }
                 ? replacement.ReplacesDocument
                 : await _db.DoctorDocuments.AsNoTracking().FirstOrDefaultAsync(x =>
@@ -163,7 +162,7 @@ namespace MVC.BLL.Services.Accounts
             var now = DateTimeOffset.UtcNow;
             var status = approve ? ApprovalStatus.Approved : ApprovalStatus.Rejected;
 
-            // قرار واحد: المستندين + حالة الدكتور في transaction واحدة
+            // One decision: both documents + the doctor's status in one transaction
             await using var transaction = await _db.Database.BeginTransactionAsync();
             foreach (var doc in new[] { license, certificate })
             {
@@ -200,23 +199,23 @@ namespace MVC.BLL.Services.Accounts
 
             if (approve)
             {
-                // خطوة 1: نشيل IsCurrent من القديم الأول عشان الـ filtered unique index (Approved + IsCurrent)
+                // Step 1: clear IsCurrent on the old one first because of the filtered unique index (Approved + IsCurrent)
                 var current = await _db.DoctorDocuments.Where(x =>
                         x.DoctorId == replacement.DoctorId && x.DocumentType == replacement.DocumentType
                         && x.ApprovalStatus == ApprovalStatus.Approved && x.IsCurrent)
                     .ToListAsync();
                 foreach (var old in current)
-                    old.IsCurrent = false; // القديم بيفضل Approved للتاريخ
+                    old.IsCurrent = false; // The old one stays Approved for history
                 await _db.SaveChangesAsync();
 
-                // خطوة 2: البديل يبقى هو الحالي
+                // Step 2: the replacement becomes the current one
                 replacement.ApprovalStatus = ApprovalStatus.Approved;
                 replacement.IsCurrent = true;
                 replacement.RejectionReason = null;
             }
             else
             {
-                // الرفض: القديم بيفضل الحالي زي ما هو
+                // Rejection: the old one stays current as it is
                 replacement.ApprovalStatus = ApprovalStatus.Rejected;
                 replacement.IsCurrent = false;
                 replacement.RejectionReason = reason;
@@ -224,20 +223,20 @@ namespace MVC.BLL.Services.Accounts
             replacement.ReviewedAtUtc = now;
             replacement.ReviewedByAdminId = adminId;
 
-            // حالة الدكتور مش بتتغير في المستندات البديلة
+            // The doctor's status doesn't change for replacement documents
             await _db.SaveChangesAsync();
             await transaction.CommitAsync();
             return ServiceResult.Success();
         }
 
-        // البدائل المستنية: Pending وبتستبدل مستند، لدكتور معتمد
+        // Waiting replacements: Pending and replacing a document, for an approved doctor
         private IQueryable<DoctorDocument> ReplacementsQuery() =>
             _db.DoctorDocuments.Where(x =>
                 x.ReplacesDocumentId != null
                 && x.ApprovalStatus == ApprovalStatus.Pending
                 && x.Doctor.ApprovalStatus == ApprovalStatus.Approved);
 
-        // المستند اللي بيتعرض في المراجعة: الـ Pending الأولي، وإلا الحالي، وإلا آخر واحد (غير البدائل)
+        // The document shown in the review: the initial Pending one, otherwise the current one, otherwise the latest one (excluding replacements)
         private static DoctorDocument? LatestForReview(DoctorProfile doctor, DoctorDocumentType type)
         {
             var docs = doctor.Documents.Where(x => x.DocumentType == type).ToList();
@@ -247,4 +246,3 @@ namespace MVC.BLL.Services.Accounts
         }
     }
 }
-/*————*/

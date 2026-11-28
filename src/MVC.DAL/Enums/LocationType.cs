@@ -1,9 +1,9 @@
 ﻿namespace MVC.DAL.Enums
 {
-    // نوع مكان كشف الدكتور - Locations.LocationType
+    // Type of the doctor's practice location - Locations.LocationType
     public enum LocationType
     {
-        Clinic, // عيادة
-        Hospital // مستشفى
+        Clinic, // Clinic
+        Hospital // Hospital
     }
 }

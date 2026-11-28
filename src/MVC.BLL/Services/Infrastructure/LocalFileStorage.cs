@@ -1,17 +1,16 @@
-/*——- Omar Hussein ——-*/
 using System.Text.RegularExpressions;
 using MVC.BLL.Common;
 using MVC.BLL.Interfaces;
 
 namespace MVC.BLL.Services.Infrastructure
 {
-    // مكان تخزين الملفات على السيرفر - بيتحدد في Program.cs (فولدر App_Data برة wwwroot)
+    // Where files are stored on the server - set in Program.cs (App_Data folder outside wwwroot)
     public class FileStorageOptions
     {
         public string RootPath { get; set; } = string.Empty;
     }
 
-    // تخزين محلي: الـ StorageKey شكله "folder/guid.ext" والاسم الأصلي مش بيدخل في المسار خالص
+    // Local storage: the StorageKey looks like "folder/guid.ext" and the original name never goes into the path
     public class LocalFileStorage : IFileStorage
     {
         private static readonly Regex KeyPattern = new(@"^[a-z\-]+/[0-9a-f]{32}\.(pdf|jpg|jpeg|png)$", RegexOptions.Compiled);
@@ -58,4 +57,3 @@ namespace MVC.BLL.Services.Infrastructure
         private string ToFullPath(string key) => Path.Combine(_root, key.Replace('/', Path.DirectorySeparatorChar));
     }
 }
-/*————*/

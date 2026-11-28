@@ -1,4 +1,3 @@
-/*——- Omar Hussein ——-*/
 using Microsoft.Extensions.DependencyInjection;
 using MVC.BLL.Interfaces;
 using MVC.BLL.Services.Accounts;
@@ -6,19 +5,19 @@ using MVC.BLL.Services.Infrastructure;
 
 namespace MVC.BLL
 {
-    // تسجيل خدمات Module 1 (Accounts) في الـ DI - سطر واحد في Program.cs
+    // Registers the Module 1 (Accounts) services in DI - one line in Program.cs
     public static class AccountsModuleExtensions
     {
         public static IServiceCollection AddAccountsModule(this IServiceCollection services, string uploadsRootPath)
         {
             services.AddMemoryCache();
 
-            // الملفات المحمية برة wwwroot
+            // Protected files outside wwwroot
             services.AddSingleton(new FileStorageOptions { RootPath = uploadsRootPath });
             services.AddSingleton<IFileStorage, LocalFileStorage>();
 
-            // Fake: الإيميل والـ SMS بيتكتبوا في الـ Log لحد ما يتربطوا بخدمة حقيقية
-            services.AddSingleton<IEmailSender, LoggingEmailSender>();
+            // Email sender is registered in Program.cs (SMTP, or the Fake one in Development only)
+            // Fake: SMS is written to the log until it is connected to a real provider
             services.AddSingleton<ISmsSender, LoggingSmsSender>();
 
             services.AddScoped<IPhoneVerificationService, PhoneVerificationService>();
@@ -34,4 +33,3 @@ namespace MVC.BLL
         }
     }
 }
-/*————*/

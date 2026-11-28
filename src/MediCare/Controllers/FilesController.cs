@@ -1,4 +1,3 @@
-/*——- Omar Hussein ——-*/
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +7,7 @@ using MVC.DAL.Entities.Accounts;
 
 namespace MVC.PL.Controllers
 {
-    // الملفات المحمية (صور البروفايل ومستندات الدكاترة) - مفيش رابط مباشر، كل طلب بيعدي على الصلاحيات
+    // Protected files (profile photos and doctor documents) - no direct link, every request goes through authorization
     public class FilesController : Controller
     {
         private readonly IFileAccessService _files;
@@ -20,7 +19,7 @@ namespace MVC.PL.Controllers
             _users = users;
         }
 
-        // صورة الدكتور المعتمد متاحة للكل، وغير كده لصاحبها والأدمن
+        // An approved doctor's photo is public; otherwise only its owner and the admin
         [HttpGet("/files/photo/{userId}")]
         public async Task<IActionResult> Photo(string userId)
         {
@@ -28,7 +27,7 @@ namespace MVC.PL.Controllers
             return file is null ? NotFound() : File(file.Content, file.ContentType);
         }
 
-        // مستندات الدكتور: الدكتور صاحبها والأدمن بس
+        // Doctor documents: only the owning doctor and the admin
         [Authorize]
         [HttpGet("/files/document/{id:guid}")]
         public async Task<IActionResult> Document(Guid id, bool download = false)
@@ -45,4 +44,3 @@ namespace MVC.PL.Controllers
         }
     }
 }
-/*————*/

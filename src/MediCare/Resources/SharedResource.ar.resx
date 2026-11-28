@@ -1499,4 +1499,7 @@
   <data name="Practice start year can't be before your graduation year." xml:space="preserve">
     <value>سنة بداية الممارسة لا يمكن أن تكون قبل سنة التخرج.</value>
   </data>
+  <data name="We couldn't send the email. Please try again later." xml:space="preserve">
+    <value>تعذّر إرسال البريد الإلكتروني. حاول مرة أخرى لاحقًا.</value>
+  </data>
 </root>

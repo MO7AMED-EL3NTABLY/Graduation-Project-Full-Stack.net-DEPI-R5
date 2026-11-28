@@ -1,6 +1,6 @@
-﻿@* الـ Sidebar بيتغير حسب الـ Area (Patient / Doctor / Admin)
-   العنصر النشط بيتحدد من اسم الـ Controller الحالي
-   ملحوظة: الصفحات دي لسه هتتعمل - كل واحد في التيم يعمل الـ Controller بنفس الاسم اللي هنا *@
+﻿@* The sidebar changes by area (Patient / Doctor / Admin)
+   The active item is set from the current controller name
+   Note: these pages are not built yet - each teammate creates the controller with the same name used here *@
 @{
     var area = ViewContext.RouteData.Values["area"]?.ToString() ?? AppRoles.Patient;
     var controller = ViewContext.RouteData.Values["controller"]?.ToString() ?? "Home";

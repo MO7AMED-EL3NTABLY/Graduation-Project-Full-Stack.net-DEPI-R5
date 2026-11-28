@@ -1,10 +1,10 @@
 ﻿namespace MVC.DAL.Enums
 {
-    // حالة التذكير - Reminders.Status
+    // Reminder status - Reminders.Status
     public enum ReminderStatus
     {
-        Pending, // مستني ميعاده
-        Sent, // اتبعت
-        Cancelled // اتلغى ومبقاش محتاج
+        Pending, // Waiting for its time
+        Sent, // Sent
+        Cancelled // Cancelled and no longer needed
     }
 }

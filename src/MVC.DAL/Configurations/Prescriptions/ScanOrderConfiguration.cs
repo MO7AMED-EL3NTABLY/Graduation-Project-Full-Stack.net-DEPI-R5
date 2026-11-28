@@ -4,7 +4,7 @@ using MVC.DAL.Entities.Prescriptions;
 
 namespace MVC.DAL.Configurations.Prescriptions
 {
-    // جدول ScanOrders
+    // ScanOrders table
     public class ScanOrderConfiguration : IEntityTypeConfiguration<ScanOrder>
     {
         public void Configure(EntityTypeBuilder<ScanOrder> builder)

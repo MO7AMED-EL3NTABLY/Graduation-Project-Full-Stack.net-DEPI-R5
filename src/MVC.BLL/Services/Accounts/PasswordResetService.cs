@@ -1,4 +1,3 @@
-/*——- Omar Hussein ——-*/
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Memory;
 using MVC.BLL.Common;
@@ -9,8 +8,8 @@ using MVC.DAL.Entities.Accounts;
 
 namespace MVC.BLL.Services.Accounts
 {
-    // نسيت الباسورد: لينك بالإيميل (Identity token - ساعة) أو كود SMS (Identity phone token)
-    // مفيش جدول للـ reset: الأكواد من Identity token providers، وعدد المحاولات في الـ Memory cache
+    // Forgot password: email link (Identity token - 1 hour) or SMS code (Identity phone token)
+    // No reset table: codes come from Identity token providers, and the attempt count is in the memory cache
     public class PasswordResetService : IPasswordResetService
     {
         private const string SmsPurpose = "MediCare.ResetPassword";
@@ -63,14 +62,16 @@ namespace MVC.BLL.Services.Accounts
             if (user is null || !user.IsActive || string.IsNullOrEmpty(user.Email))
                 return ServiceResult.Fail("Account not found.");
 
-            // الـ token ده من الـ provider بتاع الـ reset (صالح ساعة - بيتظبط في Program.cs)
+            // This token comes from the reset provider (valid for 1 hour - configured in Program.cs)
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-            await _email.SendAsync(user.Email, "Reset your MediCare password",
+            var sent = await _email.SendAsync(user.Email, "Reset your MediCare password",
                 EmailTemplates.ActionEmail(user.FullName,
                     "Reset your password",
                     "We received a request to reset the password of your MediCare account.",
                     "Reset password", resetLink(user.Id, token),
                     "This link is valid for 1 hour. If you didn't ask for this, you can ignore this email."));
+            if (!sent)
+                return ServiceResult.Fail("We couldn't send the email. Please try again later.");
             return ServiceResult.Success();
         }
 
@@ -132,7 +133,7 @@ namespace MVC.BLL.Services.Accounts
             if (result.Succeeded)
                 return ServiceResult.Success();
 
-            // InvalidToken = اللينك انتهى أو اتستخدم قبل كده
+            // InvalidToken = the link expired or was already used
             if (result.Errors.Any(e => e.Code == "InvalidToken"))
                 return ServiceResult.Fail("This reset link is invalid or has expired.");
             return ServiceResult.Fail(result.Errors.Select(e => e.Description));
@@ -152,4 +153,3 @@ namespace MVC.BLL.Services.Accounts
         }
     }
 }
-/*————*/

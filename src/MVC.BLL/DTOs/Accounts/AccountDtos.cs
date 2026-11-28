@@ -1,10 +1,9 @@
-/*——- Omar Hussein ——-*/
 using MVC.BLL.Common;
 using MVC.DAL.Enums;
 
 namespace MVC.BLL.DTOs.Accounts
 {
-    // بيانات تسجيل المريض
+    // Patient registration data
     public class RegisterPatientDto
     {
         public string FullName { get; set; } = string.Empty;
@@ -16,7 +15,7 @@ namespace MVC.BLL.DTOs.Accounts
         public FileUpload? Photo { get; set; }
     }
 
-    // بيانات تسجيل الدكتور (الخطوات الـ 3 مع بعض)
+    // Doctor registration data (all 3 steps together)
     public class RegisterDoctorDto
     {
         // 1) Personal
@@ -46,11 +45,11 @@ namespace MVC.BLL.DTOs.Accounts
         public string NameAr { get; set; } = string.Empty;
     }
 
-    // حالة الحساب بعد التأكد من الباسورد - بتحدد الـ PL يودّي المستخدم فين
+    // Account state after the password check - decides where the PL sends the user
     public enum LoginState
     {
-        Inactive,          // الحساب موقوف (IsActive = false)
-        NeedsVerification, // لسه مأكدش الإيميل أو الموبايل
+        Inactive,          // Account suspended (IsActive = false)
+        NeedsVerification, // Email or phone not verified yet
         Patient,
         DoctorPending,
         DoctorRejected,
@@ -58,7 +57,7 @@ namespace MVC.BLL.DTOs.Accounts
         Admin
     }
 
-    // حالة تأكيد الإيميل والموبايل لشاشة Verify
+    // Email and phone verification state for the Verify screen
     public class VerificationStatusDto
     {
         public string UserId { get; set; } = string.Empty;
@@ -66,14 +65,14 @@ namespace MVC.BLL.DTOs.Accounts
         public bool EmailConfirmed { get; set; }
         public bool PhoneRequired { get; set; }
         public bool PhoneConfirmed { get; set; }
-        public string MaskedPhone { get; set; } = string.Empty;     // الرقم اللي الكود اتبعتله
-        public int ResendInSeconds { get; set; }                    // فاضل كام ثانية لحد ما يقدر يطلب كود جديد
+        public string MaskedPhone { get; set; } = string.Empty;     // The number the code was sent to
+        public int ResendInSeconds { get; set; }                    // Seconds left until a new code can be requested
         public bool HasActiveCode { get; set; }
 
         public bool IsComplete => EmailConfirmed && (!PhoneRequired || PhoneConfirmed);
     }
 
-    // حالة الدكتور لصفحات Pending و Rejected
+    // Doctor status for the Pending and Rejected pages
     public class DoctorStatusDto
     {
         public string FullName { get; set; } = string.Empty;
@@ -81,16 +80,16 @@ namespace MVC.BLL.DTOs.Accounts
         public string? RejectionReason { get; set; }
     }
 
-    // الحساب اللي هيعمل Reset للباسورد - بيانات مخفية جزئياً
+    // The account resetting its password - data partially masked
     public class ResetAccountDto
     {
         public string UserId { get; set; } = string.Empty;
         public string MaskedEmail { get; set; } = string.Empty;
         public string MaskedPhone { get; set; } = string.Empty;
-        public bool CanUseSms { get; set; } // SMS للمريض والدكتور بس، وبرقم متأكد
+        public bool CanUseSms { get; set; } // SMS for patients and doctors only, with a verified number
     }
 
-    // بيانات صفحة Settings (المريض والدكتور)
+    // Settings page data (patient and doctor)
     public class AccountSettingsDto
     {
         public string UserId { get; set; } = string.Empty;
@@ -102,4 +101,3 @@ namespace MVC.BLL.DTOs.Accounts
         public bool HasPhoto { get; set; }
     }
 }
-/*————*/

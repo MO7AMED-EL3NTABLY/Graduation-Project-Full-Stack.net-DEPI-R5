@@ -4,7 +4,7 @@ using MVC.DAL.Entities.Accounts;
 
 namespace MVC.DAL.Configurations.Accounts
 {
-    // جدول PatientProfiles - Shared PK مع AspNetUsers
+    // PatientProfiles table - shared PK with AspNetUsers
     public class PatientProfileConfiguration : IEntityTypeConfiguration<PatientProfile>
     {
         public void Configure(EntityTypeBuilder<PatientProfile> builder)
@@ -13,7 +13,7 @@ namespace MVC.DAL.Configurations.Accounts
 
             builder.HasKey(p => p.PatientId);
 
-            // PatientId هو PK و FK لـ AspNetUsers.Id (علاقة 1 : 0..1)
+            // PatientId is the PK and the FK to AspNetUsers.Id (1 : 0..1 relationship)
             builder.HasOne(p => p.User)
                    .WithOne(u => u.PatientProfile)
                    .HasForeignKey<PatientProfile>(p => p.PatientId)

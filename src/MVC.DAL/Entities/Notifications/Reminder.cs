@@ -4,8 +4,8 @@ using MVC.DAL.Enums;
 
 namespace MVC.DAL.Entities.Notifications
 {
-    // تذكير بميعاد حجز أو ميعاد دوا - جدول Reminders
-    // CHECK: لازم واحد بس من AppointmentId و PrescriptionMedicineId يكون له قيمة (XOR)
+    // Reminder for an appointment or a medicine time - Reminders table
+    // CHECK: exactly one of AppointmentId and PrescriptionMedicineId must have a value (XOR)
     // Filtered unique indexes:
     //   (AppointmentId) WHERE AppointmentId IS NOT NULL AND Status <> 'Cancelled'
     //   (PrescriptionMedicineId, DueAtUtc) WHERE PrescriptionMedicineId IS NOT NULL AND Status <> 'Cancelled'
@@ -13,11 +13,11 @@ namespace MVC.DAL.Entities.Notifications
     {
         public Guid ReminderId { get; set; }
 
-        public Guid? AppointmentId { get; set; } // FK لـ Appointments (XOR)
+        public Guid? AppointmentId { get; set; } // FK to Appointments (XOR)
 
-        public Guid? PrescriptionMedicineId { get; set; } // FK لـ PrescriptionMedicines (XOR)
+        public Guid? PrescriptionMedicineId { get; set; } // FK to PrescriptionMedicines (XOR)
 
-        public DateTimeOffset DueAtUtc { get; set; } // ميعاد إرسال التذكير
+        public DateTimeOffset DueAtUtc { get; set; } // When the reminder is sent
 
         public ReminderStatus Status { get; set; } // Pending / Sent / Cancelled
 

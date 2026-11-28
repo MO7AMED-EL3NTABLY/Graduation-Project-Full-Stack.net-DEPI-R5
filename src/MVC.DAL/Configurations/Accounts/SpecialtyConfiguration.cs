@@ -4,7 +4,7 @@ using MVC.DAL.Entities.Accounts;
 
 namespace MVC.DAL.Configurations.Accounts
 {
-    // جدول Specialties
+    // Specialties table
     public class SpecialtyConfiguration : IEntityTypeConfiguration<Specialty>
     {
         public void Configure(EntityTypeBuilder<Specialty> builder)

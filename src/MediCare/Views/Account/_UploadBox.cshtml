@@ -1,5 +1,4 @@
-@*——- Omar Hussein ——-*@
-@* صندوق رفع مستند (dashed) - بيتحول "Uploaded" لما يتختار ملف *@
+@* Document upload box (dashed) - turns into "Uploaded" when a file is chosen *@
 @model UploadBoxModel
 @{
     var id = "upload-" + Model.Name.ToLowerInvariant();
@@ -18,4 +17,3 @@
                data-val="@(Model.RequiredMessage is null ? null : "true")" data-val-required="@Model.RequiredMessage" />
     </label>
 </div>
-@*————*@

@@ -1,7 +1,6 @@
-/*——- Omar Hussein ——-*/
 namespace MVC.BLL.Common
 {
-    // ملف مرفوع من الفورم - الـ PL بيحوّل IFormFile للكلاس ده عشان الـ BLL ميعتمدش على ASP.NET
+    // A file uploaded from a form - the PL converts IFormFile to this class so the BLL doesn't depend on ASP.NET
     public sealed class FileUpload
     {
         public FileUpload(Stream content, string fileName, string contentType, long length)
@@ -18,7 +17,7 @@ namespace MVC.BLL.Common
         public long Length { get; }
     }
 
-    // ملف متخزن جاهز للتحميل من Endpoint عليه Authorization
+    // A stored file ready to download from an endpoint protected by authorization
     public sealed class StoredFile
     {
         public StoredFile(Stream content, string contentType, string fileName)
@@ -33,4 +32,3 @@ namespace MVC.BLL.Common
         public string FileName { get; }
     }
 }
-/*————*/

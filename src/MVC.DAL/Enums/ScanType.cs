@@ -1,9 +1,9 @@
 ﻿namespace MVC.DAL.Enums
 {
-    // نوع طلب التحليل أو الأشعة - ScanOrders.ScanType
+    // Type of lab test or scan order - ScanOrders.ScanType
     public enum ScanType
     {
-        Lab, // تحليل معمل
-        Radiology // أشعة
+        Lab, // Lab test
+        Radiology // Radiology scan
     }
 }

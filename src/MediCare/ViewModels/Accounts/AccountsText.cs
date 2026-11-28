@@ -1,10 +1,9 @@
-/*——- Omar Hussein ——-*/
 using MVC.BLL.DTOs.Accounts;
 using MVC.DAL.Enums;
 
 namespace MVC.PL.ViewModels.Accounts
 {
-    // مفاتيح الترجمة للـ Enums والأسماء اللي بتتكرر في الـ Views
+    // Localization keys for enums and names repeated across the views
     public static class AccountsText
     {
         public static string DocumentType(DoctorDocumentType type) => type switch
@@ -40,7 +39,7 @@ namespace MVC.PL.ViewModels.Accounts
 
         public static string SpecialtyName(SpecialtyDto? s, bool arabic) => s is null ? string.Empty : arabic ? s.NameAr : s.NameEn;
 
-        // التاريخ بتوقيت مصر (القيم متخزنة UTC)
+        // The date in Egypt time (values are stored in UTC)
         public static DateTimeOffset Local(DateTimeOffset utc)
         {
             try
@@ -55,4 +54,3 @@ namespace MVC.PL.ViewModels.Accounts
         }
     }
 }
-/*————*/

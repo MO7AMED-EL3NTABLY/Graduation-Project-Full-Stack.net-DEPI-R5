@@ -1,11 +1,10 @@
-/*——- Omar Hussein ——-*/
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 
 namespace MVC.PL.Security
 {
-    // لينك Reset الباسورد صالح ساعة بس (لينك تأكيد الإيميل بيفضل 24 ساعة من الـ Default provider)
+    // Password reset link is valid for 1 hour only (email confirmation link stays 24 hours from the default provider)
     public class PasswordResetTokenProviderOptions : DataProtectionTokenProviderOptions
     {
         public PasswordResetTokenProviderOptions()
@@ -28,4 +27,3 @@ namespace MVC.PL.Security
         }
     }
 }
-/*————*/

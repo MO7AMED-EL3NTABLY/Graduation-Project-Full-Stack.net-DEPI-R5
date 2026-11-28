@@ -4,24 +4,24 @@ using MVC.DAL.Entities.Support;
 
 namespace MVC.DAL.Entities.Accounts
 {
-    // المستخدم في المنصة (Patient أو Doctor أو Admin) - جدول AspNetUsers
-    // بيورث من IdentityUser، واللي فيه الأعمدة الأساسية دي:
+    // A user on the platform (Patient, Doctor or Admin) - AspNetUsers table
+    // Inherits from IdentityUser, which has these basic columns:
     // Id, UserName, Email, PhoneNumber, PasswordHash, Lockout
 
     public class ApplicationUser : IdentityUser
     {
-        public string FullName { get; set; } = null!; // الاسم الكامل
+        public string FullName { get; set; } = null!; // Full name
 
-        public string? ProfilePhotoStorageKey { get; set; } // مفتاح صورة البروفايل (null للأدمن بس)
+        public string? ProfilePhotoStorageKey { get; set; } // Profile photo key (null for the admin only)
 
-        public bool IsActive { get; set; } // تفعيل الحساب - الفلاج الوحيد للتفعيل/الإيقاف
+        public bool IsActive { get; set; } // Account activation - the only activation/suspension flag
 
         // Navigation properties
-        public PatientProfile? PatientProfile { get; set; } // موجود لو الحساب Patient بس
-        public DoctorProfile? DoctorProfile { get; set; } // موجود لو الحساب Doctor بس
+        public PatientProfile? PatientProfile { get; set; } // Exists only if the account is a Patient
+        public DoctorProfile? DoctorProfile { get; set; } // Exists only if the account is a Doctor
         public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
         public ICollection<PhoneVerificationCode> PhoneVerificationCodes { get; set; } = new List<PhoneVerificationCode>();
-        public SupportConversation? SupportConversation { get; set; } // محادثة الدعم (Patient و Doctor بس)
+        public SupportConversation? SupportConversation { get; set; } // Support conversation (Patient and Doctor only)
         public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
         public ICollection<NotificationPreference> NotificationPreferences { get; set; } = new List<NotificationPreference>();
     }

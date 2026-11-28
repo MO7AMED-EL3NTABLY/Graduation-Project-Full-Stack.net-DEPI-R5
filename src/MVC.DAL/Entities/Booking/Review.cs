@@ -2,24 +2,24 @@
 
 namespace MVC.DAL.Entities.Booking
 {
-    // تقييم المريض للدكتور (نجوم من غير نص) - جدول Reviews
-    // Filtered unique index: تقييم واحد مش ممسوح لكل (PatientId, DoctorId)
-    // مش مربوط بحجز، والمتوسط بيتحسب ومش بيتخزن
+    // The patient's rating of the doctor (stars, no text) - Reviews table
+    // Filtered unique index: one non-deleted review per (PatientId, DoctorId)
+    // Not linked to an appointment, and the average is derived, never stored
     public class Review
     {
         public Guid ReviewId { get; set; }
 
-        public string PatientId { get; set; } = null!; // FK لـ PatientProfiles
+        public string PatientId { get; set; } = null!; // FK to PatientProfiles
 
-        public string DoctorId { get; set; } = null!; // FK لـ DoctorProfiles
+        public string DoctorId { get; set; } = null!; // FK to DoctorProfiles
 
-        public int Rating { get; set; } // التقييم من 1 لـ 5
+        public int Rating { get; set; } // Rating from 1 to 5
 
-        public DateTimeOffset CreatedAtUtc { get; set; } // وقت الإنشاء
+        public DateTimeOffset CreatedAtUtc { get; set; } // Creation time
 
-        public DateTimeOffset UpdatedAtUtc { get; set; } // وقت آخر تعديل
+        public DateTimeOffset UpdatedAtUtc { get; set; } // Last update time
 
-        public DateTimeOffset? DeletedAtUtc { get; set; } // وقت الحذف المنطقي - null لو موجود
+        public DateTimeOffset? DeletedAtUtc { get; set; } // Soft delete time - null if it still exists
 
         // Navigation properties
         public PatientProfile Patient { get; set; } = null!;

@@ -4,7 +4,7 @@ using MVC.DAL.Entities.Chat;
 
 namespace MVC.DAL.Configurations.Chat
 {
-    // جدول ChatThreads - Unique على (PatientId, DoctorId)
+    // ChatThreads table - unique on (PatientId, DoctorId)
     public class ChatThreadConfiguration : IEntityTypeConfiguration<ChatThread>
     {
         public void Configure(EntityTypeBuilder<ChatThread> builder)

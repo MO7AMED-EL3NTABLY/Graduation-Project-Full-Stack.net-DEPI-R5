@@ -1,4 +1,3 @@
-/*——- Omar Hussein ——-*/
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
@@ -10,7 +9,7 @@ using MVC.PL.Controllers;
 
 namespace MVC.PL.Areas.Doctor.Controllers
 {
-    // Settings الدكتور: الإيميل والموبايل والباسورد واللغة (البيانات المهنية في Professional profile)
+    // Doctor settings: email, phone, password and language (professional data is in Professional profile)
     [Area("Doctor")]
     [Authorize(Roles = AppRoles.Doctor)]
     public class SettingsController : AccountSettingsControllerBase
@@ -28,4 +27,3 @@ namespace MVC.PL.Areas.Doctor.Controllers
         protected override bool IsDoctor => true;
     }
 }
-/*————*/

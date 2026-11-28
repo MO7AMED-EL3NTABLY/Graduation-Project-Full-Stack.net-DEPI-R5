@@ -1,11 +1,10 @@
-/*——- Omar Hussein ——-*/
 using Microsoft.Extensions.Logging;
 using MVC.BLL.Interfaces;
 
 namespace MVC.BLL.Services.Infrastructure
 {
-    // Fake Email sender للتطوير بس: بيكتب الرسالة (واللينك اللي فيها) في الـ Log بدل ما يبعتها
-    // ممنوع يتستخدم في الـ Production لأنه بيكتب لينكات وأكواد في الـ Log
+    // Fake email sender for development only: writes the message (and its link) to the log instead of sending it
+    // Must not be used in production because it writes links and codes to the log
     public class LoggingEmailSender : IEmailSender
     {
         private readonly ILogger<LoggingEmailSender> _logger;
@@ -15,14 +14,14 @@ namespace MVC.BLL.Services.Infrastructure
             _logger = logger;
         }
 
-        public Task SendAsync(string toEmail, string subject, string body)
+        public Task<bool> SendAsync(string toEmail, string subject, string body)
         {
             _logger.LogWarning("[FAKE EMAIL] To: {To} | Subject: {Subject}\n{Body}", toEmail, subject, body);
-            return Task.CompletedTask;
+            return Task.FromResult(true);
         }
     }
 
-    // Fake SMS sender للتطوير بس: بيكتب الرسالة (والكود اللي فيها) في الـ Log
+    // Fake SMS sender for development only: writes the message (and its code) to the log
     public class LoggingSmsSender : ISmsSender
     {
         private readonly ILogger<LoggingSmsSender> _logger;
@@ -39,4 +38,3 @@ namespace MVC.BLL.Services.Infrastructure
         }
     }
 }
-/*————*/

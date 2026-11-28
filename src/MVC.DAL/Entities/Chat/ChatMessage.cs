@@ -2,30 +2,30 @@
 
 namespace MVC.DAL.Entities.Chat
 {
-    // رسالة في محادثة مريض ودكتور - جدول ChatMessages
-    // CHECK: لازم يكون فيها نص أو ملف أو الاتنين
-    // الرسايل مش بتتمسح، والـ BLL بيتأكد إن الراسل هو مريض أو دكتور المحادثة
+    // A message in a patient-doctor conversation - ChatMessages table
+    // CHECK: it must have text, a file, or both
+    // Messages are never deleted, and the BLL checks that the sender is the thread's patient or doctor
     public class ChatMessage
     {
         public Guid ChatMessageId { get; set; }
 
-        public Guid ChatThreadId { get; set; } // FK لـ ChatThreads
+        public Guid ChatThreadId { get; set; } // FK to ChatThreads
 
-        public string SenderUserId { get; set; } = null!; // FK لـ AspNetUsers - الراسل
+        public string SenderUserId { get; set; } = null!; // FK to AspNetUsers - the sender
 
-        public string? Text { get; set; } // نص الرسالة
+        public string? Text { get; set; } // Message text
 
-        public string? AttachmentStorageKey { get; set; } // مفتاح الملف المرفق
+        public string? AttachmentStorageKey { get; set; } // Attached file key
 
-        public string? OriginalFileName { get; set; } // اسم الملف الأصلي
+        public string? OriginalFileName { get; set; } // Original file name
 
-        public string? ContentType { get; set; } // نوع الملف
+        public string? ContentType { get; set; } // File type
 
-        public long? FileSizeBytes { get; set; } // حجم الملف بالبايت
+        public long? FileSizeBytes { get; set; } // File size in bytes
 
-        public bool IsRead { get; set; } // اتقرت ولا لأ (من غير وقت القراية)
+        public bool IsRead { get; set; } // Read or not (no read time)
 
-        public DateTimeOffset SentAtUtc { get; set; } // وقت الإرسال
+        public DateTimeOffset SentAtUtc { get; set; } // Sent time
 
         // Navigation properties
         public ChatThread ChatThread { get; set; } = null!;

@@ -1,8 +1,7 @@
-/*——- Omar Hussein ——-*/
 /* =========================================================
-   Accounts module (Module 1) — صفحات الدخول والتسجيل والإعدادات والبروفايل والاعتماد
-   من Figma: Auth screens + Professional profile + Settings + Doctor approvals + Change requests
-   بنستخدم CSS logical properties عشان RTL و LTR
+   Accounts module (Module 1) — login, registration, settings, profile and approval pages
+   From Figma: Auth screens + Professional profile + Settings + Doctor approvals + Change requests
+   We use CSS logical properties for RTL and LTR
    ========================================================= */
 
 /* ---------- Forms ---------- */
@@ -46,7 +45,7 @@ html[dir="rtl"] input[type="tel"].mc-input, html[dir="rtl"] input[type="email"].
 .mc-link:hover { color: var(--primary-700); text-decoration: underline; }
 .mc-link--danger { color: var(--danger-500); }
 
-/* ---------- Buttons (إضافات على site.css) ---------- */
+/* ---------- Buttons (additions to site.css) ---------- */
 .mc-btn { gap: 8px; font-family: inherit; }
 .mc-btn--block { width: 100%; }
 .mc-btn--lg { min-height: 48px; }
@@ -81,7 +80,7 @@ html[dir="rtl"] input[type="tel"].mc-input, html[dir="rtl"] input[type="email"].
 
 .mc-count { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px; background: var(--danger-500); color: #fff; font-size: 11px; font-weight: 600; }
 
-/* ---------- Auth layout (اللوحة الشمال فيها صورة الدكتور) ---------- */
+/* ---------- Auth layout (the left panel holds the doctor image) ---------- */
 .mc-auth { display: flex; min-height: 100vh; background: var(--neutral-0); }
 
 .mc-auth__panel {
@@ -241,7 +240,7 @@ html[lang="ar"] .mc-auth__title { line-height: 1.4; letter-spacing: 0; }
 .mc-avatar--photo { background-size: cover; background-position: center; color: transparent; }
 .mc-avatar--teal { background: var(--primary-100); color: var(--primary-700); }
 
-/* input مع badge وزرار جوه (Settings) */
+/* Input with a badge and a button inside (Settings) */
 .mc-inline-field { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 6px 8px 6px 14px; border: 1px solid var(--neutral-200); border-radius: 10px; font-size: 14px; }
 html[dir="rtl"] .mc-inline-field { padding: 6px 14px 6px 8px; }
 .mc-inline-field__value { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
@@ -347,4 +346,3 @@ html[dir="rtl"] .mc-chip { padding: 5px 12px 5px 6px; }
 @keyframes mc-flash-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
 
 .mc-content .mc-alert:last-child { margin-bottom: 0; }
-/*————*/

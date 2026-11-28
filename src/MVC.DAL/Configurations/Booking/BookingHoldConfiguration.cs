@@ -4,18 +4,18 @@ using MVC.DAL.Entities.Booking;
 
 namespace MVC.DAL.Configurations.Booking
 {
-    // جدول BookingHolds
+    // BookingHolds table
     public class BookingHoldConfiguration : IEntityTypeConfiguration<BookingHold>
     {
         public void Configure(EntityTypeBuilder<BookingHold> builder)
         {
             builder.ToTable("BookingHolds", t =>
             {
-                // XOR: واحد بس من ShiftId و AdditionalShiftId
+                // XOR: exactly one of ShiftId and AdditionalShiftId
                 t.HasCheckConstraint("CK_BookingHolds_ShiftTarget",
                     "([ShiftId] IS NOT NULL AND [AdditionalShiftId] IS NULL) OR ([ShiftId] IS NULL AND [AdditionalShiftId] IS NOT NULL)");
 
-                // NewBooking => من غير حجز أصلي - Reschedule => لازم حجز أصلي
+                // NewBooking => no original appointment - Reschedule => original appointment required
                 t.HasCheckConstraint("CK_BookingHolds_Purpose",
                     "([Purpose] = 'NewBooking' AND [OriginalAppointmentId] IS NULL) OR ([Purpose] = 'Reschedule' AND [OriginalAppointmentId] IS NOT NULL)");
             });

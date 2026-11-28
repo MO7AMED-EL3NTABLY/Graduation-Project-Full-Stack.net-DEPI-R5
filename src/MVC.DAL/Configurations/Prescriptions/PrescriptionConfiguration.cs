@@ -4,7 +4,7 @@ using MVC.DAL.Entities.Prescriptions;
 
 namespace MVC.DAL.Configurations.Prescriptions
 {
-    // جدول Prescriptions
+    // Prescriptions table
     public class PrescriptionConfiguration : IEntityTypeConfiguration<Prescription>
     {
         public void Configure(EntityTypeBuilder<Prescription> builder)
@@ -13,7 +13,7 @@ namespace MVC.DAL.Configurations.Prescriptions
 
             builder.HasKey(p => p.PrescriptionId);
 
-            // الحجز الأصلي اللي اتعملت فيه الروشتة
+            // The original appointment the prescription was created in
             builder.HasOne(p => p.Appointment)
                    .WithMany(a => a.Prescriptions)
                    .HasForeignKey(p => p.AppointmentId)

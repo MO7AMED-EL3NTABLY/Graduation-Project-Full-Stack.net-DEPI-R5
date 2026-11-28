@@ -6,7 +6,7 @@ using MVC.BLL.Interfaces;
 
 namespace MVC.BLL.Services.Infrastructure
 {
-    // إعدادات الـ SMTP - بتتقرا من User Secrets (قسم Smtp)، مفيش باسورد في الكود
+    // SMTP settings - read from User Secrets (Smtp section), no password in the code
     public class SmtpOptions
     {
         public string Host { get; set; } = string.Empty;
@@ -16,7 +16,7 @@ namespace MVC.BLL.Services.Infrastructure
         public string FromName { get; set; } = "MediCare";
     }
 
-    // بيبعت إيميل حقيقي عن طريق Gmail SMTP (App Password)
+    // Sends a real email through Gmail SMTP (App Password)
     public class SmtpEmailSender : IEmailSender
     {
         private readonly SmtpOptions _options;
@@ -28,32 +28,35 @@ namespace MVC.BLL.Services.Infrastructure
             _logger = logger;
         }
 
-        public async Task SendAsync(string toEmail, string subject, string body)
+        // Returns false when the email was not sent, so the calling service can report the failure
+        public async Task<bool> SendAsync(string toEmail, string subject, string body)
         {
-            using var message = new MailMessage
-            {
-                From = new MailAddress(_options.Username, _options.FromName),
-                Subject = subject,
-                Body = body,
-                IsBodyHtml = true // الـ body جاي من EmailTemplates
-            };
-            message.To.Add(toEmail);
-
-            using var client = new SmtpClient(_options.Host, _options.Port)
-            {
-                EnableSsl = true,
-                Credentials = new NetworkCredential(_options.Username, _options.Password)
-            };
-
             try
             {
+                // Built inside the try: an invalid recipient address throws FormatException here
+                using var message = new MailMessage
+                {
+                    From = new MailAddress(_options.Username, _options.FromName),
+                    Subject = subject,
+                    Body = body,
+                    IsBodyHtml = true // The body comes from EmailTemplates
+                };
+                message.To.Add(toEmail);
+
+                using var client = new SmtpClient(_options.Host, _options.Port)
+                {
+                    EnableSsl = true,
+                    Credentials = new NetworkCredential(_options.Username, _options.Password)
+                };
+
                 await client.SendMailAsync(message);
+                return true;
             }
-            catch (SmtpException ex)
+            catch (Exception ex) when (ex is SmtpException or InvalidOperationException or FormatException)
             {
-                // الحساب بيكون اتحفظ خلاص، فمش عايزين الصفحة تقع - المستخدم يقدر يدوس Resend
-                // بنسجل الإيميل والخطأ بس، مش محتوى الرسالة (فيها لينكات) - Spec §12
+                // Log only the email and the error, not the message content (it has links) - Spec §12
                 _logger.LogError(ex, "Sending email to {To} failed.", toEmail);
+                return false;
             }
         }
     }

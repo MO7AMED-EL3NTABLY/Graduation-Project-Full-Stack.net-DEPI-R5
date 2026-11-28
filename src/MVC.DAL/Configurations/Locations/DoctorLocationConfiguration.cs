@@ -4,7 +4,7 @@ using MVC.DAL.Entities.Locations;
 
 namespace MVC.DAL.Configurations.Locations
 {
-    // جدول DoctorLocations - LocationId عليه unique index
+    // DoctorLocations table - unique index on LocationId
     public class DoctorLocationConfiguration : IEntityTypeConfiguration<DoctorLocation>
     {
         public void Configure(EntityTypeBuilder<DoctorLocation> builder)
@@ -18,7 +18,7 @@ namespace MVC.DAL.Configurations.Locations
                    .HasForeignKey(dl => dl.DoctorId)
                    .OnDelete(DeleteBehavior.Restrict);
 
-            // كل Location ليه DoctorLocation واحد بالكتير (1 : 0..1)
+            // Each Location has at most one DoctorLocation (1 : 0..1)
             builder.HasOne(dl => dl.Location)
                    .WithOne(l => l.DoctorLocation)
                    .HasForeignKey<DoctorLocation>(dl => dl.LocationId)

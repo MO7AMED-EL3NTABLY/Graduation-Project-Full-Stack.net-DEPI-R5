@@ -2,21 +2,21 @@
 
 namespace MVC.DAL.Entities.Locations
 {
-    // ربط الدكتور بمكان كشف وسعر الكشف فيه - جدول DoctorLocations
-    // LocationId عليه unique index: مكان واحد لـ DoctorLocation واحد
+    // Links the doctor to a practice location and its visit fee - DoctorLocations table
+    // Unique index on LocationId: one location for one DoctorLocation
     public class DoctorLocation
     {
         public Guid DoctorLocationId { get; set; }
 
-        public string DoctorId { get; set; } = null!; // FK لـ DoctorProfiles
+        public string DoctorId { get; set; } = null!; // FK to DoctorProfiles
 
-        public Guid LocationId { get; set; } // FK لـ Locations (unique)
+        public Guid LocationId { get; set; } // FK to Locations (unique)
 
-        public decimal VisitFee { get; set; } // سعر الكشف بالجنيه - decimal(10,2) - بيتنسخ في الحجز
+        public decimal VisitFee { get; set; } // Visit fee in EGP - decimal(10,2) - copied into the appointment
 
-        public bool IsActive { get; set; } // لو اتقفل بيلغي الحجوزات المتأكدة اللي لسه متمتش
+        public bool IsActive { get; set; } // When turned off it cancels the confirmed appointments that haven't happened yet
 
-        public bool IsDeleted { get; set; } // حذف منطقي (soft delete)
+        public bool IsDeleted { get; set; } // Soft delete
 
         // Navigation properties
         public DoctorProfile Doctor { get; set; } = null!;

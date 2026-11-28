@@ -4,8 +4,8 @@ using Microsoft.Extensions.Localization;
 
 namespace MVC.PL.ViewModels.Accounts
 {
-    // Checkbox لازم يتعلّم عليه (زي الموافقة على الشروط)
-    // [Range(typeof(bool), "true", "true")] بيفشل في الـ client validation على طول، عشان كده الـ attribute ده
+    // A checkbox that must be ticked (like accepting the terms)
+    // [Range(typeof(bool), "true", "true")] always fails client validation, hence this attribute
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class MustBeTrueAttribute : ValidationAttribute, IClientModelValidator
     {

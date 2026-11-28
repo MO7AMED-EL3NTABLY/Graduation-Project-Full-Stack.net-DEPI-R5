@@ -1,4 +1,3 @@
-/*——- Omar Hussein ——-*/
 using Microsoft.AspNetCore.Identity;
 using MVC.BLL.Common;
 using MVC.BLL.DTOs.Accounts;
@@ -8,7 +7,7 @@ using MVC.DAL.Entities.Accounts;
 
 namespace MVC.BLL.Services.Accounts
 {
-    // صفحة Settings للمريض والدكتور: الاسم والصورة والإيميل والموبايل والباسورد
+    // Settings page for patient and doctor: name, photo, email, phone and password
     public class AccountSettingsService : IAccountSettingsService
     {
         private readonly MediCareDbContext _db;
@@ -61,7 +60,7 @@ namespace MVC.BLL.Services.Accounts
             return await UpdateNameAndPhotoAsync(_userManager, _files, user, fullName, newPhoto);
         }
 
-        // مشتركة مع Professional profile بتاع الدكتور
+        // Shared with the doctor's Professional profile
         internal static async Task<ServiceResult> UpdateNameAndPhotoAsync(
             UserManager<ApplicationUser> userManager, IFileStorage files, ApplicationUser user, string fullName, FileUpload? newPhoto)
         {
@@ -87,7 +86,7 @@ namespace MVC.BLL.Services.Accounts
                 return ServiceResult.Fail(result.Errors.Select(e => e.Description));
             }
 
-            // الصورة القديمة بتتمسح بعد ما الجديدة تتحفظ
+            // The old photo is deleted after the new one is saved
             if (newKey is not null && !string.IsNullOrEmpty(oldKey))
                 files.Delete(oldKey);
 
@@ -108,14 +107,16 @@ namespace MVC.BLL.Services.Accounts
             if (await _userManager.FindByEmailAsync(newEmail) is not null)
                 return ServiceResult.Fail("An account with this email already exists.");
 
-            // الإيميل الحالي بيفضل شغال، واللينك بيروح للإيميل الجديد (صالح 24 ساعة)
+            // The current email stays active, and the link goes to the new email (valid for 24 hours)
             var token = await _userManager.GenerateChangeEmailTokenAsync(user, newEmail);
-            await _email.SendAsync(newEmail, "Confirm your new MediCare email",
+            var sent = await _email.SendAsync(newEmail, "Confirm your new MediCare email",
                 EmailTemplates.ActionEmail(user.FullName,
                     "Confirm your new email",
                     "Confirm this address to use it for your MediCare account. Your current email stays active until you confirm.",
                     "Confirm new email", link(user.Id, newEmail, token),
                     "This link is valid for 24 hours."));
+            if (!sent)
+                return ServiceResult.Fail("We couldn't send the email. Please try again later.");
             return ServiceResult.Success();
         }
 
@@ -129,7 +130,7 @@ namespace MVC.BLL.Services.Accounts
             if (owner is not null && owner.Id != user.Id)
                 return ServiceResult.Fail("An account with this email already exists.");
 
-            // الإيميل واسم المستخدم (UserName = Email) بيتغيروا مع بعض
+            // Email and user name (UserName = Email) change together
             await using var transaction = await _db.Database.BeginTransactionAsync();
             var change = await _userManager.ChangeEmailAsync(user, newEmail, token);
             if (!change.Succeeded)
@@ -164,4 +165,3 @@ namespace MVC.BLL.Services.Accounts
         }
     }
 }
-/*————*/

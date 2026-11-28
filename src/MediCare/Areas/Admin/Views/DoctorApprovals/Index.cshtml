@@ -1,5 +1,4 @@
-@*——- Omar Hussein ——-*@
-@* Doctor approvals (Figma 37-38): المراجعة الأولى (قرار واحد للمستندين) + المستندات البديلة *@
+@* Doctor approvals (Figma 37-38): the initial review (one decision for both documents) + replacement documents *@
 @model DoctorApprovalsPageViewModel
 @{
     ViewData["Title"] = L["Doctor approvals"];
@@ -19,7 +18,7 @@
 }
 
 @functions {
-    // معاينة المستند: صورة أو PDF
+    // Document preview: image or PDF
     private static bool IsImage(string fileName) =>
         new[] { ".jpg", ".jpeg", ".png" }.Contains(System.IO.Path.GetExtension(fileName).ToLowerInvariant());
 }
@@ -40,7 +39,7 @@
 else
 {
     <div class="mc-review">
-        @* ===== القائمة ===== *@
+        @* ===== List ===== *@
         <div class="mc-queue">
             @foreach (var item in Model.Items)
             {
@@ -78,7 +77,7 @@ else
             }
         </div>
 
-        @* ===== التفاصيل ===== *@
+        @* ===== Details ===== *@
         <div class="mc-stack">
             @if (Model.Tab == ApprovalTab.Replacements && Model.Replacement is not null)
             {
@@ -280,4 +279,3 @@ else
     <partial name="Accounts/_Flash" />
     <script src="~/js/accounts.js" asp-append-version="true"></script>
 }
-@*————*@

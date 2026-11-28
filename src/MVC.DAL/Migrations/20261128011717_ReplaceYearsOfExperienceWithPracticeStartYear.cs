@@ -15,14 +15,14 @@ namespace MVC.DAL.Migrations
                 table: "DoctorProfiles",
                 newName: "PracticeStartYear");
 
-            // D-03: العمود كان فيه عدد سنين الخبرة، نحوله لسنة بداية الممارسة
+            // D-03: the column held the number of years of experience; convert it to the practice start year
             migrationBuilder.Sql("UPDATE [DoctorProfiles] SET [PracticeStartYear] = YEAR(GETUTCDATE()) - [PracticeStartYear];");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            // نرجّع سنة البداية لعدد سنين قبل ما العمود يرجع لاسمه القديم
+            // Convert the start year back to a number of years before the column gets its old name back
             migrationBuilder.Sql("UPDATE [DoctorProfiles] SET [PracticeStartYear] = YEAR(GETUTCDATE()) - [PracticeStartYear];");
 
             migrationBuilder.RenameColumn(

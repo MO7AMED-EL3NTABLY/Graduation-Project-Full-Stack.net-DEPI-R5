@@ -2,36 +2,36 @@
 
 namespace MVC.DAL.Entities.Accounts
 {
-    // مستندات الدكتور (رخصة مزاولة المهنة / شهادة التخرج) - جدول DoctorDocuments
+    // Doctor documents (medical license / graduation certificate) - DoctorDocuments table
     public class DoctorDocument
     {
         public Guid DoctorDocumentId { get; set; }
 
-        public string DoctorId { get; set; } = null!; // FK لـ DoctorProfiles
+        public string DoctorId { get; set; } = null!; // FK to DoctorProfiles
 
-        public DoctorDocumentType DocumentType { get; set; } // نوع المستند
+        public DoctorDocumentType DocumentType { get; set; } // Document type
 
-        public string StorageKey { get; set; } = null!; // مفتاح الملف (مش رابط عام)
+        public string StorageKey { get; set; } = null!; // File key (not a public link)
 
-        public string OriginalFileName { get; set; } = null!; // اسم الملف الأصلي
+        public string OriginalFileName { get; set; } = null!; // Original file name
 
-        public string ContentType { get; set; } = null!; // نوع الملف (pdf, jpg...)
+        public string ContentType { get; set; } = null!; // File type (pdf, jpg...)
 
-        public long FileSizeBytes { get; set; } // حجم الملف بالبايت
+        public long FileSizeBytes { get; set; } // File size in bytes
 
-        public ApprovalStatus ApprovalStatus { get; set; } // حالة مراجعة الأدمن
+        public ApprovalStatus ApprovalStatus { get; set; } // Admin review status
 
-        public bool IsCurrent { get; set; } // المستند الحالي المعتمد (1 لما يكون Approved بس)
+        public bool IsCurrent { get; set; } // The current approved document (1 only when Approved)
 
-        public string? RejectionReason { get; set; } // سبب الرفض - مطلوب لو Rejected
+        public string? RejectionReason { get; set; } // Rejection reason - required when Rejected
 
-        public DateTimeOffset? ReviewedAtUtc { get; set; } // وقت المراجعة - null وهو Pending
+        public DateTimeOffset? ReviewedAtUtc { get; set; } // Review time - null while Pending
 
-        public string? ReviewedByAdminId { get; set; } // الأدمن اللي راجع - null وهو Pending
+        public string? ReviewedByAdminId { get; set; } // The reviewing admin - null while Pending
 
-        public Guid? ReplacesDocumentId { get; set; } // المستند القديم اللي ده بيستبدله (self-reference)
+        public Guid? ReplacesDocumentId { get; set; } // The old document this one replaces (self-reference)
 
-        public DateTimeOffset UploadedAtUtc { get; set; } // وقت الرفع
+        public DateTimeOffset UploadedAtUtc { get; set; } // Upload time
 
         // Navigation properties
         public DoctorProfile Doctor { get; set; } = null!;

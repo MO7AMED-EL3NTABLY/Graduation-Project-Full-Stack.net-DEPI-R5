@@ -1,4 +1,3 @@
-/*——- Omar Hussein ——-*/
 using Microsoft.EntityFrameworkCore;
 using MVC.BLL.Common;
 using MVC.BLL.DTOs.Accounts;
@@ -8,7 +7,7 @@ using MVC.DAL.Enums;
 
 namespace MVC.BLL.Services.Accounts
 {
-    // صفحة Profile change requests عند الأدمن
+    // The admin's Profile change requests page
     public class ProfileChangeRequestService : IProfileChangeRequestService
     {
         private const int MaxReasonLength = 500;
@@ -71,7 +70,7 @@ namespace MVC.BLL.Services.Accounts
                 })
                 .ToListAsync();
 
-            // القيمة "الحالية" هي اللي في البروفايل دلوقتي (بعد الموافقة بتبقى نفس المطلوبة)
+            // The "current" value is what is in the profile now (after approval it equals the requested one)
             return rows.Select(r => new ChangeRequestRowDto
             {
                 RequestId = r.DoctorProfileChangeRequestId,
@@ -113,7 +112,7 @@ namespace MVC.BLL.Services.Accounts
 
             var profile = request.Doctor;
 
-            // الطلب + تعديل البروفايل في transaction واحدة
+            // The request + the profile change in one transaction
             await using var transaction = await _db.Database.BeginTransactionAsync();
             switch (request.RequestType)
             {
@@ -155,7 +154,7 @@ namespace MVC.BLL.Services.Accounts
             if (request.Status != ApprovalStatus.Pending)
                 return ServiceResult.Fail("This request has already been reviewed.");
 
-            // الرفض مش بيغير البروفايل، والسبب اختياري
+            // Rejection doesn't change the profile, and the reason is optional
             request.Status = ApprovalStatus.Rejected;
             request.ReviewedAtUtc = DateTimeOffset.UtcNow;
             request.ReviewedByAdminId = adminId;
@@ -165,4 +164,3 @@ namespace MVC.BLL.Services.Accounts
         }
     }
 }
-/*————*/

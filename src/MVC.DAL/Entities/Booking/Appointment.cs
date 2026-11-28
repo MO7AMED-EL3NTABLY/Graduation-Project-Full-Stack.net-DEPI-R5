@@ -6,37 +6,37 @@ using MVC.DAL.Enums;
 
 namespace MVC.DAL.Entities.Booking
 {
-    // حجز مريض عند دكتور - جدول Appointments
-    // CHECK: لازم واحد بس من ShiftId و AdditionalShiftId يكون له قيمة (XOR)
-    // Filtered unique index على (PatientId, DoctorId, AppointmentDate) لو Status مش Cancelled
-    // الحجوزات مش بتتمسح خالص
+    // A patient's appointment with a doctor - Appointments table
+    // CHECK: exactly one of ShiftId and AdditionalShiftId must have a value (XOR)
+    // Filtered unique index on (PatientId, DoctorId, AppointmentDate) when Status is not Cancelled
+    // Appointments are never deleted
     public class Appointment
     {
         public Guid AppointmentId { get; set; }
 
-        public string PatientId { get; set; } = null!; // FK لـ PatientProfiles
+        public string PatientId { get; set; } = null!; // FK to PatientProfiles
 
-        public string DoctorId { get; set; } = null!; // FK لـ DoctorProfiles - متخزن عشان الـ unique index
+        public string DoctorId { get; set; } = null!; // FK to DoctorProfiles - stored for the unique index
 
-        public Guid? ShiftId { get; set; } // FK لـ Shifts (XOR مع AdditionalShiftId)
+        public Guid? ShiftId { get; set; } // FK to Shifts (XOR with AdditionalShiftId)
 
-        public Guid? AdditionalShiftId { get; set; } // FK لـ AdditionalShifts (XOR مع ShiftId)
+        public Guid? AdditionalShiftId { get; set; } // FK to AdditionalShifts (XOR with ShiftId)
 
-        public DateOnly AppointmentDate { get; set; } // تاريخ الحجز بتوقيت القاهرة
+        public DateOnly AppointmentDate { get; set; } // Appointment date in Cairo time
 
-        public decimal VisitFee { get; set; } // سعر الكشف المنسوخ وقت التأكيد - decimal(10,2)
+        public decimal VisitFee { get; set; } // Visit fee copied at confirmation - decimal(10,2)
 
         public AppointmentStatus Status { get; set; } // Confirmed / Completed / Cancelled / Missed
 
-        public DateTimeOffset BookedAtUtc { get; set; } // وقت الحجز
+        public DateTimeOffset BookedAtUtc { get; set; } // Booking time
 
-        public DateTimeOffset? CompletedAtUtc { get; set; } // وقت إتمام الزيارة
+        public DateTimeOffset? CompletedAtUtc { get; set; } // Visit completion time
 
-        public DateTimeOffset? CancelledAtUtc { get; set; } // وقت الإلغاء
+        public DateTimeOffset? CancelledAtUtc { get; set; } // Cancellation time
 
-        public string? CancelledByUserId { get; set; } // اللي لغى - null لو إلغاء من السيستم
+        public string? CancelledByUserId { get; set; } // Who cancelled - null for a system cancellation
 
-        public string? CancellationReason { get; set; } // سبب الإلغاء (اختياري)
+        public string? CancellationReason { get; set; } // Cancellation reason (optional)
 
         // Navigation properties
         public PatientProfile Patient { get; set; } = null!;
@@ -44,7 +44,7 @@ namespace MVC.DAL.Entities.Booking
         public Shift? Shift { get; set; }
         public AdditionalShift? AdditionalShift { get; set; }
         public ApplicationUser? CancelledByUser { get; set; }
-        public ICollection<Prescription> Prescriptions { get; set; } = new List<Prescription>(); // الروشتات اللي اتعملت في الحجز ده (الحجز الأصلي)
+        public ICollection<Prescription> Prescriptions { get; set; } = new List<Prescription>(); // Prescriptions created in this appointment (the original appointment)
         public ICollection<Reminder> Reminders { get; set; } = new List<Reminder>();
         public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
     }

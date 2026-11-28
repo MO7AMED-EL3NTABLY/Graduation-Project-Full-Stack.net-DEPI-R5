@@ -1,10 +1,10 @@
 ﻿namespace MVC.DAL.Enums
 {
-    // حالة المراجعة من الأدمن - بيستخدم في DoctorProfiles و DoctorDocuments و DoctorProfileChangeRequests
+    // Admin review status - used in DoctorProfiles, DoctorDocuments and DoctorProfileChangeRequests
     public enum ApprovalStatus
     {
-        Pending, // مستني مراجعة الأدمن
-        Approved, // الأدمن وافق
-        Rejected // الأدمن رفض
+        Pending, // Waiting for admin review
+        Approved, // Admin approved
+        Rejected // Admin rejected
     }
 }

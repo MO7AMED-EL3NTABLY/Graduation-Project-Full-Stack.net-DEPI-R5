@@ -1,4 +1,3 @@
-/*——- Omar Hussein ——-*/
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MVC.BLL.Common;
@@ -10,7 +9,7 @@ using MVC.DAL.Enums;
 
 namespace MVC.BLL.Services.Accounts
 {
-    // صفحة Professional profile: البيانات العادية بتتعدل علطول، والمحمية بطلب للأدمن
+    // Professional profile page: ordinary data is edited directly, protected data through an admin request
     public class DoctorProfileService : IDoctorProfileService
     {
         private readonly MediCareDbContext _db;
@@ -65,7 +64,7 @@ namespace MVC.BLL.Services.Accounts
                     },
                     RequestedSpecialty = r.RequestedSpecialty is null ? null : ToDto(r.RequestedSpecialty)
                 }).ToList(),
-                // المستندات المعتمدة القديمة اللي اتبدلت مش بتظهر
+                // Old approved documents that were replaced are not shown
                 Documents = doctor.Documents
                     .Where(x => !(x.ApprovalStatus == ApprovalStatus.Approved && !x.IsCurrent))
                     .OrderBy(x => x.DocumentType)
@@ -77,7 +76,7 @@ namespace MVC.BLL.Services.Accounts
                     .Select(s => new DoctorSurgeryDto { DoctorSurgeryId = s.DoctorSurgeryId, SurgeryName = s.SurgeryName, Description = s.Description })
                     .ToList(),
                 WorkExperiences = doctor.WorkExperiences
-                    .OrderBy(w => w.ToYear.HasValue)          // الحالي (ToYear = null) الأول
+                    .OrderBy(w => w.ToYear.HasValue)          // The current one (ToYear = null) first
                     .ThenByDescending(w => w.ToYear)
                     .ThenByDescending(w => w.FromYear)
                     .Select(w => new DoctorWorkExperienceDto
@@ -111,16 +110,16 @@ namespace MVC.BLL.Services.Accounts
             if (profile is null)
                 return ServiceResult.Fail("Doctor profile not found.");
 
-            // D-03: سنة البداية مش قبل سنة التخرج المعتمدة ومش بعد السنة الحالية
+            // D-03: the start year is not before the approved graduation year and not after the current year
             var startYearError = AccountService.ValidatePracticeStartYear(practiceStartYear, profile.GraduationYear);
             if (startYearError is not null)
                 return ServiceResult.Fail(startYearError);
 
-            // البيانات العادية بتتعدل من غير موافقة الأدمن
+            // Ordinary data is edited without admin approval
             profile.PracticeStartYear = practiceStartYear;
             profile.Bio = bio.Trim();
 
-            // UpdateAsync بيعمل SaveChanges فبيحفظ تعديل البروفايل كمان
+            // UpdateAsync calls SaveChanges, so it saves the profile change as well
             return await AccountSettingsService.UpdateNameAndPhotoAsync(_userManager, _files, profile.User, fullName, newPhoto);
         }
 
@@ -144,7 +143,7 @@ namespace MVC.BLL.Services.Accounts
                 CreatedAtUtc = DateTimeOffset.UtcNow
             };
 
-            // كل طلب بيملا العمود اللي يقابل نوعه بس (CHECK في الداتابيز)
+            // Each request fills only the column matching its type (CHECK in the database)
             switch (type)
             {
                 case ProfileChangeRequestType.Specialty:
@@ -191,7 +190,7 @@ namespace MVC.BLL.Services.Accounts
             }
             catch (DbUpdateException)
             {
-                // الـ filtered unique index بيمنع طلبين Pending لنفس الحقل لو اتبعتوا في نفس اللحظة
+                // The filtered unique index prevents two Pending requests for the same field sent at the same moment
                 return ServiceResult.Fail("You already have a pending request for this field.");
             }
 
@@ -208,11 +207,11 @@ namespace MVC.BLL.Services.Accounts
             if (profile is null)
                 return ServiceResult.Fail("Doctor profile not found.");
 
-            // D-01: النوعين بس (License / GraduationCertificate)
+            // D-01: only the two types (License / GraduationCertificate)
             if (!Enum.IsDefined(type))
                 return ServiceResult.Fail("Choose a valid document type.");
 
-            // بعد الموافقة الأولى بس، وكبديل للمستند المعتمد الحالي
+            // Only after the initial approval, and as a replacement for the current approved document
             if (profile.ApprovalStatus == ApprovalStatus.Pending)
                 return ServiceResult.Fail("Your documents are already under review.");
             if (profile.ApprovalStatus == ApprovalStatus.Rejected)
@@ -231,7 +230,7 @@ namespace MVC.BLL.Services.Accounts
             var key = await _files.SaveAsync(file!, AccountService.DocumentsFolder);
             try
             {
-                // البديل بيفضل Pending لحد قرار الأدمن
+                // The replacement stays Pending until the admin decides
                 var document = AccountService.NewPendingDocument(doctorId, type, file!, key, DateTimeOffset.UtcNow);
                 document.ReplacesDocumentId = replacesId;
                 _db.DoctorDocuments.Add(document);
@@ -270,7 +269,7 @@ namespace MVC.BLL.Services.Accounts
 
         public async Task<ServiceResult> RemoveSurgeryAsync(string doctorId, Guid surgeryId)
         {
-            // بنتأكد إن العملية بتاعة نفس الدكتور (IDOR)
+            // Make sure the surgery belongs to the same doctor (IDOR)
             var surgery = await _db.DoctorSurgeries.FirstOrDefaultAsync(s => s.DoctorSurgeryId == surgeryId && s.DoctorId == doctorId);
             if (surgery is null)
                 return ServiceResult.Fail("Item not found.");
@@ -304,7 +303,7 @@ namespace MVC.BLL.Services.Accounts
                 Organization = organization.Trim(),
                 Position = position.Trim(),
                 FromYear = fromYear,
-                ToYear = toYear // null = لسه شغال فيه
+                ToYear = toYear // null = still working there
             });
             await _db.SaveChangesAsync();
             return ServiceResult.Success();
@@ -337,4 +336,3 @@ namespace MVC.BLL.Services.Accounts
         };
     }
 }
-/*————*/

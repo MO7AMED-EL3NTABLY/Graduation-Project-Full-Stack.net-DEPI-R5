@@ -2,25 +2,25 @@
 
 namespace MVC.DAL.Entities.Locations
 {
-    // شيفت إضافي لمرة واحدة في تاريخ معين - جدول AdditionalShifts
-    // CHECK: EndTime بعد StartTime في نفس اليوم (مفيش شيفت بيعدي نص الليل)
+    // A one-off extra shift on a specific date - AdditionalShifts table
+    // CHECK: EndTime after StartTime on the same day (no shift crosses midnight)
     public class AdditionalShift
     {
         public Guid AdditionalShiftId { get; set; }
 
-        public Guid DoctorLocationId { get; set; } // FK لـ DoctorLocations
+        public Guid DoctorLocationId { get; set; } // FK to DoctorLocations
 
-        public DateOnly ShiftDate { get; set; } // تاريخ الشيفت (بتوقيت القاهرة)
+        public DateOnly ShiftDate { get; set; } // Shift date (Cairo time)
 
-        public TimeOnly StartTime { get; set; } // وقت البداية
+        public TimeOnly StartTime { get; set; } // Start time
 
-        public TimeOnly EndTime { get; set; } // وقت النهاية
+        public TimeOnly EndTime { get; set; } // End time
 
-        public int MaxPatients { get; set; } // أقصى عدد مرضى
+        public int MaxPatients { get; set; } // Maximum number of patients
 
-        public bool IsActive { get; set; } // لو اتقفل بيوقف الحجز الجديد
+        public bool IsActive { get; set; } // When turned off it stops new bookings
 
-        public bool IsDeleted { get; set; } // حذف منطقي (soft delete)
+        public bool IsDeleted { get; set; } // Soft delete
 
         // Navigation properties
         public DoctorLocation DoctorLocation { get; set; } = null!;

@@ -4,7 +4,7 @@ using MVC.DAL.Constants;
 
 namespace MVC.PL.Areas.Admin.Controllers
 {
-    // الصفحة الرئيسية لـ Admin - placeholder لحد ما صاحب الـ module يكملها
+    // Admin home page - placeholder until the module owner completes it
     [Area("Admin")]
     [Authorize(Roles = AppRoles.Admin)]
     public class HomeController : Controller

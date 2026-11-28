@@ -1,12 +1,11 @@
-/*——- Omar Hussein ——-*/
 using MVC.BLL.Common;
 
 namespace MVC.PL.Security
 {
-    // بيحوّل IFormFile لـ FileUpload عشان الـ BLL ميعتمدش على ASP.NET
+    // Converts IFormFile to FileUpload so the BLL doesn't depend on ASP.NET
     public static class FormFileExtensions
     {
-        // أكبر حجم بنقبله في الذاكرة (المستندات 10 MB) - الـ BLL بيتأكد من الحجم الحقيقي لكل نوع
+        // Largest size we accept in memory (documents 10 MB) - the BLL checks the real limit for each type
         private const long MaxBufferedBytes = 10 * 1024 * 1024 + 1;
 
         public static async Task<FileUpload?> ToFileUploadAsync(this IFormFile? file)
@@ -20,7 +19,7 @@ namespace MVC.PL.Security
                 await file.CopyToAsync(buffer);
                 buffer.Position = 0;
             }
-            // لو أكبر من الحد بنبعت الطول بس والـ BLL هيرفضه من غير ما نقرا الملف كله
+            // If it's over the limit we only pass the length, and the BLL rejects it without reading the whole file
             return new FileUpload(buffer, file.FileName, file.ContentType, file.Length);
         }
 
@@ -39,4 +38,3 @@ namespace MVC.PL.Security
         }
     }
 }
-/*————*/

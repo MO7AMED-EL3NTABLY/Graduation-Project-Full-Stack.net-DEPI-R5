@@ -1,11 +1,11 @@
 ﻿namespace MVC.DAL.Enums
 {
-    // حالة الحجز - Appointments.Status
+    // Appointment status - Appointments.Status
     public enum AppointmentStatus
     {
-        Confirmed, // الحجز متأكد ولسه الزيارة متمتش
-        Completed, // الزيارة تمت (أول إجراء روشتة)
-        Cancelled, // الحجز اتلغى
-        Missed // المريض محضرش (آخر اليوم بتوقيت القاهرة)
+        Confirmed, // Booking confirmed and the visit hasn't happened yet
+        Completed, // Visit done (first prescription action)
+        Cancelled, // Booking cancelled
+        Missed // Patient didn't show up (end of the day, Cairo time)
     }
 }

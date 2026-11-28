@@ -4,7 +4,7 @@ using MVC.DAL.Entities.Accounts;
 
 namespace MVC.DAL.Configurations.Accounts
 {
-    // جدول RefreshTokens
+    // RefreshTokens table
     public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
     {
         public void Configure(EntityTypeBuilder<RefreshToken> builder)
@@ -18,13 +18,13 @@ namespace MVC.DAL.Configurations.Accounts
                    .HasForeignKey(t => t.UserId)
                    .OnDelete(DeleteBehavior.Restrict);
 
-            // Self-reference: التوكن اللي حل مكانه (0..1 : 0..1)
+            // Self-reference: the token that replaced it (0..1 : 0..1)
             builder.HasOne(t => t.ReplacedByToken)
                    .WithOne()
                    .HasForeignKey<RefreshToken>(t => t.ReplacedByTokenId)
                    .OnDelete(DeleteBehavior.Restrict);
 
-            // كل توكن بيستبدل توكن واحد بالكتير
+            // Each token replaces at most one token
             builder.HasIndex(t => t.ReplacedByTokenId)
                    .IsUnique()
                    .HasFilter("[ReplacedByTokenId] IS NOT NULL");

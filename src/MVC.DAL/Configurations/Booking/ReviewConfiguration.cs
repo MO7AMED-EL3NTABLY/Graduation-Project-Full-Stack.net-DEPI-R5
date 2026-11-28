@@ -4,14 +4,14 @@ using MVC.DAL.Entities.Booking;
 
 namespace MVC.DAL.Configurations.Booking
 {
-    // جدول Reviews
+    // Reviews table
     public class ReviewConfiguration : IEntityTypeConfiguration<Review>
     {
         public void Configure(EntityTypeBuilder<Review> builder)
         {
             builder.ToTable("Reviews", t =>
             {
-                // التقييم من 1 لـ 5 (قرار الفريق: CHECK في الداتابيز + validation في الـ BLL)
+                // Rating from 1 to 5 (team decision: CHECK in the database + validation in the BLL)
                 t.HasCheckConstraint("CK_Reviews_Rating", "[Rating] BETWEEN 1 AND 5");
             });
 
@@ -27,7 +27,7 @@ namespace MVC.DAL.Configurations.Booking
                    .HasForeignKey(r => r.DoctorId)
                    .OnDelete(DeleteBehavior.Restrict);
 
-            // تقييم واحد مش ممسوح لكل مريض ودكتور
+            // One non-deleted review per patient and doctor
             builder.HasIndex(r => new { r.PatientId, r.DoctorId }, "UX_Reviews_Patient_Doctor_NotDeleted")
                    .IsUnique()
                    .HasFilter("[DeletedAtUtc] IS NULL");

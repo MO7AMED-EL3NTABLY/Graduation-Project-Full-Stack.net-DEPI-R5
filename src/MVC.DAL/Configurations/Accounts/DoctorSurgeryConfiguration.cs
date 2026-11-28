@@ -4,7 +4,7 @@ using MVC.DAL.Entities.Accounts;
 
 namespace MVC.DAL.Configurations.Accounts
 {
-    // جدول DoctorSurgeries
+    // DoctorSurgeries table
     public class DoctorSurgeryConfiguration : IEntityTypeConfiguration<DoctorSurgery>
     {
         public void Configure(EntityTypeBuilder<DoctorSurgery> builder)

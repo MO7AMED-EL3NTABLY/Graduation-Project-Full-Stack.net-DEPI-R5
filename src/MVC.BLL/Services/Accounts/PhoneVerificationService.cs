@@ -1,4 +1,3 @@
-/*——- Omar Hussein ——-*/
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
@@ -10,8 +9,8 @@ using MVC.DAL.Entities.Accounts;
 
 namespace MVC.BLL.Services.Accounts
 {
-    // كود تأكيد الموبايل - جدول PhoneVerificationCodes
-    // الكود نفسه مش بيتخزن (الـ hash بس)، وكود واحد شغال لكل مستخدم
+    // Phone verification code - PhoneVerificationCodes table
+    // The code itself is never stored (only its hash), and there is one active code per user
     public class PhoneVerificationService : IPhoneVerificationService
     {
         public const int CodeLifetimeMinutes = 10;
@@ -52,7 +51,7 @@ namespace MVC.BLL.Services.Accounts
 
             var code = RandomNumberGenerator.GetInt32(0, 1_000_000).ToString("D6");
 
-            // الكود القديم بيتلغي والجديد بيتعمل في نفس الـ transaction
+            // The old code is invalidated and the new one created in the same transaction
             await using (var transaction = await _db.Database.BeginTransactionAsync())
             {
                 foreach (var old in activeCodes)
@@ -72,7 +71,7 @@ namespace MVC.BLL.Services.Accounts
                 await transaction.CommitAsync();
             }
 
-            // الإرسال بعد الـ commit مش جواه
+            // Send after the commit, not inside it
             await _sms.SendAsync(phone, $"MediCare: your verification code is {code}. It expires in {CodeLifetimeMinutes} minutes.");
             return ServiceResult.Success();
         }
@@ -83,7 +82,7 @@ namespace MVC.BLL.Services.Accounts
             if (latest is not null)
                 return await SendCodeAsync(userId, latest.TargetPhoneNumber);
 
-            // مفيش كود شغال: نبعت للرقم اللي اتسجل بيه لو لسه متأكدش
+            // No active code: send to the registered number if it isn't verified yet
             var user = await _userManager.FindByIdAsync(userId);
             if (user is null || string.IsNullOrEmpty(user.PhoneNumber) || user.PhoneNumberConfirmed)
                 return ServiceResult.Fail("There is no phone number waiting for verification.");
@@ -124,7 +123,7 @@ namespace MVC.BLL.Services.Accounts
             if (user is null)
                 return ServiceResult.Fail("Account not found.");
 
-            // الرقم بيتغير بس بعد ما الكود يتأكد - في نفس الـ transaction مع استخدام الكود
+            // The number changes only after the code is verified - in the same transaction as using the code
             await using var transaction = await _db.Database.BeginTransactionAsync();
             latest.UsedAtUtc = now;
             user.PhoneNumber = latest.TargetPhoneNumber;
@@ -159,4 +158,3 @@ namespace MVC.BLL.Services.Accounts
             Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes($"{userId}:{code}")));
     }
 }
-/*————*/

@@ -4,7 +4,7 @@ using MVC.DAL.Entities.Prescriptions;
 
 namespace MVC.DAL.Configurations.Prescriptions
 {
-    // جدول PatientConditions
+    // PatientConditions table
     public class PatientConditionConfiguration : IEntityTypeConfiguration<PatientCondition>
     {
         public void Configure(EntityTypeBuilder<PatientCondition> builder)
@@ -18,7 +18,7 @@ namespace MVC.DAL.Configurations.Prescriptions
                    .HasForeignKey(c => c.PatientId)
                    .OnDelete(DeleteBehavior.Restrict);
 
-            // الدكتور اللي سجل المرض ومسؤول عنه (NOT NULL)
+            // The doctor who recorded the condition and is responsible for it (NOT NULL)
             builder.HasOne(c => c.CreatedByDoctor)
                    .WithMany(d => d.CreatedConditions)
                    .HasForeignKey(c => c.CreatedByDoctorId)

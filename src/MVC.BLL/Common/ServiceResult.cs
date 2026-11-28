@@ -1,8 +1,7 @@
-/*——- Omar Hussein ——-*/
 namespace MVC.BLL.Common
 {
-    // نتيجة أي عملية في الـ Services: نجحت ولا لأ + رسايل الأخطاء
-    // الرسايل بالإنجليزي، والـ PL بيترجمها بالـ Localizer (L[error])
+    // Result of any service operation: success or not + error messages
+    // Messages are in English, and the PL translates them with the localizer (L[error])
     public class ServiceResult
     {
         public bool Succeeded { get; protected init; }
@@ -26,4 +25,3 @@ namespace MVC.BLL.Common
         public static new ServiceResult<T> Fail(IEnumerable<string> errors) => new() { Succeeded = false, Errors = errors.ToList() };
     }
 }
-/*————*/

@@ -1,4 +1,3 @@
-/*——- Omar Hussein ——-*/
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +10,7 @@ using MVC.PL.ViewModels.Accounts;
 
 namespace MVC.PL.Areas.Doctor.Controllers
 {
-    // Professional profile: البيانات العادية بتتعدل علطول، والمحمية بطلب للأدمن، والمستندات
+    // Professional profile: ordinary data is edited directly, protected data through an admin request, and documents
     [Area("Doctor")]
     [Authorize(Roles = AppRoles.Doctor)]
     [AutoValidateAntiforgeryToken]
@@ -54,7 +53,7 @@ namespace MVC.PL.Areas.Doctor.Controllers
                 {
                     var user = await _users.FindByIdAsync(DoctorId);
                     if (user is not null)
-                        await _signIn.RefreshSignInAsync(user); // الاسم في الـ Topbar
+                        await _signIn.RefreshSignInAsync(user); // The name in the topbar
                     this.Flash(L["Your changes were saved."]);
                     return RedirectToAction(nameof(Index));
                 }
@@ -170,4 +169,3 @@ namespace MVC.PL.Areas.Doctor.Controllers
         }
     }
 }
-/*————*/

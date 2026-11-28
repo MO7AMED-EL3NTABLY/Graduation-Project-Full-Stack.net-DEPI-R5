@@ -1,13 +1,13 @@
 ﻿namespace MVC.DAL.Entities.Prescriptions
 {
-    // جدول وسيط بيربط الروشتات المزمنة بالأمراض المزمنة (many-to-many) - جدول PrescriptionConditions
-    // Composite PK (PrescriptionId, PatientConditionId) ومفيش أعمدة تانية
-    // الـ FKs من غير cascade delete
+    // Junction table linking chronic prescriptions to chronic conditions (many-to-many) - PrescriptionConditions table
+    // Composite PK (PrescriptionId, PatientConditionId) with no other columns
+    // The FKs have no cascade delete
     public class PrescriptionCondition
     {
-        public Guid PrescriptionId { get; set; } // FK لـ Prescriptions
+        public Guid PrescriptionId { get; set; } // FK to Prescriptions
 
-        public Guid PatientConditionId { get; set; } // FK لـ PatientConditions
+        public Guid PatientConditionId { get; set; } // FK to PatientConditions
 
         // Navigation properties
         public Prescription Prescription { get; set; } = null!;

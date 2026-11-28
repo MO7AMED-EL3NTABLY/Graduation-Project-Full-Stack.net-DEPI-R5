@@ -1,5 +1,4 @@
-@*——- Omar Hussein ——-*@
-@* Professional profile (Figma 30): البيانات العادية + المحمية بطلب للأدمن + المستندات + العمليات + الخبرة *@
+@* Professional profile (Figma 30): ordinary data + protected data via admin request + documents + surgeries + experience *@
 @model DoctorProfilePageViewModel
 @{
     ViewData["Title"] = L["Professional profile"];
@@ -15,7 +14,7 @@
     };
     var canReplace = p.ApprovalStatus == ApprovalStatus.Approved;
 
-    // الحقول المحمية: (النوع، القيمة الحالية، القيمة الحالية للفورم)
+    // Protected fields: (type, current value, current value for the form)
     var protectedFields = new (ProfileChangeRequestType Type, string Value)[]
     {
         (ProfileChangeRequestType.Specialty, AccountsText.SpecialtyName(p.Specialty, isAr)),
@@ -241,7 +240,7 @@ else if (p.ApprovalStatus == ApprovalStatus.Rejected)
                 <p class="mc-hint mb-3">@L["The current value stays active until an admin approves your request."]</p>
 
                 @{ var mode = Model.RequestChange.RequestType switch { ProfileChangeRequestType.Specialty => "select", ProfileChangeRequestType.GraduationYear => "year", _ => "text" }; }
-                @* 3 أشكال للقيمة - واحد بس بيبقى ظاهر ومفعّل حسب الحقل *@
+                @* 3 shapes for the value - only one is visible and enabled depending on the field *@
                 <div class="mc-field mb-0" data-fill-show="select" hidden="@(mode != "select")">
                     <label class="mc-label" for="change-specialty">@L["New specialty"]</label>
                     <select class="mc-input" id="change-specialty" data-change-input>
@@ -383,7 +382,7 @@ else if (p.ApprovalStatus == ApprovalStatus.Rejected)
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/accounts.js" asp-append-version="true"></script>
     <script>
-        // طلب التعديل: القيمة بتيجي من الـ input الظاهر بس
+        // Change request: the value comes from the visible input only
         (function () {
             var form = document.querySelector("#modal-change form") || document.querySelector("form[action$='RequestChange']");
             if (!form) return;
@@ -395,4 +394,3 @@ else if (p.ApprovalStatus == ApprovalStatus.Rejected)
         })();
     </script>
 }
-@*————*@

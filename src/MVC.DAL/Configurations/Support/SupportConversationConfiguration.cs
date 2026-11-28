@@ -4,7 +4,7 @@ using MVC.DAL.Entities.Support;
 
 namespace MVC.DAL.Configurations.Support
 {
-    // جدول SupportConversations - Unique على UserId
+    // SupportConversations table - unique on UserId
     public class SupportConversationConfiguration : IEntityTypeConfiguration<SupportConversation>
     {
         public void Configure(EntityTypeBuilder<SupportConversation> builder)
@@ -13,7 +13,7 @@ namespace MVC.DAL.Configurations.Support
 
             builder.HasKey(c => c.SupportConversationId);
 
-            // محادثة واحدة لكل حساب (1 : 0..1)
+            // One conversation per account (1 : 0..1)
             builder.HasOne(c => c.User)
                    .WithOne(u => u.SupportConversation)
                    .HasForeignKey<SupportConversation>(c => c.UserId)

@@ -10,7 +10,7 @@ using MVC.DAL.Entities.Support;
 
 namespace MVC.DAL.Dbcontexts
 {
-    // الـ DbContext الرئيسي للمشروع - بيورث من IdentityDbContext عشان جداول Identity (AspNet*)
+    // The main DbContext of the project - inherits from IdentityDbContext for the Identity tables (AspNet*)
     public class MediCareDbContext : IdentityDbContext<ApplicationUser>
     {
         public MediCareDbContext(DbContextOptions<MediCareDbContext> options) : base(options)
@@ -68,21 +68,21 @@ namespace MVC.DAL.Dbcontexts
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            // لازم الأول عشان Identity يظبط جداوله
+            // Must come first so Identity configures its tables
             base.OnModelCreating(builder);
 
-            // بيطبق كل الـ Configurations اللي في فولدر Configurations أوتوماتيك
+            // Applies every configuration in the Configurations folder automatically
             builder.ApplyConfigurationsFromAssembly(typeof(MediCareDbContext).Assembly);
         }
 
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {
-            // كل الـ Enums بتتخزن كـ English string بطول 50
+            // All enums are stored as English strings with length 50
             configurationBuilder.Properties<Enum>()
                                 .HaveConversion<string>()
                                 .HaveMaxLength(50);
 
-            // كل الفلوس decimal(10,2) بالجنيه المصري
+            // All money is decimal(10,2) in Egyptian pounds
             configurationBuilder.Properties<decimal>()
                                 .HavePrecision(10, 2);
         }

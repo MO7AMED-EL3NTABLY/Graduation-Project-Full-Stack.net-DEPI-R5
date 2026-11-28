@@ -1,12 +1,12 @@
 ﻿namespace MVC.DAL.Entities.Locations
 {
-    // أيام الأسبوع اللي الشيفت شغال فيها - جدول ShiftDays
-    // Composite PK (ShiftId, DayOfWeek) ومفيش Id منفصل
+    // Weekdays on which the shift runs - ShiftDays table
+    // Composite PK (ShiftId, DayOfWeek) with no separate Id
     public class ShiftDay
     {
-        public Guid ShiftId { get; set; } // FK لـ Shifts
+        public Guid ShiftId { get; set; } // FK to Shifts
 
-        public DayOfWeek DayOfWeek { get; set; } // يوم الأسبوع (System.DayOfWeek)
+        public DayOfWeek DayOfWeek { get; set; } // Day of the week (System.DayOfWeek)
 
         // Navigation properties
         public Shift Shift { get; set; } = null!;

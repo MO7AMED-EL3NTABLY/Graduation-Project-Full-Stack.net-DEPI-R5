@@ -2,8 +2,8 @@ using System.Net;
 
 namespace MVC.BLL.Common
 {
-    // قالب HTML موحد لإيميلات الحساب (تأكيد الإيميل، الـ reset، تغيير الإيميل)
-    // inline styles و tables عشان يظهر صح في Gmail و Outlook
+    // Shared HTML template for account emails (email confirmation, password reset, email change)
+    // Inline styles and tables so it renders correctly in Gmail and Outlook
     public static class EmailTemplates
     {
         private const string Brand = "#0F8A7E";

@@ -4,7 +4,7 @@ using MVC.DAL.Entities.Accounts;
 
 namespace MVC.DAL.Configurations.Accounts
 {
-    // جدول PhoneVerificationCodes
+    // PhoneVerificationCodes table
     public class PhoneVerificationCodeConfiguration : IEntityTypeConfiguration<PhoneVerificationCode>
     {
         public void Configure(EntityTypeBuilder<PhoneVerificationCode> builder)

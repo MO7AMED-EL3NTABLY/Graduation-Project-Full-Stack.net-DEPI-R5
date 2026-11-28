@@ -2,17 +2,17 @@
 
 namespace MVC.DAL.Entities.Locations
 {
-    // إجازة الدكتور (فترة من تاريخ لتاريخ شاملة الطرفين) - جدول VacationDays
-    // إجازات نفس الدكتور مينفعش تتداخل، وبتطبق على كل أماكنه
+    // Doctor vacation (a date range including both ends) - VacationDays table
+    // Vacations of the same doctor can't overlap, and they apply to all of the doctor's locations
     public class VacationDay
     {
         public Guid VacationDayId { get; set; }
 
-        public string DoctorId { get; set; } = null!; // FK لـ DoctorProfiles
+        public string DoctorId { get; set; } = null!; // FK to DoctorProfiles
 
-        public DateOnly StartDate { get; set; } // أول يوم إجازة
+        public DateOnly StartDate { get; set; } // First vacation day
 
-        public DateOnly EndDate { get; set; } // آخر يوم إجازة
+        public DateOnly EndDate { get; set; } // Last vacation day
 
         // Navigation properties
         public DoctorProfile Doctor { get; set; } = null!;

@@ -1,16 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
-/*——- Omar Hussein ——-*/
 using MVC.BLL;
 using MVC.BLL.Interfaces;
 using MVC.BLL.Services.Infrastructure;
-/*————*/
 using MVC.DAL.Dbcontexts;
 using MVC.DAL.Entities.Accounts;
 using MVC.DAL.Seeding;
 using MVC.PL.Security;
 using System.Globalization;
+using System.Net.Mail;
 
 namespace MVC.PL
 {
@@ -22,67 +21,77 @@ namespace MVC.PL
 
             // Add services to the container.
             builder.Services.AddControllersWithViews()
-                /*——- Omar Hussein ——-*/
-                // رسائل الـ Validation بتترجم من نفس ملف SharedResource
+                // Validation messages are translated from the same SharedResource file
                 .AddDataAnnotationsLocalization(options =>
                     options.DataAnnotationLocalizerProvider = (_, factory) => factory.Create(typeof(SharedResource)));
-                /*————*/
 
-            // الترجمة: النصوص العربية في Resources/SharedResource.ar.resx
+            // Localization: Arabic texts live in Resources/SharedResource.ar.resx
             builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
-            // الداتابيز - MediCareDbContext على SQL Server
+            // Database - MediCareDbContext on SQL Server
             builder.Services.AddDbContext<MediCareDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            // Identity - المستخدمين والـ Roles (Patient, Doctor, Admin)
+            // Identity - users and roles (Patient, Doctor, Admin)
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
-                options.User.RequireUniqueEmail = true;                            // الإيميل مطلوب لكل حساب
-                options.Lockout.MaxFailedAccessAttempts = 5;                       // 5 محاولات دخول غلط ورا بعض
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15); // قفل الحساب 15 دقيقة
+                options.User.RequireUniqueEmail = true;                            // Email is required for every account
+                options.Lockout.MaxFailedAccessAttempts = 5;                       // 5 failed sign-in attempts in a row
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15); // Lock the account for 15 minutes
 
-                /*——- Omar Hussein ——-*/
-                // شروط الباسورد زي Figma: 8 حروف + Capital و Small + رقم
+                // Password rules from Figma: 8 characters + upper and lower case + a digit
                 options.Password.RequiredLength = 8;
                 options.Password.RequireNonAlphanumeric = false;
 
-                // لينك Reset الباسورد صالح ساعة (تأكيد الإيميل بيفضل 24 ساعة)
+                // Password reset link is valid for 1 hour (email confirmation stays 24 hours)
                 options.Tokens.PasswordResetTokenProvider = PasswordResetTokenProvider<ApplicationUser>.ProviderName;
-                /*————*/
             })
             .AddEntityFrameworkStores<MediCareDbContext>()
             .AddDefaultTokenProviders()
-            /*——- Omar Hussein ——-*/
             .AddTokenProvider<PasswordResetTokenProvider<ApplicationUser>>(PasswordResetTokenProvider<ApplicationUser>.ProviderName)
-            /*————*/
-            .AddClaimsPrincipalFactory<AppClaimsPrincipalFactory>(); // بيضيف FullName للـ claims
+            .AddClaimsPrincipalFactory<AppClaimsPrincipalFactory>(); // Adds FullName to the claims
 
-            // صفحات الدخول ومنع الوصول (هتتعمل في Accounts module)
+            // Login and access-denied pages (built in the Accounts module)
             builder.Services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Account/Login";
                 options.AccessDeniedPath = "/Account/AccessDenied";
             });
 
-            /*——- Omar Hussein ——-*/
-            // Module 1 (Accounts): الخدمات + الملفات المحمية برة wwwroot + الإيميل والـ SMS (Fake - بيتكتبوا في الـ Log)
+            // Module 1 (Accounts): services + protected files outside wwwroot + SMS (Fake - written to the log)
             builder.Services.AddAccountsModule(Path.Combine(builder.Environment.ContentRootPath, "App_Data", "uploads"));
             builder.Services.AddSingleton<AccountFlowProtector>();
-            /*————*/
 
-            // الإيميل الحقيقي (Gmail SMTP): بيشتغل لو قسم Smtp موجود في User Secrets
-            // لو مش موجود (زي جهاز حد في التيم لسه ما حطهوش) بيفضل الـ Fake اللي بيكتب في الـ Log
+            // Email:
+            // - Smtp section exists (User Secrets / environment) -> real SMTP, and every setting is validated at startup
+            // - No Smtp section + Development -> Fake sender that writes the message (and its link) to the log
+            // - No Smtp section outside Development -> the app refuses to start (links must never go to the log)
             var smtpSection = builder.Configuration.GetSection("Smtp");
-            if (!string.IsNullOrWhiteSpace(smtpSection["Password"]))
+            if (smtpSection.Exists())
             {
-                builder.Services.Configure<SmtpOptions>(smtpSection);
-                builder.Services.AddSingleton<IEmailSender, SmtpEmailSender>(); // آخر تسجيل هو اللي بيتستخدم
+                builder.Services.AddOptions<SmtpOptions>()
+                    .Bind(smtpSection)
+                    .Validate(o => !string.IsNullOrWhiteSpace(o.Host), "Smtp:Host is required.")
+                    .Validate(o => o.Port is > 0 and <= 65535, "Smtp:Port must be between 1 and 65535.")
+                    .Validate(o => MailAddress.TryCreate(o.Username, out _), "Smtp:Username must be a valid email address (it is used as the sender).")
+                    .Validate(o => !string.IsNullOrWhiteSpace(o.Password), "Smtp:Password is required.")
+                    .Validate(o => !string.IsNullOrWhiteSpace(o.FromName), "Smtp:FromName is required.")
+                    .ValidateOnStart(); // A wrong setting stops the app at startup, not at the first registration
+                builder.Services.AddSingleton<IEmailSender, SmtpEmailSender>();
+            }
+            else if (builder.Environment.IsDevelopment())
+            {
+                builder.Services.AddSingleton<IEmailSender, LoggingEmailSender>();
+            }
+            else
+            {
+                throw new InvalidOperationException(
+                    "The Smtp section is missing. The fake email sender (which logs links) is allowed only in Development.");
             }
 
             var app = builder.Build();
 
-            // Seed: الـ Roles الثلاثة وأول حساب Admin
+            // Seed: the three roles and the first Admin account
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
@@ -109,7 +118,7 @@ namespace MVC.PL
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            // اللغة: إنجليزي (افتراضي) أو عربي - ar-EG عشان التواريخ تبقى ميلادي
+            // Language: English (default) or Arabic - ar-EG so dates stay Gregorian
             var supportedCultures = new[] { new CultureInfo("en-US"), new CultureInfo("ar-EG") };
             app.UseRequestLocalization(new RequestLocalizationOptions
             {
@@ -120,10 +129,10 @@ namespace MVC.PL
 
             app.UseRouting();
 
-            app.UseAuthentication(); // لازم قبل UseAuthorization
+            app.UseAuthentication(); // Must come before UseAuthorization
             app.UseAuthorization();
 
-            // Route الـ Areas (Patient / Doctor / Admin) لازم يكون قبل الـ default
+            // The Areas route (Patient / Doctor / Admin) must come before the default route
             app.MapControllerRoute(
                 name: "areas",
                 pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");

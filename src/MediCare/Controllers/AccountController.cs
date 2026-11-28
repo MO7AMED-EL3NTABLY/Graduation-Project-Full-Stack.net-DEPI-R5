@@ -1,4 +1,3 @@
-/*——- Omar Hussein ——-*/
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,8 +11,8 @@ using MVC.PL.ViewModels.Accounts;
 
 namespace MVC.PL.Controllers
 {
-    // صفحة دخول واحدة للكل + التسجيل + تأكيد الإيميل والموبايل + استرجاع الباسورد + حالة موافقة الدكتور
-    // كل الـ Business rules في الـ BLL، والـ Controller بيعمل Sign in ويحدد يودّي المستخدم فين
+    // One login page for everyone + registration + email and phone verification + password recovery + doctor approval status
+    // All business rules live in the BLL; the controller signs the user in and decides where to send them
     [AutoValidateAntiforgeryToken]
     public class AccountController : Controller
     {
@@ -74,7 +73,7 @@ namespace MVC.PL.Controllers
                 return View(model);
             }
 
-            // بيعد المحاولات الغلط: 5 محاولات = قفل 15 دقيقة
+            // Counts failed attempts: 5 attempts = 15-minute lockout
             var check = await _signIn.CheckPasswordSignInAsync(user, model.Password, lockoutOnFailure: true);
             if (check.IsLockedOut)
             {
@@ -94,7 +93,7 @@ namespace MVC.PL.Controllers
                 return View(model);
             }
 
-            // لسه مأكدش: مش بنعمل Sign in، بنكمل التأكيد بـ cookie محمية
+            // Not verified yet: don't sign in, continue verification with a protected cookie
             if (state == LoginState.NeedsVerification)
             {
                 _flow.SetVerifyCookie(Response, user.Id);
@@ -228,7 +227,7 @@ namespace MVC.PL.Controllers
             if (!status.PhoneRequired || status.PhoneConfirmed)
                 return RedirectToAction(nameof(VerifyEmail));
 
-            // أول مرة بعد الدخول من غير كود شغال: نبعت كود للرقم المسجل
+            // First time after login with no active code: send a code to the registered number
             if (!status.HasActiveCode)
             {
                 await _phone.ResendCodeAsync(status.UserId);
@@ -291,7 +290,7 @@ namespace MVC.PL.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            // الرقم بيتغير بس لما الكود الجديد يتأكد
+            // The number changes only after the new code is verified
             var result = await _phone.SendCodeAsync(userId, model.PhoneNumber);
             if (!result.Succeeded)
             {
@@ -328,7 +327,7 @@ namespace MVC.PL.Controllers
             return RedirectToAction(nameof(VerifyEmail));
         }
 
-        // اللينك اللي في الإيميل
+        // The link from the email
         [HttpGet]
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
@@ -336,7 +335,7 @@ namespace MVC.PL.Controllers
             if (!result.Succeeded)
                 return MessageView("circle-alert", "Link expired", L[result.Errors[0]], "Back to log in", Url.Action(nameof(Login)));
 
-            // لو نفس المتصفح اللي بيأكد فيه: نكمل علطول
+            // If it's the same browser that is verifying: continue right away
             if (_flow.GetVerifyUserId(Request) == userId)
             {
                 var status = await _accounts.GetVerificationStatusAsync(userId);
@@ -348,7 +347,7 @@ namespace MVC.PL.Controllers
             return MessageView("circle-check", "Email confirmed", L["Your email is confirmed. You can log in now."], "Log in", Url.Action(nameof(Login)));
         }
 
-        // لينك تأكيد الإيميل الجديد من صفحة Settings
+        // Confirmation link for the new email from the Settings page
         [HttpGet]
         public async Task<IActionResult> ConfirmEmailChange(string userId, string email, string token)
         {
@@ -356,7 +355,7 @@ namespace MVC.PL.Controllers
             if (!result.Succeeded)
                 return MessageView("circle-alert", "Link expired", L[result.Errors[0]], "Back to log in", Url.Action(nameof(Login)));
 
-            // الـ cookie فيها الإيميل القديم - نحدّثها لو هو نفس المستخدم
+            // The cookie holds the old email - refresh it if it's the same user
             if (_users.GetUserId(User) == userId)
             {
                 var user = await _users.FindByIdAsync(userId);
@@ -469,7 +468,18 @@ namespace MVC.PL.Controllers
                 return RedirectToAction(nameof(ResetCode));
             }
 
-            await _reset.SendEmailLinkAsync(userId, PasswordResetLink);
+            var email = await _reset.SendEmailLinkAsync(userId, PasswordResetLink);
+            if (!email.Succeeded)
+            {
+                // Same handling as the SMS branch: stay on the options page and show the error
+                ModelState.AddErrors(email, L);
+                var account = await FindAccountByIdAsync(userId);
+                if (account is null)
+                    return ResetExpired();
+                model.Account = account;
+                return View("ResetOptions", model);
+            }
+
             return MessageView("mail", "Check your email", L["We sent you a link to reset your password. It's valid for 1 hour."], "Back to log in", Url.Action(nameof(Login)));
         }
 
@@ -523,7 +533,7 @@ namespace MVC.PL.Controllers
             return RedirectToAction(nameof(ResetCode));
         }
 
-        // من لينك الإيميل (userId + token في الـ Query) أو بعد كود الـ SMS (من TempData)
+        // From the email link (userId + token in the query) or after the SMS code (from TempData)
         [HttpGet]
         public IActionResult ResetPassword(string? userId = null, string? token = null)
         {
@@ -548,7 +558,7 @@ namespace MVC.PL.Controllers
                 return View(model);
             }
 
-            // لو كان مقفول من المحاولات الغلط نفتحه
+            // If it was locked out by failed attempts, unlock it
             var user = await _users.FindByIdAsync(model.UserId);
             if (user is not null)
             {
@@ -579,7 +589,7 @@ namespace MVC.PL.Controllers
             return user?.Email is null ? null : await _reset.FindAccountAsync(user.Email);
         }
 
-        // التأكيد خلص: Sign in ونوديه مكانه
+        // Verification finished: sign in and send the user to their area
         private async Task<IActionResult> CompleteVerificationAsync(string userId)
         {
             _flow.ClearVerifyCookie(Response);
@@ -609,7 +619,7 @@ namespace MVC.PL.Controllers
 
         private IActionResult RedirectForState(LoginState state, string? returnUrl)
         {
-            // الـ returnUrl بس للحسابات اللي تقدر تدخل لوحة التحكم
+            // returnUrl only for accounts that can enter the dashboard
             var canUseReturnUrl = state is LoginState.Patient or LoginState.DoctorApproved or LoginState.Admin;
             if (canUseReturnUrl && !string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                 return LocalRedirect(returnUrl);
@@ -644,4 +654,3 @@ namespace MVC.PL.Controllers
             });
     }
 }
-/*————*/

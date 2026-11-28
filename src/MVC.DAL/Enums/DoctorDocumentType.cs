@@ -1,10 +1,10 @@
 ﻿namespace MVC.DAL.Enums
 {
-    // نوع المستند اللي الدكتور بيرفعه - DoctorDocuments.DocumentType
-    // الدكتور بيرفع المستندين دول بس، والاتنين لازم الأدمن يراجعهم (اتشال Other بقرار التيم)
+    // Type of document the doctor uploads - DoctorDocuments.DocumentType
+    // The doctor uploads only these two documents, and the admin reviews both (Other was removed by team decision)
     public enum DoctorDocumentType
     {
-        License, // رخصة مزاولة المهنة (بتتراجع)
-        GraduationCertificate // شهادة التخرج (بتتراجع)
+        License, // Medical license (reviewed)
+        GraduationCertificate // Graduation certificate (reviewed)
     }
 }

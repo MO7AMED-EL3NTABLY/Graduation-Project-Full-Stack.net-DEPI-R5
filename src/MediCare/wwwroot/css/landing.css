@@ -1,9 +1,9 @@
-/* منع الـ scroll العرضي لو أي عنصر طلع برا الشاشة */
+/* Prevent horizontal scroll if any element overflows the screen */
 body { overflow-x: clip; }
 
 /* =========================================================
-   Landing page — من Figma "Landing — EN / AR"
-   الصور في wwwroot/images/landing (لازم تتعمل لها Export من Figma)
+   Landing page — from Figma "Landing — EN / AR"
+   Images are in wwwroot/images/landing (they must be exported from Figma)
    ========================================================= */
 
 .lp-eyebrow { margin: 0; font-size: 14px; font-weight: 500; color: var(--primary-600); text-transform: uppercase; }
@@ -204,8 +204,8 @@ html[dir="rtl"] .lp-flip { transform: scaleX(-1); }
 .lp-contact strong { display: block; font-weight: 500; color: var(--neutral-900); }
 
 /* ---------- Responsive ----------
-   التصميم معمول على 1440px، والمقاسات بتصغر تدريجيًا لحد 992px
-   وتحت 992px الأعمدة بتنزل تحت بعض */
+   The design is built at 1440px, and sizes shrink gradually down to 992px
+   Below 992px the columns stack on top of each other */
 @media (max-width: 991px) {
     .lp-hero__inner, .lp-about, .lp-cta { flex-direction: column; }
     .lp-hero__visual, .lp-about__visual { width: min(576px, 100%); }

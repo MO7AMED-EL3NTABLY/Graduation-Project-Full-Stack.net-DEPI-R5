@@ -4,7 +4,7 @@ using MVC.DAL.Entities.Prescriptions;
 
 namespace MVC.DAL.Configurations.Prescriptions
 {
-    // جدول PrescriptionMedicineTimes - Composite PK (PrescriptionMedicineId, TimeOfDay)
+    // PrescriptionMedicineTimes table - composite PK (PrescriptionMedicineId, TimeOfDay)
     public class PrescriptionMedicineTimeConfiguration : IEntityTypeConfiguration<PrescriptionMedicineTime>
     {
         public void Configure(EntityTypeBuilder<PrescriptionMedicineTime> builder)

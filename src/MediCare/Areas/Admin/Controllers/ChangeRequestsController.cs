@@ -1,4 +1,3 @@
-/*——- Omar Hussein ——-*/
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +11,7 @@ using MVC.PL.ViewModels.Accounts;
 
 namespace MVC.PL.Areas.Admin.Controllers
 {
-    // طلبات تعديل البيانات المحمية (تخصص / رخصة / جامعة / سنة تخرج)
+    // Requests to change protected data (specialty / license / university / graduation year)
     [Area("Admin")]
     [Authorize(Roles = AppRoles.Admin)]
     [AutoValidateAntiforgeryToken]
@@ -53,4 +52,3 @@ namespace MVC.PL.Areas.Admin.Controllers
         }
     }
 }
-/*————*/

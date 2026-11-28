@@ -6,47 +6,47 @@ using MVC.DAL.Enums;
 
 namespace MVC.DAL.Entities.Notifications
 {
-    // إشعار - جدول Notifications
-    // صف واحد بيمثل الحدث وصندوق الإشعارات جوه التطبيق وتتبع إرسال الإيميل والـ SMS
-    // CHECK: واحد بالكتير من AppointmentId و ChatThreadId و ScanOrderId و PrescriptionId يكون له قيمة
-    // المستخدمين مش بيقدروا يمسحوا الإشعارات
+    // Notification - Notifications table
+    // One row is the event, the in-app inbox entry and the email/SMS delivery tracking
+    // CHECK: at most one of AppointmentId, ChatThreadId, ScanOrderId and PrescriptionId has a value
+    // Users can't delete notifications
     public class Notification
     {
         public Guid NotificationId { get; set; }
 
-        public string UserId { get; set; } = null!; // FK لـ AspNetUsers - المستلم (Patient أو Doctor)
+        public string UserId { get; set; } = null!; // FK to AspNetUsers - the recipient (Patient or Doctor)
 
-        public Guid? AppointmentId { get; set; } // للإشعارات الخاصة بالحجز
+        public Guid? AppointmentId { get; set; } // For appointment notifications
 
-        public Guid? ChatThreadId { get; set; } // لـ ChatMessageReceived
+        public Guid? ChatThreadId { get; set; } // For ChatMessageReceived
 
-        public Guid? ScanOrderId { get; set; } // لـ ScanOrderCreated
+        public Guid? ScanOrderId { get; set; } // For ScanOrderCreated
 
-        public Guid? PrescriptionId { get; set; } // لـ PrescriptionExpiring و MedicationReminder
+        public Guid? PrescriptionId { get; set; } // For PrescriptionExpiring and MedicationReminder
 
-        public NotificationEventType EventType { get; set; } // نوع الحدث
+        public NotificationEventType EventType { get; set; } // Event type
 
-        public string Title { get; set; } = null!; // عنوان الإشعار
+        public string Title { get; set; } = null!; // Notification title
 
-        public string Body { get; set; } = null!; // نص الإشعار
+        public string Body { get; set; } = null!; // Notification body
 
-        public bool IsRead { get; set; } // اتقرا ولا لأ
+        public bool IsRead { get; set; } // Read or not
 
-        public bool InAppEnabled { get; set; } // يظهر في صندوق الإشعارات ولا لأ (حسب الإعدادات وقت الإنشاء)
+        public bool InAppEnabled { get; set; } // Shown in the inbox or not (based on the settings at creation time)
 
-        public DateTimeOffset CreatedAtUtc { get; set; } // وقت الإنشاء
+        public DateTimeOffset CreatedAtUtc { get; set; } // Creation time
 
-        public DeliveryStatus EmailStatus { get; set; } // حالة إرسال الإيميل
+        public DeliveryStatus EmailStatus { get; set; } // Email delivery status
 
-        public int EmailRetryCount { get; set; } // عدد محاولات الإيميل (أقصى 3)
+        public int EmailRetryCount { get; set; } // Email attempts (max 3)
 
-        public string? EmailLastError { get; set; } // آخر خطأ في الإيميل - بيتمسح لما ينجح
+        public string? EmailLastError { get; set; } // Last email error - cleared on success
 
-        public DeliveryStatus SmsStatus { get; set; } // حالة إرسال الـ SMS
+        public DeliveryStatus SmsStatus { get; set; } // SMS delivery status
 
-        public int SmsRetryCount { get; set; } // عدد محاولات الـ SMS (أقصى 3)
+        public int SmsRetryCount { get; set; } // SMS attempts (max 3)
 
-        public string? SmsLastError { get; set; } // آخر خطأ في الـ SMS - بيتمسح لما ينجح
+        public string? SmsLastError { get; set; } // Last SMS error - cleared on success
 
         // Navigation properties
         public ApplicationUser User { get; set; } = null!;

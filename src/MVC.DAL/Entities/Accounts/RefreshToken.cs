@@ -1,22 +1,22 @@
 ﻿namespace MVC.DAL.Entities.Accounts
 {
-    // توكن تجديد تسجيل الدخول - جدول RefreshTokens
-    // بيتغير مع كل استخدام (rotation) وبيتخزن الـ hash بس
+    // Sign-in refresh token - RefreshTokens table
+    // Changes on every use (rotation) and only the hash is stored
     public class RefreshToken
     {
         public Guid RefreshTokenId { get; set; }
 
-        public string UserId { get; set; } = null!; // FK لـ AspNetUsers
+        public string UserId { get; set; } = null!; // FK to AspNetUsers
 
-        public string TokenHash { get; set; } = null!; // hash التوكن - التوكن نفسه مش بيتخزن
+        public string TokenHash { get; set; } = null!; // Hash of the token - the token itself is never stored
 
-        public DateTimeOffset CreatedAtUtc { get; set; } // وقت الإنشاء
+        public DateTimeOffset CreatedAtUtc { get; set; } // Creation time
 
-        public DateTimeOffset ExpiresAtUtc { get; set; } // وقت الانتهاء (7 أيام)
+        public DateTimeOffset ExpiresAtUtc { get; set; } // Expiry time (7 days)
 
-        public DateTimeOffset? RevokedAtUtc { get; set; } // وقت الإلغاء - null لو لسه شغال
+        public DateTimeOffset? RevokedAtUtc { get; set; } // Revocation time - null if still active
 
-        public Guid? ReplacedByTokenId { get; set; } // التوكن اللي حل مكانه (self-reference)
+        public Guid? ReplacedByTokenId { get; set; } // The token that replaced it (self-reference)
 
         // Navigation properties
         public ApplicationUser User { get; set; } = null!;

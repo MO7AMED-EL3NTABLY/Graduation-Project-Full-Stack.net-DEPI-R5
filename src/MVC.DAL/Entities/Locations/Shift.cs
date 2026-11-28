@@ -2,23 +2,23 @@
 
 namespace MVC.DAL.Entities.Locations
 {
-    // شيفت أسبوعي متكرر (template) - جدول Shifts
-    // CHECK: EndTime بعد StartTime في نفس اليوم (مفيش شيفت بيعدي نص الليل)
+    // A recurring weekly shift (template) - Shifts table
+    // CHECK: EndTime after StartTime on the same day (no shift crosses midnight)
     public class Shift
     {
         public Guid ShiftId { get; set; }
 
-        public Guid DoctorLocationId { get; set; } // FK لـ DoctorLocations
+        public Guid DoctorLocationId { get; set; } // FK to DoctorLocations
 
-        public TimeOnly StartTime { get; set; } // وقت البداية (بتوقيت القاهرة)
+        public TimeOnly StartTime { get; set; } // Start time (Cairo time)
 
-        public TimeOnly EndTime { get; set; } // وقت النهاية (بتوقيت القاهرة)
+        public TimeOnly EndTime { get; set; } // End time (Cairo time)
 
-        public int MaxPatients { get; set; } // أقصى عدد مرضى في الشيفت
+        public int MaxPatients { get; set; } // Maximum number of patients in the shift
 
-        public bool IsActive { get; set; } // لو اتقفل بيوقف الحجز الجديد
+        public bool IsActive { get; set; } // When turned off it stops new bookings
 
-        public bool IsDeleted { get; set; } // حذف منطقي (soft delete)
+        public bool IsDeleted { get; set; } // Soft delete
 
         // Navigation properties
         public DoctorLocation DoctorLocation { get; set; } = null!;

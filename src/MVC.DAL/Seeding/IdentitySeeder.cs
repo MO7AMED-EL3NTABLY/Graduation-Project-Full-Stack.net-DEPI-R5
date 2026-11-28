@@ -5,8 +5,8 @@ using MVC.DAL.Entities.Accounts;
 
 namespace MVC.DAL.Seeding
 {
-    // بيضيف الـ Roles الثلاثة وأول حساب Admin لو مش موجودين - بيشتغل مرة مع كل تشغيل للتطبيق
-    // آمن يتكرر: مش بيضيف حاجة موجودة قبل كده
+    // Adds the three roles and the first Admin account if they don't exist - runs once on every app start
+    // Safe to repeat: never adds something that already exists
     public static class IdentitySeeder
     {
         public static async Task SeedAsync(
@@ -17,7 +17,7 @@ namespace MVC.DAL.Seeding
             string? adminPassword,
             string? adminFullName)
         {
-            // 1) الـ Roles: Patient, Doctor, Admin
+            // 1) Roles: Patient, Doctor, Admin
             foreach (var role in AppRoles.All)
             {
                 if (!await roleManager.RoleExistsAsync(role))
@@ -27,15 +27,15 @@ namespace MVC.DAL.Seeding
                 }
             }
 
-            // 2) أول حساب Admin (لو بياناته موجودة في الإعدادات)
+            // 2) The first Admin account (if its data exists in the configuration)
             if (string.IsNullOrWhiteSpace(adminEmail) || string.IsNullOrWhiteSpace(adminPassword))
                 return;
 
             if (await userManager.FindByEmailAsync(adminEmail) is not null)
                 return;
 
-            // إنشاء الحساب والـ Role في transaction واحدة - يا الاتنين يتحفظوا يا ولا حاجة
-            // الأدمن ملوش Profile، والتليفون والصورة مش مطلوبين ليه
+            // Create the account and the role in one transaction - both are saved or nothing is
+            // The admin has no profile, and phone and photo are not required for it
             await using var transaction = await context.Database.BeginTransactionAsync();
 
             var admin = new ApplicationUser

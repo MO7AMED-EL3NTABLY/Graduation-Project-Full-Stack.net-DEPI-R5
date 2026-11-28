@@ -4,14 +4,14 @@ using MVC.DAL.Entities.Locations;
 
 namespace MVC.DAL.Configurations.Locations
 {
-    // جدول VacationDays
+    // VacationDays table
     public class VacationDayConfiguration : IEntityTypeConfiguration<VacationDay>
     {
         public void Configure(EntityTypeBuilder<VacationDay> builder)
         {
             builder.ToTable("VacationDays", t =>
             {
-                // تاريخ نهاية الإجازة مينفعش يكون قبل تاريخ البداية (الفترة شاملة الطرفين)
+                // The vacation end date can't be before the start date (the range includes both ends)
                 t.HasCheckConstraint("CK_VacationDays_DateRange", "[EndDate] >= [StartDate]");
             });
 

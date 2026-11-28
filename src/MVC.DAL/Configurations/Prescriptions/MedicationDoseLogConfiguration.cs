@@ -4,7 +4,7 @@ using MVC.DAL.Entities.Prescriptions;
 
 namespace MVC.DAL.Configurations.Prescriptions
 {
-    // جدول MedicationDoseLogs
+    // MedicationDoseLogs table
     public class MedicationDoseLogConfiguration : IEntityTypeConfiguration<MedicationDoseLog>
     {
         public void Configure(EntityTypeBuilder<MedicationDoseLog> builder)
@@ -18,7 +18,7 @@ namespace MVC.DAL.Configurations.Prescriptions
                    .HasForeignKey(l => l.PrescriptionMedicineId)
                    .OnDelete(DeleteBehavior.Restrict);
 
-            // جرعة واحدة مش ملغية لكل دوا وميعاد
+            // One non-cancelled dose per medicine and time
             builder.HasIndex(l => new { l.PrescriptionMedicineId, l.ScheduledAtUtc }, "UX_MedicationDoseLogs_Medicine_Scheduled")
                    .IsUnique()
                    .HasFilter("[Status] <> 'Cancelled'");

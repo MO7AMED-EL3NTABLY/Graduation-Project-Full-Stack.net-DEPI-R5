@@ -1,6 +1,5 @@
-@*——- Omar Hussein ——-*@
-@* Layout صفحات الدخول والتسجيل (Figma Auth): صورة على الشمال + الفورم في النص
-   في الـ View:  ViewData["AuthPanel"] = "doctor";  للوحة الدكتور (الافتراضي: لوحة المريض) *@
+@* Layout for the login and registration pages (Figma Auth): image on the left + form in the middle
+   In the view:  ViewData["AuthPanel"] = "doctor";  for the doctor panel (default: patient panel) *@
 @{
     var culture = CultureInfo.CurrentUICulture;
     var lang = culture.TwoLetterISOLanguageName;
@@ -55,4 +54,3 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-@*————*@

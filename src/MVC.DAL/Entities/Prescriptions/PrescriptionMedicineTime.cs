@@ -1,13 +1,13 @@
 ﻿namespace MVC.DAL.Entities.Prescriptions
 {
-    // مواعيد الجرعات اليومية للدوا - جدول PrescriptionMedicineTimes
-    // Composite PK (PrescriptionMedicineId, TimeOfDay) ومفيش Id منفصل
-    // عدد الجرعات في اليوم = عدد الصفوف
+    // The medicine's daily dose times - PrescriptionMedicineTimes table
+    // Composite PK (PrescriptionMedicineId, TimeOfDay) with no separate Id
+    // Doses per day = number of rows
     public class PrescriptionMedicineTime
     {
-        public Guid PrescriptionMedicineId { get; set; } // FK لـ PrescriptionMedicines
+        public Guid PrescriptionMedicineId { get; set; } // FK to PrescriptionMedicines
 
-        public TimeOnly TimeOfDay { get; set; } // ميعاد الجرعة بتوقيت القاهرة
+        public TimeOnly TimeOfDay { get; set; } // Dose time in Cairo time
 
         // Navigation properties
         public PrescriptionMedicine PrescriptionMedicine { get; set; } = null!;

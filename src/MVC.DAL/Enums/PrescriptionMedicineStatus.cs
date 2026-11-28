@@ -1,9 +1,9 @@
 ﻿namespace MVC.DAL.Enums
 {
-    // حالة الدوا في الروشتة - PrescriptionMedicines.Status
+    // Medicine status in the prescription - PrescriptionMedicines.Status
     public enum PrescriptionMedicineStatus
     {
-        Active, // الدوا شغال
-        Stopped // الدوا اتوقف (الدكتور وقفه أو مدته خلصت)
+        Active, // Medicine active
+        Stopped // Medicine stopped (the doctor stopped it or its duration ended)
     }
 }

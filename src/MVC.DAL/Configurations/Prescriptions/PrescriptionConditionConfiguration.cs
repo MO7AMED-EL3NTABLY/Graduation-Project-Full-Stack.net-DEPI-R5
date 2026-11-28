@@ -4,7 +4,7 @@ using MVC.DAL.Entities.Prescriptions;
 
 namespace MVC.DAL.Configurations.Prescriptions
 {
-    // جدول PrescriptionConditions - Composite PK و FKs من غير cascade
+    // PrescriptionConditions table - composite PK and FKs without cascade
     public class PrescriptionConditionConfiguration : IEntityTypeConfiguration<PrescriptionCondition>
     {
         public void Configure(EntityTypeBuilder<PrescriptionCondition> builder)
@@ -18,7 +18,7 @@ namespace MVC.DAL.Configurations.Prescriptions
                    .HasForeignKey(pc => pc.PrescriptionId)
                    .OnDelete(DeleteBehavior.Restrict);
 
-            // من غير cascade: مينفعش تمسح مرض لسه مربوط بروشتة
+            // Without cascade: a condition still linked to a prescription can't be deleted
             builder.HasOne(pc => pc.PatientCondition)
                    .WithMany(c => c.PrescriptionConditions)
                    .HasForeignKey(pc => pc.PatientConditionId)

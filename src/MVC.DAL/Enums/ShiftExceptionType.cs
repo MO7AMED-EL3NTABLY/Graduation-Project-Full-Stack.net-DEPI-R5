@@ -1,9 +1,9 @@
 ﻿namespace MVC.DAL.Enums
 {
-    // نوع الاستثناء على شيفت في يوم معين - ShiftExceptions.ExceptionType
+    // Type of exception on a shift on a specific date - ShiftExceptions.ExceptionType
     public enum ShiftExceptionType
     {
-        Blocked, // الشيفت ملغي في اليوم ده
-        SpecialWorkingHours // مواعيد مختلفة في اليوم ده (نفس عدد المرضى)
+        Blocked, // The shift is cancelled on this date
+        SpecialWorkingHours // Different hours on this date (same number of patients)
     }
 }

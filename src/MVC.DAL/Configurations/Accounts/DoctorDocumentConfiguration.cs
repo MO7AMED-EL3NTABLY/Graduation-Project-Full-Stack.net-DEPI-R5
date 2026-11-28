@@ -4,23 +4,23 @@ using MVC.DAL.Entities.Accounts;
 
 namespace MVC.DAL.Configurations.Accounts
 {
-    // جدول DoctorDocuments - فيه 3 CHECKs و 4 filtered unique indexes
+    // DoctorDocuments table - has 3 CHECKs and 4 filtered unique indexes
     public class DoctorDocumentConfiguration : IEntityTypeConfiguration<DoctorDocument>
     {
         public void Configure(EntityTypeBuilder<DoctorDocument> builder)
         {
             builder.ToTable("DoctorDocuments", t =>
             {
-                // سبب الرفض مطلوب لو Rejected
+                // Rejection reason is required when Rejected
                 t.HasCheckConstraint("CK_DoctorDocuments_RejectionReason",
                     "[ApprovalStatus] <> 'Rejected' OR [RejectionReason] IS NOT NULL");
 
-                // وقت المراجعة والأدمن: الاتنين null وهو Pending، والاتنين ليهم قيمة لو Approved أو Rejected
+                // Review time and admin: both null while Pending, and both set when Approved or Rejected
                 t.HasCheckConstraint("CK_DoctorDocuments_Review",
                     "([ApprovalStatus] = 'Pending' AND [ReviewedAtUtc] IS NULL AND [ReviewedByAdminId] IS NULL) OR " +
                     "([ApprovalStatus] IN ('Approved', 'Rejected') AND [ReviewedAtUtc] IS NOT NULL AND [ReviewedByAdminId] IS NOT NULL)");
 
-                // IsCurrent = 1 لما يكون Approved بس
+                // IsCurrent = 1 only when Approved
                 t.HasCheckConstraint("CK_DoctorDocuments_IsCurrent",
                     "[IsCurrent] = 0 OR [ApprovalStatus] = 'Approved'");
             });
@@ -37,28 +37,28 @@ namespace MVC.DAL.Configurations.Accounts
                    .HasForeignKey(d => d.ReviewedByAdminId)
                    .OnDelete(DeleteBehavior.Restrict);
 
-            // Self-reference: المستند القديم اللي ده بيستبدله
+            // Self-reference: the old document this one replaces
             builder.HasOne(d => d.ReplacesDocument)
                    .WithMany()
                    .HasForeignKey(d => d.ReplacesDocumentId)
                    .OnDelete(DeleteBehavior.Restrict);
 
-            // رخصة واحدة معتمدة حالية بالكتير لكل دكتور
+            // At most one current approved license per doctor
             builder.HasIndex(d => d.DoctorId, "UX_DoctorDocuments_License_Approved_Current")
                    .IsUnique()
                    .HasFilter("[DocumentType] = 'License' AND [ApprovalStatus] = 'Approved' AND [IsCurrent] = 1");
 
-            // شهادة تخرج واحدة معتمدة حالية بالكتير لكل دكتور
+            // At most one current approved graduation certificate per doctor
             builder.HasIndex(d => d.DoctorId, "UX_DoctorDocuments_GraduationCertificate_Approved_Current")
                    .IsUnique()
                    .HasFilter("[DocumentType] = 'GraduationCertificate' AND [ApprovalStatus] = 'Approved' AND [IsCurrent] = 1");
 
-            // رخصة واحدة Pending بالكتير لكل دكتور
+            // At most one Pending license per doctor
             builder.HasIndex(d => d.DoctorId, "UX_DoctorDocuments_License_Pending")
                    .IsUnique()
                    .HasFilter("[DocumentType] = 'License' AND [ApprovalStatus] = 'Pending'");
 
-            // شهادة تخرج واحدة Pending بالكتير لكل دكتور
+            // At most one Pending graduation certificate per doctor
             builder.HasIndex(d => d.DoctorId, "UX_DoctorDocuments_GraduationCertificate_Pending")
                    .IsUnique()
                    .HasFilter("[DocumentType] = 'GraduationCertificate' AND [ApprovalStatus] = 'Pending'");

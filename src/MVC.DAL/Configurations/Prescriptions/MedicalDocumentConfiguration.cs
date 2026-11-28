@@ -4,7 +4,7 @@ using MVC.DAL.Entities.Prescriptions;
 
 namespace MVC.DAL.Configurations.Prescriptions
 {
-    // جدول MedicalDocuments
+    // MedicalDocuments table
     public class MedicalDocumentConfiguration : IEntityTypeConfiguration<MedicalDocument>
     {
         public void Configure(EntityTypeBuilder<MedicalDocument> builder)

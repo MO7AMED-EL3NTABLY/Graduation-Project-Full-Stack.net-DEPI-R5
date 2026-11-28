@@ -3,26 +3,26 @@ using MVC.DAL.Enums;
 
 namespace MVC.DAL.Entities.Prescriptions
 {
-    // دوا في الروشتة - جدول PrescriptionMedicines
-    // اسم الدوا نص حر (مفيش كتالوج أدوية)
+    // A medicine in the prescription - PrescriptionMedicines table
+    // The medicine name is free text (no medicine catalog)
     // CHECK: DurationDays > 0
     public class PrescriptionMedicine
     {
         public Guid PrescriptionMedicineId { get; set; }
 
-        public Guid PrescriptionId { get; set; } // FK لـ Prescriptions
+        public Guid PrescriptionId { get; set; } // FK to Prescriptions
 
-        public string MedicineName { get; set; } = null!; // اسم الدوا
+        public string MedicineName { get; set; } = null!; // Medicine name
 
-        public string Dose { get; set; } = null!; // الجرعة ومعاها الوحدة
+        public string Dose { get; set; } = null!; // Dose including the unit
 
-        public int DurationDays { get; set; } // مدة العلاج بالأيام - مطلوبة وأكبر من صفر
+        public int DurationDays { get; set; } // Treatment duration in days - required and greater than zero
 
-        public string Instructions { get; set; } = null!; // التعليمات (قبل/بعد الأكل...)
+        public string Instructions { get; set; } = null!; // Instructions (before/after food...)
 
         public PrescriptionMedicineStatus Status { get; set; } // Active / Stopped
 
-        public DateTimeOffset? StoppedAtUtc { get; set; } // وقت إيقاف الدوا
+        public DateTimeOffset? StoppedAtUtc { get; set; } // Medicine stop time
 
         // Navigation properties
         public Prescription Prescription { get; set; } = null!;

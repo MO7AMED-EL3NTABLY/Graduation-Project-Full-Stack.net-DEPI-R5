@@ -1,17 +1,17 @@
 ﻿namespace MVC.DAL.Entities.Accounts
 {
-    // التخصصات الطبية - جدول Specialties
+    // Medical specialties - Specialties table
     public class Specialty
     {
         public Guid SpecialtyId { get; set; }
 
-        public string NameAr { get; set; } = null!; // الاسم بالعربي
+        public string NameAr { get; set; } = null!; // Arabic name
 
-        public string NameEn { get; set; } = null!; // الاسم بالإنجليزي
+        public string NameEn { get; set; } = null!; // English name
 
-        public bool IsActive { get; set; } // لو اتقفل مينفعش يتختار جديد بس بيفضل مع الدكاترة الحاليين
+        public bool IsActive { get; set; } // When turned off it can't be chosen anymore, but it stays with existing doctors
 
-        public string? ImageStorageKey { get; set; } // مفتاح صورة كارت التخصص (اختياري)
+        public string? ImageStorageKey { get; set; } // Specialty card image key (optional)
 
         // Navigation properties
         public ICollection<DoctorProfile> Doctors { get; set; } = new List<DoctorProfile>();

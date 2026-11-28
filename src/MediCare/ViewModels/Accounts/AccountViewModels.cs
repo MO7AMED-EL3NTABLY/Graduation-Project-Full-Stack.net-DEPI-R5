@@ -1,11 +1,10 @@
-/*——- Omar Hussein ——-*/
 using System.ComponentModel.DataAnnotations;
 using MVC.BLL.DTOs.Accounts;
 using MVC.DAL.Enums;
 
 namespace MVC.PL.ViewModels.Accounts
 {
-    // نفس شروط الباسورد اللي في Figma: 8 حروف على الأقل + Capital و Small + رقم
+    // Same password rules as Figma: at least 8 characters + upper and lower case + a digit
     public static class PasswordRules
     {
         public const string Pattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,100}$";
@@ -125,7 +124,7 @@ namespace MVC.PL.ViewModels.Accounts
         public IFormFile? GraduationCertificate { get; set; }
 
 
-        // للعرض
+        // For display
         public List<SpecialtyDto> Specialties { get; set; } = new();
     }
 
@@ -176,7 +175,7 @@ namespace MVC.PL.ViewModels.Accounts
         [RegularExpression(@"^\s*\d{6}\s*$", ErrorMessage = "Enter the 6-digit code.")]
         public string Code { get; set; } = string.Empty;
 
-        public string? MaskedPhone { get; set; } // للعرض بس
+        public string? MaskedPhone { get; set; } // For display only
     }
 
     public class ResetPasswordViewModel
@@ -209,7 +208,7 @@ namespace MVC.PL.ViewModels.Accounts
         public DoctorStatusDto? Status { get; set; }
     }
 
-    // رسالة بسيطة بعد عملية (لينك اتبعت، الإيميل اتأكد...)
+    // A simple message after an action (link sent, email confirmed...)
     public class AccountMessageViewModel
     {
         public string Icon { get; set; } = "mail";
@@ -223,7 +222,6 @@ namespace MVC.PL.ViewModels.Accounts
 
 namespace MVC.PL.ViewModels.Accounts
 {
-    // صندوق رفع مستند في صفحات التسجيل والرفض
+    // Document upload box on the registration and rejection pages
     public record UploadBoxModel(string Name, string Title, string Hint, bool Multiple, string? RequiredMessage = null);
 }
-/*————*/

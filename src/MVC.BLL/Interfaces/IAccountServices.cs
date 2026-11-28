@@ -1,27 +1,26 @@
-/*——- Omar Hussein ——-*/
 using MVC.BLL.Common;
 using MVC.BLL.DTOs.Accounts;
 using MVC.DAL.Enums;
 
 namespace MVC.BLL.Interfaces
 {
-    // بيبني لينك فيه userId و token (الـ PL بيعمله بـ Url.Action عشان الـ BLL ميعرفش حاجة عن الـ Routes)
+    // Builds a link with userId and token (the PL builds it with Url.Action so the BLL knows nothing about routes)
     public delegate string AccountLinkBuilder(string userId, string token);
 
-    // بيبني لينك تأكيد تغيير الإيميل (فيه الإيميل الجديد كمان)
+    // Builds the email-change confirmation link (also includes the new email)
     public delegate string EmailChangeLinkBuilder(string userId, string newEmail, string token);
 
-    // التسجيل وتسجيل الدخول وتأكيد الإيميل وحالة الدكتور
+    // Registration, sign-in, email confirmation and doctor status
     public interface IAccountService
     {
         Task<List<SpecialtyDto>> GetActiveSpecialtiesAsync();
 
-        // بيرجع الـ UserId لو نجح
+        // Returns the UserId on success
         Task<ServiceResult<string>> RegisterPatientAsync(RegisterPatientDto dto, AccountLinkBuilder emailLink);
 
         Task<ServiceResult<string>> RegisterDoctorAsync(RegisterDoctorDto dto, AccountLinkBuilder emailLink);
 
-        // بيدور بالإيميل أو برقم الموبايل المتأكد - بيرجع الـ UserId أو null
+        // Finds the account by email - returns the UserId or null
         Task<string?> FindUserIdByEmailAsync(string email);
 
         Task<LoginState> GetLoginStateAsync(string userId);
@@ -34,26 +33,26 @@ namespace MVC.BLL.Interfaces
 
         Task<DoctorStatusDto?> GetDoctorStatusAsync(string doctorId);
 
-        // الدكتور المرفوض بيرفع رخصة وشهادة جداد فيرجع Pending
+        // A rejected doctor uploads a new license and certificate and goes back to Pending
         Task<ServiceResult> ResubmitDoctorDocumentsAsync(string doctorId, FileUpload? license, FileUpload? graduationCertificate);
     }
 
-    // كود تأكيد الموبايل (6 أرقام - 10 دقايق - 5 محاولات - كود جديد بعد 60 ثانية)
+    // Phone verification code (6 digits - 10 minutes - 5 attempts - new code after 60 seconds)
     public interface IPhoneVerificationService
     {
-        // بيبعت كود للرقم المطلوب. الرقم الحالي مش بيتغير غير لما الكود يتأكد
+        // Sends a code to the given number. The current number doesn't change until the code is verified
         Task<ServiceResult> SendCodeAsync(string userId, string targetPhoneNumber);
 
-        // بيبعت كود تاني لنفس الرقم اللي عليه الكود الحالي
+        // Sends another code to the same number as the current code
         Task<ServiceResult> ResendCodeAsync(string userId);
 
         Task<ServiceResult> VerifyCodeAsync(string userId, string code);
 
-        // الرقم اللي عليه كود شغال (لو فيه) وفاضل كام ثانية على إعادة الإرسال
+        // The number with an active code (if any) and how many seconds are left before resending
         Task<(string? TargetPhoneNumber, int ResendInSeconds)> GetActiveCodeInfoAsync(string userId);
     }
 
-    // نسيت الباسورد: لينك بالإيميل (ساعة) أو كود SMS (10 دقايق)
+    // Forgot password: email link (1 hour) or SMS code (10 minutes)
     public interface IPasswordResetService
     {
         Task<ResetAccountDto?> FindAccountAsync(string email);
@@ -62,39 +61,39 @@ namespace MVC.BLL.Interfaces
 
         Task<ServiceResult> SendSmsCodeAsync(string userId);
 
-        // لو الكود صح بيرجع Reset token يتستخدم في ResetPasswordAsync
+        // If the code is correct, returns a reset token used in ResetPasswordAsync
         Task<ServiceResult<string>> VerifySmsCodeAsync(string userId, string code);
 
         Task<ServiceResult> ResetPasswordAsync(string userId, string token, string newPassword);
     }
 
-    // صفحة Settings: الاسم والصورة والإيميل والموبايل والباسورد
+    // Settings page: name, photo, email, phone and password
     public interface IAccountSettingsService
     {
         Task<AccountSettingsDto?> GetAsync(string userId);
 
-        // المريض بيعدل اسمه وصورته من Settings (الدكتور من Professional profile)
+        // The patient edits name and photo from Settings (the doctor from Professional profile)
         Task<ServiceResult> UpdatePatientProfileAsync(string userId, string fullName, FileUpload? newPhoto);
 
-        // الإيميل الحالي بيفضل شغال لحد ما الجديد يتأكد من اللينك
+        // The current email stays active until the new one is confirmed from the link
         Task<ServiceResult> RequestEmailChangeAsync(string userId, string newEmail, EmailChangeLinkBuilder link);
 
         Task<ServiceResult> ConfirmEmailChangeAsync(string userId, string newEmail, string token);
 
-        // الرقم الحالي بيفضل شغال لحد ما الجديد يتأكد بالكود
+        // The current number stays active until the new one is verified with the code
         Task<ServiceResult> RequestPhoneChangeAsync(string userId, string newPhoneNumber);
 
         Task<ServiceResult> ChangePasswordAsync(string userId, string currentPassword, string newPassword);
     }
 
-    // صفحة Professional profile بتاعة الدكتور
+    // The doctor's Professional profile page
     public interface IDoctorProfileService
     {
         Task<DoctorProfileDto?> GetAsync(string doctorId);
 
         Task<ServiceResult> UpdateBasicInfoAsync(string doctorId, string fullName, int practiceStartYear, string bio, FileUpload? newPhoto);
 
-        // طلب تغيير حقل محمي (تخصص / رخصة / جامعة / سنة تخرج) - محتاج موافقة الأدمن
+        // Request to change a protected field (specialty / license / university / graduation year) - needs admin approval
         Task<ServiceResult> RequestChangeAsync(string doctorId, ProfileChangeRequestType type, string requestedValue);
 
         Task<ServiceResult> UploadDocumentAsync(string doctorId, DoctorDocumentType type, FileUpload? file);
@@ -108,7 +107,7 @@ namespace MVC.BLL.Interfaces
         Task<ServiceResult> RemoveWorkExperienceAsync(string doctorId, Guid workExperienceId);
     }
 
-    // مراجعة الأدمن للدكاترة ومستنداتهم
+    // Admin review of doctors and their documents
     public interface IDoctorApprovalService
     {
         Task<ApprovalCountsDto> GetCountsAsync();
@@ -119,14 +118,14 @@ namespace MVC.BLL.Interfaces
 
         Task<ReplacementReviewDto?> GetReplacementReviewAsync(Guid documentId);
 
-        // قرار واحد على الرخصة والشهادة مع بعض + حالة الدكتور
+        // One decision on the license and certificate together + the doctor's status
         Task<ServiceResult> DecideInitialAsync(string adminId, string doctorId, bool approve, string? rejectionReason);
 
-        // قرار على المستند البديل بس - حالة الدكتور مش بتتغير
+        // Decision on the replacement document only - the doctor's status doesn't change
         Task<ServiceResult> DecideReplacementAsync(string adminId, Guid documentId, bool approve, string? rejectionReason);
     }
 
-    // مراجعة الأدمن لطلبات تعديل البيانات المحمية
+    // Admin review of protected data change requests
     public interface IProfileChangeRequestService
     {
         Task<ChangeRequestCountsDto> GetCountsAsync();
@@ -138,7 +137,7 @@ namespace MVC.BLL.Interfaces
         Task<ServiceResult> RejectAsync(string adminId, Guid requestId, string? reason);
     }
 
-    // تحميل الملفات المحمية بعد التأكد من الصلاحية
+    // Downloads protected files after checking authorization
     public interface IFileAccessService
     {
         Task<StoredFile?> GetUserPhotoAsync(string? requesterId, bool requesterIsAdmin, string targetUserId);
@@ -146,4 +145,3 @@ namespace MVC.BLL.Interfaces
         Task<StoredFile?> GetDoctorDocumentAsync(string? requesterId, bool requesterIsAdmin, Guid documentId);
     }
 }
-/*————*/

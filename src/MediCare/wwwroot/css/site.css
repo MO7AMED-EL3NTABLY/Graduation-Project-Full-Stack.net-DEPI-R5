@@ -1,7 +1,7 @@
 /* =========================================================
    MediCare — Design tokens & layout (from Figma "01 Design System")
-   الألوان والخطوط من الـ Design System في Figma
-   بنستخدم CSS logical properties (inline-start/end) عشان RTL و LTR يشتغلوا لوحدهم
+   Colors and fonts from the Design System in Figma
+   We use CSS logical properties (inline-start/end) so RTL and LTR work on their own
    ========================================================= */
 
 :root {
@@ -74,7 +74,7 @@ a { text-decoration: none; }
 .mc-icon-sm { width: 16px; height: 16px; flex-shrink: 0; }
 .mc-icon-md { width: 18px; height: 18px; flex-shrink: 0; }
 
-/* ---------- Logo (placeholder slot — بدّلوه باللوجو النهائي) ---------- */
+/* ---------- Logo (placeholder slot — replace it with the final logo) ---------- */
 .mc-logo { display: inline-flex; align-items: center; gap: 10px; }
 
 .mc-logo-slot {

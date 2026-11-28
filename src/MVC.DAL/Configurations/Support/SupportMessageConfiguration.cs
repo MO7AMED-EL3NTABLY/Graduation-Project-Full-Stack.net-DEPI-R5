@@ -4,7 +4,7 @@ using MVC.DAL.Entities.Support;
 
 namespace MVC.DAL.Configurations.Support
 {
-    // جدول SupportMessages
+    // SupportMessages table
     public class SupportMessageConfiguration : IEntityTypeConfiguration<SupportMessage>
     {
         public void Configure(EntityTypeBuilder<SupportMessage> builder)

@@ -1,4 +1,3 @@
-/*——- Omar Hussein ——-*/
 using Microsoft.EntityFrameworkCore;
 using MVC.BLL.Common;
 using MVC.BLL.Interfaces;
@@ -7,7 +6,7 @@ using MVC.DAL.Enums;
 
 namespace MVC.BLL.Services.Accounts
 {
-    // مين يقدر يشوف أنهي ملف - مفيش ملف بيتفتح من غير المرور على هنا
+    // Who can see which file - no file is opened without going through here
     public class FileAccessService : IFileAccessService
     {
         private readonly MediCareDbContext _db;
@@ -32,7 +31,7 @@ namespace MVC.BLL.Services.Accounts
             if (target is null || string.IsNullOrEmpty(target.ProfilePhotoStorageKey))
                 return null;
 
-            // صورة الدكتور المعتمد عامة، وغير كده: صاحبها والأدمن بس
+            // An approved doctor's photo is public; otherwise only its owner and the admin
             var allowed = requesterIsAdmin
                 || requesterId == targetUserId
                 || target.DoctorStatus == ApprovalStatus.Approved;
@@ -51,7 +50,7 @@ namespace MVC.BLL.Services.Accounts
             if (document is null)
                 return null;
 
-            // المستندات: الدكتور صاحبها والأدمن بس
+            // Documents: only the owning doctor and the admin
             if (!requesterIsAdmin && requesterId != document.DoctorId)
                 return null;
 
@@ -69,4 +68,3 @@ namespace MVC.BLL.Services.Accounts
         }
     }
 }
-/*————*/

@@ -1,11 +1,10 @@
-/*——- Omar Hussein ——-*/
 namespace MVC.BLL.Common
 {
-    // قواعد الملفات المسموحة: النوع والحجم + التأكد من أول بايتات الملف (مش الامتداد بس)
+    // Allowed file rules: type and size + checking the file's first bytes (not just the extension)
     public static class FileRules
     {
-        public const long MaxPhotoBytes = 5 * 1024 * 1024;     // 5 MB لصورة البروفايل
-        public const long MaxDocumentBytes = 10 * 1024 * 1024; // 10 MB لمستندات الدكتور
+        public const long MaxPhotoBytes = 5 * 1024 * 1024;     // 5 MB for the profile photo
+        public const long MaxDocumentBytes = 10 * 1024 * 1024; // 10 MB for doctor documents
 
         private static readonly string[] PhotoExtensions = { ".jpg", ".jpeg", ".png" };
         private static readonly string[] DocumentExtensions = { ".pdf", ".jpg", ".jpeg", ".png" };
@@ -47,7 +46,7 @@ namespace MVC.BLL.Common
             return null;
         }
 
-        // بنقرا أول 4 بايت ونرجّع الـ stream لأوله
+        // Read the first 4 bytes and rewind the stream to the start
         private static bool SignatureMatches(Stream stream, string ext)
         {
             if (!stream.CanSeek)
@@ -70,4 +69,3 @@ namespace MVC.BLL.Common
         }
     }
 }
-/*————*/

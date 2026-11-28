@@ -1,5 +1,5 @@
-﻿@* Layout لوحات التحكم (Patient / Doctor / Admin) - Sidebar + Topbar من Figma
-   في الـ View:  ViewData["Title"] = "..."; ViewData["Subtitle"] = "..."; (الـ Subtitle اختياري) *@
+﻿@* Layout for the dashboards (Patient / Doctor / Admin) - Sidebar + Topbar from Figma
+   In the view:  ViewData["Title"] = "..."; ViewData["Subtitle"] = "..."; (Subtitle is optional) *@
 @using MVC.PL.Security
 @{
     var culture = CultureInfo.CurrentUICulture;
@@ -39,7 +39,7 @@
                 <div class="mc-topbar__actions">
                     <partial name="_LanguageSwitch" />
 
-                    @* الأدمن مش بيستلم إشعارات، فمفيش جرس عنده *@
+                    @* The admin receives no notifications, so there is no bell *@
                     @if (area != AppRoles.Admin)
                     {
                         <a class="mc-icon-btn" href="/@area/Notifications" aria-label="@L["Notifications"]">

@@ -1,11 +1,11 @@
 ﻿namespace MVC.DAL.Enums
 {
-    // حالة إرسال الإيميل أو الـ SMS - Notifications.EmailStatus و SmsStatus
+    // Email or SMS delivery status - Notifications.EmailStatus and SmsStatus
     public enum DeliveryStatus
     {
-        NotRequired, // القناة دي مقفولة ومش محتاجة إرسال
-        Pending, // مستني الإرسال
-        Sent, // اتبعت
-        Failed // فشل بعد 3 محاولات
+        NotRequired, // This channel is off and needs no sending
+        Pending, // Waiting to be sent
+        Sent, // Sent
+        Failed // Failed after 3 attempts
     }
 }

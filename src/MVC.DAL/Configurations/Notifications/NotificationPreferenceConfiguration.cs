@@ -4,7 +4,7 @@ using MVC.DAL.Entities.Notifications;
 
 namespace MVC.DAL.Configurations.Notifications
 {
-    // جدول NotificationPreferences - Composite PK (UserId, EventType, Channel)
+    // NotificationPreferences table - composite PK (UserId, EventType, Channel)
     public class NotificationPreferenceConfiguration : IEntityTypeConfiguration<NotificationPreference>
     {
         public void Configure(EntityTypeBuilder<NotificationPreference> builder)

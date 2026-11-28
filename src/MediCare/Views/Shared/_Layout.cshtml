@@ -1,4 +1,4 @@
-﻿@* Layout الصفحات العامة (Landing وصفحات الدخول) - Navbar + Footer من Figma *@
+﻿@* Layout for public pages (Landing and login pages) - Navbar + Footer from Figma *@
 @{
     var culture = CultureInfo.CurrentUICulture;
     var lang = culture.TwoLetterISOLanguageName;
@@ -6,7 +6,7 @@
     var isHome = string.Equals(ViewContext.RouteData.Values["controller"]?.ToString(), "Home", StringComparison.OrdinalIgnoreCase)
                  && string.IsNullOrEmpty(ViewContext.RouteData.Values["area"]?.ToString());
 
-    // لو المستخدم داخل، زرار "لوحة التحكم" يوديه للـ Area بتاعته
+    // If the user is signed in, the "Dashboard" button takes them to their area
     string? dashboardUrl = null;
     if (User.IsInRole(AppRoles.Patient)) { dashboardUrl = "/Patient"; }
     else if (User.IsInRole(AppRoles.Doctor)) { dashboardUrl = "/Doctor"; }

@@ -5,7 +5,7 @@ using System.Security.Claims;
 
 namespace MVC.PL.Security
 {
-    // بيضيف FullName للـ claims وقت تسجيل الدخول عشان يظهر في الـ Topbar من غير ما نروح للداتابيز كل request
+    // Adds FullName to the claims at sign-in so it shows in the topbar without hitting the database on every request
     public class AppClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationUser, IdentityRole>
     {
         public const string FullNameClaim = "FullName";

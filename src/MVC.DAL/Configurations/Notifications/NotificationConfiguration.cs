@@ -4,14 +4,14 @@ using MVC.DAL.Entities.Notifications;
 
 namespace MVC.DAL.Configurations.Notifications
 {
-    // جدول Notifications
+    // Notifications table
     public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
     {
         public void Configure(EntityTypeBuilder<Notification> builder)
         {
             builder.ToTable("Notifications", t =>
             {
-                // مصدر واحد بالكتير
+                // At most one source
                 t.HasCheckConstraint("CK_Notifications_SingleSource",
                     "(CASE WHEN [AppointmentId] IS NOT NULL THEN 1 ELSE 0 END + " +
                     "CASE WHEN [ChatThreadId] IS NOT NULL THEN 1 ELSE 0 END + " +

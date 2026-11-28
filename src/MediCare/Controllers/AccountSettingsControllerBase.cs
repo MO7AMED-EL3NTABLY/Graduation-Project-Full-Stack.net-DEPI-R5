@@ -1,4 +1,3 @@
-/*——- Omar Hussein ——-*/
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -9,8 +8,8 @@ using MVC.PL.ViewModels.Accounts;
 
 namespace MVC.PL.Controllers
 {
-    // الجزء المشترك من صفحة Settings بين المريض والدكتور: الإيميل والموبايل والباسورد
-    // (Patient/SettingsController و Doctor/SettingsController بيورثوا منه)
+    // Shared part of the Settings page for patient and doctor: email, phone and password
+    // (Patient/SettingsController and Doctor/SettingsController inherit from it)
     [AutoValidateAntiforgeryToken]
     public abstract class AccountSettingsControllerBase : Controller
     {
@@ -68,7 +67,7 @@ namespace MVC.PL.Controllers
         {
             if (ModelState.IsValid)
             {
-                // الرقم الحالي بيفضل شغال لحد ما الكود يتأكد
+                // The current number stays active until the code is verified
                 var result = await Settings.RequestPhoneChangeAsync(UserId, model.NewPhoneNumber);
                 if (result.Succeeded)
                 {
@@ -113,7 +112,7 @@ namespace MVC.PL.Controllers
                 var result = await Settings.ChangePasswordAsync(UserId, model.CurrentPassword, model.NewPassword);
                 if (result.Succeeded)
                 {
-                    // نحدّث الـ cookie عشان الـ Security stamp اتغير
+                    // Refresh the cookie because the security stamp changed
                     var user = await Users.FindByIdAsync(UserId);
                     if (user is not null)
                         await SignInMgr.RefreshSignInAsync(user);
@@ -143,7 +142,7 @@ namespace MVC.PL.Controllers
             };
         }
 
-        // بنرجّع نفس الصفحة بالأخطاء والمودال مفتوح
+        // Return the same page with the errors and the modal open
         protected async Task<IActionResult> RedisplayAsync(string modal, Action<SettingsPageViewModel> apply)
         {
             var page = await BuildPageAsync();
@@ -158,4 +157,3 @@ namespace MVC.PL.Controllers
             Url.Action("ConfirmEmailChange", "Account", new { area = "", userId, email = newEmail, token }, Request.Scheme)!;
     }
 }
-/*————*/

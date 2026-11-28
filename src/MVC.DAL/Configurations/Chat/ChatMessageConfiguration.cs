@@ -4,14 +4,14 @@ using MVC.DAL.Entities.Chat;
 
 namespace MVC.DAL.Configurations.Chat
 {
-    // جدول ChatMessages
+    // ChatMessages table
     public class ChatMessageConfiguration : IEntityTypeConfiguration<ChatMessage>
     {
         public void Configure(EntityTypeBuilder<ChatMessage> builder)
         {
             builder.ToTable("ChatMessages", t =>
             {
-                // لازم نص أو ملف أو الاتنين
+                // Text, a file, or both are required
                 t.HasCheckConstraint("CK_ChatMessages_Content",
                     "[Text] IS NOT NULL OR [AttachmentStorageKey] IS NOT NULL");
             });

@@ -1,4 +1,3 @@
-/*——- Omar Hussein ——-*/
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +11,7 @@ using MVC.PL.ViewModels.Accounts;
 
 namespace MVC.PL.Areas.Admin.Controllers
 {
-    // اعتماد الأطباء: المراجعة الأولى (الرخصة + الشهادة مع بعض) والمستندات البديلة
+    // Doctor approvals: the initial review (license + certificate together) and replacement documents
     [Area("Admin")]
     [Authorize(Roles = AppRoles.Admin)]
     [AutoValidateAntiforgeryToken]
@@ -89,7 +88,7 @@ namespace MVC.PL.Areas.Admin.Controllers
                 Items = await _approvals.GetListAsync(tab)
             };
 
-            // لو مفيش اختيار بنفتح أول عنصر في القائمة
+            // If nothing is selected, open the first item in the list
             if (tab == ApprovalTab.Replacements)
             {
                 page.SelectedDocumentId = documentId ?? page.Items.FirstOrDefault()?.DocumentId;
@@ -107,4 +106,3 @@ namespace MVC.PL.Areas.Admin.Controllers
         }
     }
 }
-/*————*/
