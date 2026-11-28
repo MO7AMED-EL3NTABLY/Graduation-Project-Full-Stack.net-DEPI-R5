@@ -1,0 +1,53 @@
+﻿@model MVC.PL.ViewModels.Notifications.NotificationsIndexViewModel
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    ViewData["Title"] = L["Notifications"];
+    ViewData["Subtitle"] = L["Stay updated with your latest alerts"];
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <span class="badge bg-primary">@L["Unread"]: @Model.UnreadCount</span>
+    </div>
+    <div class="d-flex gap-2">
+        <a href="/@Model.CurrentArea/Notifications/Preferences" class="btn btn-outline-secondary btn-sm">
+            @L["Notification settings"]
+        </a>
+        @if (Model.UnreadCount > 0)
+        {
+            <form method="post" action="/@Model.CurrentArea/Notifications/MarkAllAsRead">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-primary btn-sm">@L["Mark all as read"]</button>
+            </form>
+        }
+    </div>
+</div>
+
+@if (!Model.Items.Any())
+{
+    <div class="alert alert-light border text-center py-4">
+        @L["No notifications yet."]
+    </div>
+}
+else
+{
+    <div class="list-group">
+        @foreach (var item in Model.Items)
+        {
+            <div class="list-group-item d-flex justify-content-between align-items-start @(item.IsRead ? "" : "list-group-item-light fw-semibold")">
+                <div>
+                    <div class="mb-1">@item.Title</div>
+                    <p class="mb-1 text-muted small">@item.Body</p>
+                    <small class="text-secondary">@item.CreatedAtUtc.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</small>
+                </div>
+                @if (!item.IsRead)
+                {
+                    <form method="post" action="/@Model.CurrentArea/Notifications/MarkAsRead/@item.NotificationId">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-sm btn-outline-primary">@L["Mark as read"]</button>
+                    </form>
+                }
+            </div>
+        }
+    </div>
+}
