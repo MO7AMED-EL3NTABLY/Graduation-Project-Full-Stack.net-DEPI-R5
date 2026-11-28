@@ -111,7 +111,11 @@ namespace MVC.BLL.Services.Accounts
             // الإيميل الحالي بيفضل شغال، واللينك بيروح للإيميل الجديد (صالح 24 ساعة)
             var token = await _userManager.GenerateChangeEmailTokenAsync(user, newEmail);
             await _email.SendAsync(newEmail, "Confirm your new MediCare email",
-                $"Hi {user.FullName},\n\nConfirm your new email by opening this link (valid for 24 hours):\n{link(user.Id, newEmail, token)}\n\nYour current email stays active until you confirm.");
+                EmailTemplates.ActionEmail(user.FullName,
+                    "Confirm your new email",
+                    "Confirm this address to use it for your MediCare account. Your current email stays active until you confirm.",
+                    "Confirm new email", link(user.Id, newEmail, token),
+                    "This link is valid for 24 hours."));
             return ServiceResult.Success();
         }
 

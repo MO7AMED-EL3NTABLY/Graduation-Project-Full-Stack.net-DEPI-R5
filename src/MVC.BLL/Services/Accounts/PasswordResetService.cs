@@ -66,7 +66,11 @@ namespace MVC.BLL.Services.Accounts
             // الـ token ده من الـ provider بتاع الـ reset (صالح ساعة - بيتظبط في Program.cs)
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             await _email.SendAsync(user.Email, "Reset your MediCare password",
-                $"Hi {user.FullName},\n\nReset your password by opening this link (valid for 1 hour):\n{resetLink(user.Id, token)}\n\nIf you didn't ask for this, you can ignore this email.");
+                EmailTemplates.ActionEmail(user.FullName,
+                    "Reset your password",
+                    "We received a request to reset the password of your MediCare account.",
+                    "Reset password", resetLink(user.Id, token),
+                    "This link is valid for 1 hour. If you didn't ask for this, you can ignore this email."));
             return ServiceResult.Success();
         }
 

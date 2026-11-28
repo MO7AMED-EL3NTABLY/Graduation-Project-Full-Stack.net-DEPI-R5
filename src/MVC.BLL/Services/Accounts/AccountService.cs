@@ -250,7 +250,11 @@ namespace MVC.BLL.Services.Accounts
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var link = emailLink(user.Id, token);
             await _email.SendAsync(user.Email!, "Confirm your MediCare email",
-                $"Hi {user.FullName},\n\nConfirm your email by opening this link (valid for 24 hours):\n{link}");
+                EmailTemplates.ActionEmail(user.FullName,
+                    "Confirm your email",
+                    "Thanks for joining MediCare. Please confirm your email address to finish setting up your account.",
+                    "Confirm email", link,
+                    "This link is valid for 24 hours."));
             return ServiceResult.Success();
         }
 

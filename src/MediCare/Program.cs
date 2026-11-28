@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 /*——- Omar Hussein ——-*/
 using MVC.BLL;
+using MVC.BLL.Interfaces;
+using MVC.BLL.Services.Infrastructure;
 /*————*/
 using MVC.DAL.Dbcontexts;
 using MVC.DAL.Entities.Accounts;
@@ -68,6 +70,15 @@ namespace MVC.PL
             builder.Services.AddAccountsModule(Path.Combine(builder.Environment.ContentRootPath, "App_Data", "uploads"));
             builder.Services.AddSingleton<AccountFlowProtector>();
             /*————*/
+
+            // الإيميل الحقيقي (Gmail SMTP): بيشتغل لو قسم Smtp موجود في User Secrets
+            // لو مش موجود (زي جهاز حد في التيم لسه ما حطهوش) بيفضل الـ Fake اللي بيكتب في الـ Log
+            var smtpSection = builder.Configuration.GetSection("Smtp");
+            if (!string.IsNullOrWhiteSpace(smtpSection["Password"]))
+            {
+                builder.Services.Configure<SmtpOptions>(smtpSection);
+                builder.Services.AddSingleton<IEmailSender, SmtpEmailSender>(); // آخر تسجيل هو اللي بيتستخدم
+            }
 
             var app = builder.Build();
 
